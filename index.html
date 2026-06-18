@@ -5438,11 +5438,20 @@ body::before{
   border-radius: 12px;
   scroll-margin: 140px;
   animation: tourPulse 1.6s ease-in-out infinite;
-  position: relative; z-index: 30;
+  position: relative; z-index: 1001;
 }
 @keyframes tourPulse{
   0%,100%{ box-shadow: 0 0 0 5px oklch(0.64 0.13 75 / 0.12), 0 0 22px oklch(0.64 0.13 75 / 0.22); }
   50%{ box-shadow: 0 0 0 8px oklch(0.64 0.13 75 / 0.22), 0 0 46px oklch(0.64 0.13 75 / 0.42); }
+}
+/* Tour backdrop: a soft dim on the periphery only — NO blur — so the page text
+   the tour refers to stays fully readable. The highlighted target is lifted to
+   z-index 1001 (above this dim) and the dock to 1100, so both stay sharp. */
+.tour-scrim{
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(28,24,16,0.16);
+  pointer-events: none;
+  animation: recapFade 240ms ease;
 }
 
 /* 2. Session-01 sub-thread boxes (One Man + Covenants) */
@@ -7944,6 +7953,42 @@ body.is-recap-mode .sidenav{
   .rc-prompts__label{display:block;font:700 10.5px/1 var(--mono,monospace);letter-spacing:.2em;color:#a4423a;margin-bottom:8px}
   .rc-prompts__list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:7px}
   .rc-prompts__item{font-family:var(--serif,Georgia,serif);font-size:14.5px;line-height:1.55;color:#3d3014}
+  </style>
+
+  <style id="v30-journal-css">
+  /* v30: My Journal — view & manage all inputs */
+  .rc-journal__bar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .rc-journal__actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-left:auto}
+  .rc-journal__actions .rc-btn--export{margin-left:0}
+  .rc-journal__help-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:7px;height:34px;padding:0 14px 0 9px;border:none;background:#5c4a1e;color:#fff;font:700 12.5px/1 inherit;border-radius:999px;cursor:pointer;box-shadow:0 2px 9px rgba(92,74,30,.28);transition:transform .15s,box-shadow .15s,background .15s;animation:journalHelpPulse 2.2s ease-in-out .8s 3}
+  .rc-journal__help-btn:hover{background:#4a3c18;transform:translateY(-1px);box-shadow:0 5px 16px rgba(92,74,30,.34)}
+  .rc-journal__help-btn[aria-expanded="true"]{background:#4a3c18;animation:none}
+  .rc-journal__help-q{display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:rgba(255,255,255,.24);font-size:12px;font-weight:800;line-height:1}
+  @keyframes journalHelpPulse{0%,100%{box-shadow:0 2px 9px rgba(92,74,30,.28)}50%{box-shadow:0 2px 9px rgba(92,74,30,.28),0 0 0 7px rgba(92,74,30,.16)}}
+  @media (prefers-reduced-motion:reduce){.rc-journal__help-btn{animation:none}}
+  .rc-journal__help{position:relative;max-width:760px;margin:0 auto 18px;padding:20px 22px;background:linear-gradient(135deg,#f7efd9,#efe2c2);border:1px solid #d8c290;border-radius:14px;box-shadow:0 2px 12px rgba(92,74,30,.10)}
+  .rc-journal__help-close{position:absolute;top:10px;right:12px;border:none;background:transparent;color:#7c6535;font-size:16px;cursor:pointer;line-height:1;padding:4px}
+  .rc-journal__help-close:hover{color:#a4423a}
+  .rc-journal__help-title{margin:0 0 12px;font:700 18px/1.3 var(--serif,Georgia,serif);color:#3d3014}
+  .rc-journal__help-list{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:9px}
+  .rc-journal__help-list li{font-size:14px;line-height:1.55;color:#5c4a1e}
+  .rc-journal__help-list b{color:#3d3014}
+  .rc-journal__toggle{display:flex;align-items:center;gap:10px;margin:16px 0 4px;flex-wrap:wrap}
+  .rc-journal__toggle-label{font:700 11px/1 var(--mono,monospace);letter-spacing:.16em;color:#8a7240;text-transform:uppercase}
+  .rc-segmented{display:inline-flex;gap:4px;padding:4px;background:#efe4c8;border:1px solid #d8c290;border-radius:999px}
+  .rc-segmented__btn{border:none;background:transparent;color:#7c6535;font:600 12.5px/1 inherit;padding:7px 14px;border-radius:999px;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+  .rc-segmented__btn:hover{color:#5c4a1e}
+  .rc-segmented__btn.is-active{background:#fff;color:#3d3014;box-shadow:0 1px 3px rgba(92,74,30,.18)}
+  .rc-journal__modeblock{margin:0 0 6px}
+  .rc-journal__modeblock + .rc-journal__modeblock{margin-top:14px;padding-top:14px;border-top:1px dashed #e2d3ad}
+  .rc-journal__modetag{display:inline-block;font:700 10px/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;padding:4px 9px;border-radius:999px;margin:0 0 10px}
+  .rc-journal__modetag--study{background:#e7eef4;color:#3e6792}
+  .rc-journal__modetag--meditate{background:#f0e7d6;color:#8a6d2f}
+  @media (max-width:640px){
+    .rc-journal__actions{margin-left:0;width:100%}
+    .rc-journal__actions .rc-btn{flex:1 1 auto}
+    .rc-journal__help-btn{flex:0 0 auto}
+  }
   </style>
 </head>
 <body style="font-size: 14px">

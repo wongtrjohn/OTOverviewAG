@@ -906,7 +906,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
 
     onOpenJournal ? /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--journal", onClick: onOpenJournal }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Reflective Journal"
+    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Journal \u2014 View & manage all my inputs"
 
     ) :
     null
@@ -959,62 +959,113 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
 
 /* ────────────────── My Reflective Journal (rollup) ────────────────── */
 
+/* recapJournalGroups: turns ONE session's saved answers (sd) into labelled,
+   grouped entries. Shared by the on-screen Journal and the Excel export so the
+   two never drift. Returns [] when nothing has been written. */
+function recapJournalGroups(s, sd) {
+  s = s || {};sd = sd || {};
+  const T = (v) => v && String(v).trim() ? String(v).trim() : '';
+  const applyQs = s.applyQuestions && s.applyQuestions.length ?
+  s.applyQuestions :
+  s.ntApplication ? [s.ntApplication] : [];
+  const groups = [];
+  const reflect = [];
+  if (T(sd.mp)) reflect.push({ label: 'Main Point — your guess', value: T(sd.mp) });
+  if (T(sd.ten)) reflect.push({ label: 'Tension & NT — your reflection', value: T(sd.ten) });
+  if (T(sd.myDivAttempt)) reflect.push({ label: 'Passage divisions — your attempt', value: T(sd.myDivAttempt) });
+  if (reflect.length) groups.push({ group: 'Reflections', color: 'var(--c-promises)', items: reflect });
+  const apply = [];
+  ['app1', 'app2', 'app3'].forEach((k, i) => {
+    const v = sd[k] || (i === 0 ? sd.app : '');
+    if (T(v)) apply.push({ label: applyQs[i] ? 'Q' + (i + 1) + ' · ' + applyQs[i] : 'Apply ' + (i + 1), value: T(v) });
+  });
+  if (apply.length) groups.push({ group: 'Apply to Me', color: 'var(--c-nt)', items: apply });
+  const pray = [];
+  [['acts_a', 'Adore'], ['acts_c', 'Confess'], ['acts_t', 'Thank'], ['acts_s', 'Supplicate']].forEach(([k, lab]) => {
+    if (T(sd[k])) pray.push({ label: lab, value: T(sd[k]) });
+  });
+  if (T(sd.pray)) pray.push({ label: 'Prayer', value: T(sd.pray) });
+  if (pray.length) groups.push({ group: 'Pause & Pray', color: 'var(--c-intention)', items: pray });
+  return groups;
+}
+window.recapJournalGroups = recapJournalGroups;
+
+/* Groups kept when the "Apply & Pray only" filter is on. */
+const JOURNAL_FOCUS_GROUPS = ['Apply to Me', 'Pause & Pray'];
+
 function CR_JournalRollup({ sessions, onBack }) {
-  function readSD(id) {
-    try {const raw = localStorage.getItem('OT_RECAP_v1_' + id);return raw ? JSON.parse(raw) : {};}
-    catch (e) {return {};}
+  const [applyPrayOnly, setApplyPrayOnly] = useStateR(false);
+  const [helpOpen, setHelpOpen] = useStateR(false);
+
+  function readSD(id, mode) {
+    try {
+      const key = window.recapStorageKey ? window.recapStorageKey(id, mode) :
+      (mode === 'meditate' ? 'OT_RECAP_MED_v1_' : 'OT_RECAP_v1_') + id;
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {return {};}
   }
+  const MODES = [['study', 'Study'], ['meditate', 'Meditate']];
   const rows = (sessions || []).map((s) => {
-    const sd = readSD(s.id);
-    const applyQs = s.applyQuestions && s.applyQuestions.length ?
-    s.applyQuestions :
-    s.ntApplication ? [s.ntApplication] : [];
-    const groups = [];
-    const reflect = [];
-    if (sd.mp && String(sd.mp).trim()) reflect.push({ label: 'Main Point — your guess', value: sd.mp });
-    if (sd.ten && String(sd.ten).trim()) reflect.push({ label: 'Tension & NT — your reflection', value: sd.ten });
-    if (sd.myDivAttempt && String(sd.myDivAttempt).trim()) reflect.push({ label: 'Passage divisions — your attempt', value: sd.myDivAttempt });
-    if (reflect.length) groups.push({ group: 'Reflections', color: 'var(--c-promises)', items: reflect });
-    const apply = [];
-    ['app1', 'app2', 'app3'].forEach((k, i) => {
-      const v = sd[k] || (i === 0 ? sd.app : '');
-      if (v && String(v).trim()) apply.push({ label: applyQs[i] ? 'Q' + (i + 1) + ' · ' + applyQs[i] : 'Apply ' + (i + 1), value: v });
+    const blocks = [];
+    MODES.forEach(([m, modeLabel]) => {
+      let groups = recapJournalGroups(s, readSD(s.id, m));
+      if (applyPrayOnly) groups = groups.filter((g) => JOURNAL_FOCUS_GROUPS.indexOf(g.group) !== -1);
+      if (groups.length) blocks.push({ mode: m, modeLabel: modeLabel, groups: groups });
     });
-    if (apply.length) groups.push({ group: 'Apply to Me', color: 'var(--c-nt)', items: apply });
-    const pray = [];
-    [['acts_a', 'Adore'], ['acts_c', 'Confess'], ['acts_t', 'Thank'], ['acts_s', 'Supplicate']].forEach(([k, lab]) => {
-      if (sd[k] && String(sd[k]).trim()) pray.push({ label: lab, value: sd[k] });
-    });
-    if (sd.pray && String(sd.pray).trim()) pray.push({ label: 'Prayer', value: sd.pray });
-    if (pray.length) groups.push({ group: 'Pause & Pray', color: 'var(--c-intention)', items: pray });
-    return { session: s, groups };
-  }).filter((r) => r.groups.length);
+    return { session: s, blocks };
+  }).filter((r) => r.blocks.length);
 
   return (/*#__PURE__*/
     React.createElement("section", { className: "rc-journal" }, /*#__PURE__*/
     React.createElement("header", { className: "rc-journal__bar" }, /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onBack }, "\u2190 back to session list"), /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--journal rc-btn--export", onClick: () => window.exportJournalXlsx(sessions) }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u2913"), "Export to Excel"
-
-    )
+    React.createElement("div", { className: "rc-journal__actions" }, /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--primary rc-btn--sm", onClick: () => window.OT_exportAnswers && window.OT_exportAnswers(), title: "Save a backup file of all your answers" }, "\u2b07 Export backup"), /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--primary rc-btn--sm", onClick: () => window.OT_importAnswers && window.OT_importAnswers(), title: "Restore answers from a backup file" }, "\u2b06 Import backup"), /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--journal rc-btn--export rc-btn--sm", onClick: () => window.exportJournalXlsx(sessions), title: "Download a readable Excel copy" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u2913"), "Excel"
     ), /*#__PURE__*/
+    React.createElement("button", { className: "rc-journal__help-btn", onClick: () => setHelpOpen((v) => !v), "aria-expanded": helpOpen, "aria-label": "How this journal works — saving and moving your answers" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-journal__help-q", "aria-hidden": "true" }, "?"), /*#__PURE__*/
+    React.createElement("span", { className: "rc-journal__help-btn-txt" }, helpOpen ? "Close" : "How this works"))
+    )
+    ),
+    helpOpen ? /*#__PURE__*/
+    React.createElement("div", { className: "rc-journal__help", role: "region", "aria-label": "How this journal works" }, /*#__PURE__*/
+    React.createElement("button", { className: "rc-journal__help-close", onClick: () => setHelpOpen(false), "aria-label": "Close help" }, "\u2715"), /*#__PURE__*/
+    React.createElement("h3", { className: "rc-journal__help-title" }, "How your Journal works"), /*#__PURE__*/
+    React.createElement("ul", { className: "rc-journal__help-list" }, /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "What you see here \u2014 "), "every answer you\u2019ve typed across all sessions, gathered in one place and grouped by session. Both ", /*#__PURE__*/React.createElement("b", null, "Study"), " and ", /*#__PURE__*/React.createElement("b", null, "Meditate"), " entries are shown, each tagged with its mode."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Apply & Pray only \u2014 "), "flip the toggle to hide everything except your ", /*#__PURE__*/React.createElement("b", null, "Apply to Me"), " commitments and ", /*#__PURE__*/React.createElement("b", null, "Pause & Pray"), " prayers \u2014 handy for a quick devotional review."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Export backup \u2014 "), "saves a single ", /*#__PURE__*/React.createElement("b", null, ".json"), " file with ", /*#__PURE__*/React.createElement("em", null, "all"), " your answers. Keep it safe, or use it to move your journal to another device or browser."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Import backup \u2014 "), "loads a ", /*#__PURE__*/React.createElement("b", null, ".json"), " file you exported earlier (e.g. on your phone) back into this browser. You\u2019ll be asked to confirm before anything changes."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Excel \u2014 "), "downloads a readable spreadsheet (one sheet per session) for printing or sharing. It ", /*#__PURE__*/React.createElement("em", null, "cannot"), " be imported back \u2014 use ", /*#__PURE__*/React.createElement("b", null, "Export backup"), " to switch devices."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Editing \u2014 "), "to change or add to an entry, open that session and edit it there."), /*#__PURE__*/
+    React.createElement("li", null, /*#__PURE__*/React.createElement("b", null, "Privacy \u2014 "), "your answers live only in this browser. Nothing is uploaded anywhere unless you choose to share a backup file yourself.")
+    )
+    ) :
+    null, /*#__PURE__*/
     React.createElement("div", { className: "rc-journal__intro" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-journal__eyebrow" }, "MY REFLECTIVE JOURNAL"), /*#__PURE__*/
-    React.createElement("h2", { className: "rc-journal__title" }, "Everything you\u2019ve written"), /*#__PURE__*/
-    React.createElement("p", { className: "rc-journal__lede" }, "All your personal reflections, prayers, and commitments \u2014 collected from every session. Everything stays in your browser only."
-
-
+    React.createElement("span", { className: "rc-journal__eyebrow" }, "MY JOURNAL"), /*#__PURE__*/
+    React.createElement("h2", { className: "rc-journal__title" }, "View & manage all my inputs"), /*#__PURE__*/
+    React.createElement("p", { className: "rc-journal__lede" }, "Everything you\u2019ve written \u2014 reflections, commitments, and prayers \u2014 collected from every session, in both Study and Meditate mode. It all stays in this browser unless you export a backup."), /*#__PURE__*/
+    React.createElement("div", { className: "rc-journal__toggle" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-journal__toggle-label" }, "Show"), /*#__PURE__*/
+    React.createElement("div", { className: "rc-segmented", role: "group", "aria-label": "Filter journal entries" }, /*#__PURE__*/
+    React.createElement("button", { className: "rc-segmented__btn" + (applyPrayOnly ? '' : ' is-active'), "aria-pressed": !applyPrayOnly, onClick: () => setApplyPrayOnly(false) }, "Everything"), /*#__PURE__*/
+    React.createElement("button", { className: "rc-segmented__btn" + (applyPrayOnly ? ' is-active' : ''), "aria-pressed": applyPrayOnly, onClick: () => setApplyPrayOnly(true) }, "Apply & Pray only")
+    )
     )
     ),
     !rows.length ? /*#__PURE__*/
     React.createElement("div", { className: "rc-journal__empty" }, /*#__PURE__*/
-    React.createElement("p", null, "No journal entries yet."), /*#__PURE__*/
+    React.createElement("p", null, applyPrayOnly ? "No \u201cApply to Me\u201d or \u201cPause & Pray\u201d entries yet." : "No journal entries yet."), /*#__PURE__*/
     React.createElement("p", null, "Open a session and write in the ", /*#__PURE__*/React.createElement("b", null, "Apply to Me"), " or ", /*#__PURE__*/React.createElement("b", null, "Pause & Pray"), " sections to start your journal.")
     ) : /*#__PURE__*/
 
     React.createElement("div", { className: "rc-journal__entries" },
-    rows.map(({ session, groups }) => /*#__PURE__*/
+    rows.map(({ session, blocks }) => /*#__PURE__*/
     React.createElement("article", { key: session.id, className: "rc-journal__session" }, /*#__PURE__*/
     React.createElement("header", { className: "rc-journal__session-head" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-journal__session-num" }, "S", String(session.id).padStart(2, '0')), /*#__PURE__*/
@@ -1023,6 +1074,11 @@ function CR_JournalRollup({ sessions, onBack }) {
     React.createElement("span", { className: "rc-journal__session-passage" }, session.book, " ", session.chapter)
     )
     ),
+    blocks.map(({ mode, modeLabel, groups }) => /*#__PURE__*/
+    React.createElement("div", { key: mode, className: "rc-journal__modeblock" },
+    blocks.length > 1 || mode === 'meditate' ? /*#__PURE__*/
+    React.createElement("span", { className: "rc-journal__modetag rc-journal__modetag--" + mode }, modeLabel, " mode") :
+    null,
     groups.map((g, gi) => /*#__PURE__*/
     React.createElement("div", { key: gi, className: "rc-journal__group" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-journal__group-label" }, g.group), /*#__PURE__*/
@@ -1031,6 +1087,8 @@ function CR_JournalRollup({ sessions, onBack }) {
     React.createElement("div", { key: i, className: "rc-journal__field", style: { '--field-color': g.color } }, /*#__PURE__*/
     React.createElement("span", { className: "rc-journal__field-label" }, fld.label), /*#__PURE__*/
     React.createElement("p", { className: "rc-journal__field-value" }, fld.value)
+    )
+    )
     )
     )
     )
@@ -1378,34 +1436,22 @@ window.CR_FlashcardDeck = CR_FlashcardDeck;
    Collects the same data the Journal page renders, then writes a real
    .xlsx (README sheet first/active, one sheet per session).            */
 function collectJournal(sessions) {
-  function readSD(id) {
-    try {const raw = localStorage.getItem('OT_RECAP_v1_' + id);return raw ? JSON.parse(raw) : {};}
-    catch (e) {return {};}
+  function readSD(id, mode) {
+    try {
+      const key = window.recapStorageKey ? window.recapStorageKey(id, mode) :
+      (mode === 'meditate' ? 'OT_RECAP_MED_v1_' : 'OT_RECAP_v1_') + id;
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : {};
+    } catch (e) {return {};}
   }
-  const T = (v) => v && String(v).trim() ? String(v).trim() : '';
+  const MODES = [['study', 'Study'], ['meditate', 'Meditate']];
   return (sessions || []).map((s) => {
-    const sd = readSD(s.id);
-    const applyQs = s.applyQuestions && s.applyQuestions.length ?
-    s.applyQuestions :
-    s.ntApplication ? [s.ntApplication] : [];
     const groups = [];
-    const reflect = [];
-    if (T(sd.mp)) reflect.push(['Main Point — your guess', sd.mp]);
-    if (T(sd.ten)) reflect.push(['Tension & NT — your reflection', sd.ten]);
-    if (T(sd.myDivAttempt)) reflect.push(['Passage divisions — your attempt', sd.myDivAttempt]);
-    if (reflect.length) groups.push(['Reflections', reflect]);
-    const apply = [];
-    ['app1', 'app2', 'app3'].forEach((k, i) => {
-      const v = sd[k] || (i === 0 ? sd.app : '');
-      if (T(v)) apply.push([applyQs[i] ? 'Q' + (i + 1) + ' · ' + applyQs[i] : 'Apply ' + (i + 1), v]);
+    MODES.forEach(([m, modeLabel]) => {
+      recapJournalGroups(s, readSD(s.id, m)).forEach((g) => {
+        groups.push([g.group + ' · ' + modeLabel + ' mode', g.items.map((it) => [it.label, it.value])]);
+      });
     });
-    if (apply.length) groups.push(['Apply to Me', apply]);
-    const pray = [];
-    [['acts_a', 'Adore'], ['acts_c', 'Confess'], ['acts_t', 'Thank'], ['acts_s', 'Supplicate']].forEach(([k, lab]) => {
-      if (T(sd[k])) pray.push([lab, sd[k]]);
-    });
-    if (T(sd.pray)) pray.push(['Prayer', sd.pray]);
-    if (pray.length) groups.push(['Pause & Pray', pray]);
     return { session: s, groups };
   }).filter((r) => r.groups.length);
 }

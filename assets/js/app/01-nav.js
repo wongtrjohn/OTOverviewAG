@@ -104,36 +104,44 @@ const OT_TOURS = {
   /* The original whole-app tour, opened from the Mode Chooser. */
   overview: [
   { glyph: "✦", view: "home", target: ".home-screen__layout",
-    title: "Welcome — this is your Mode Chooser",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This home page is your ", /*#__PURE__*/React.createElement("b", null, "Mode Chooser"), ": four ways into the same Old Testament story. I'll open each one so you can see what it's for \u2014 just press ", /*#__PURE__*/React.createElement("b", null, "Next"), ".") },
+    title: "Welcome — let's take a quick look around",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This home page is your ", /*#__PURE__*/React.createElement("b", null, "Mode Chooser"), " \u2014 four ways into the same Old Testament story. I'll open each one so you can see what it's for. Just tap ", /*#__PURE__*/React.createElement("b", null, "Next"), ".") },
 
   { glyph: "✝", view: "intro", target: ".overview-intro",
     title: "1 · Introduction — start here",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The ", /*#__PURE__*/React.createElement("b", null, "Introduction"), " lays the foundations: the three great threads \u2014 Kingdom, Salvation, Promises \u2014 the tension between God's character and Man's reality, and why we read the Old Testament at all. ", /*#__PURE__*/React.createElement("b", null, "Begin here.")) },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The ", /*#__PURE__*/React.createElement("b", null, "Introduction"), " lays the foundations: the three threads \u2014 Kingdom, Salvation, Promises \u2014 and the tension between God's character and our reality that only Christ resolves. New here? ", /*#__PURE__*/React.createElement("b", null, "Begin with this.")) },
 
   { glyph: "↻", view: "recap", target: ".rc-picker",
-    title: "2 · Recap Mode — catch up on a session",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Missed a session, or want it in detail? ", /*#__PURE__*/React.createElement("b", null, "Pick any session"), " and Recap Mode walks you through it step by step \u2014 guided questions, thread reveals, flashcards, and suggested answers.") },
+    title: "2 · Recap Mode — the heart of the site",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Pick any session and go through it at your own pace. It has ", /*#__PURE__*/React.createElement("b", null, "two styles"), " \u2014 ", /*#__PURE__*/React.createElement("b", null, "Meditate"), " (the gentle default, for the heart) and ", /*#__PURE__*/React.createElement("b", null, "Study"), " (to catch up in depth) \u2014 and I'll explain those inside. This is where you ", /*#__PURE__*/React.createElement("b", null, "write and save your answers"), ".") },
+
+  { glyph: "✍", view: "recap", clickSelector: ".rc-picker .rc-btn--journal", target: ".rc-journal__intro",
+    title: "Your Journal — everything you write, gathered",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Let's step inside ", /*#__PURE__*/React.createElement("b", null, "My Journal"), ". It collects every answer you've written — across all sessions and both styles — ", /*#__PURE__*/React.createElement("b", null, "grouped by session"), ". Filter to ", /*#__PURE__*/React.createElement("b", null, "Apply & Pray only"), " for a quick devotional review, or download it all to ", /*#__PURE__*/React.createElement("b", null, "Excel"), ".") },
+
+  { glyph: "?", view: "recap", clickSelector: ".rc-picker .rc-btn--journal", openSelector: ".rc-journal__help-btn", target: ".rc-journal__help",
+    title: "How your answers are saved — please read",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The ", /*#__PURE__*/React.createElement("b", null, "How this works"), " button opens this guide. The key point: your answers are saved ", /*#__PURE__*/React.createElement("b", null, "only in this browser, on this device"), " — they're private and never uploaded. To use them on ", /*#__PURE__*/React.createElement("b", null, "another device or browser"), ", tap ", /*#__PURE__*/React.createElement("b", null, "Export backup"), " here, then ", /*#__PURE__*/React.createElement("b", null, "Import backup"), " on the other one.") },
 
   { glyph: "⊞", view: "bigpicture", scrollId: "big-picture-section", target: ".bigpic-selector",
-    title: "3 · Big Picture View — the whole map",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The whole story as one ", /*#__PURE__*/React.createElement("b", null, "subway map"), " \u2014 each column a session, each row a thread. See how every session and its NT fulfilment connect. Best ", /*#__PURE__*/React.createElement("b", null, "after"), " you've worked through the sessions.") },
+    title: "3 · The Big Picture — the whole map",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Every session as one ", /*#__PURE__*/React.createElement("b", null, "subway map"), " \u2014 columns are sessions, rows are threads. A great way to see how it all connects. Best ", /*#__PURE__*/React.createElement("b", null, "once you've worked through a few sessions"), ".") },
 
   { glyph: "❖", view: "threadview", scrollId: "thread-view-section", target: ".thread-toggle-bar",
     title: "4 · Thread View — follow one thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Pick a single thread"), " \u2014 Kingdom, Salvation, Promises, or Tension & NT Fulfilment \u2014 and trace it across every session from Genesis to Deuteronomy.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Pick a single thread"), " \u2014 Kingdom, Salvation, Promises, or Tension & NT Fulfilment \u2014 and trace just that one from Genesis to Deuteronomy.") },
 
   { glyph: "▦", view: "matrix", target: ".bigpic-selector",
-    title: "5 · Matrix View — the whole grid",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Want it all in one table? ", /*#__PURE__*/React.createElement("b", null, "Matrix View"), " lays every theme against every session \u2014 each cell is that session's point for that thread, and a ", /*#__PURE__*/React.createElement("b", null, "\u2605"), " marks its main focus. ", /*#__PURE__*/React.createElement("b", null, "Click a theme name"), " to highlight that thread across the whole grid.") },
+    title: "5 · Matrix View — everything in a grid",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Every theme against every session in one table. Each cell is that session's point for a thread; a ", /*#__PURE__*/React.createElement("b", null, "\u2605"), " marks its main focus. ", /*#__PURE__*/React.createElement("b", null, "Tap a theme name"), " to highlight that thread across the grid.") },
 
   { glyph: "≡", view: "home", peekNav: true, targets: [".sidenav", ".sidenav-fab"],
-    title: "The left menu — jump anywhere, anytime",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This menu on the left lets you ", /*#__PURE__*/React.createElement("b", null, "jump straight to"), " any mode \u2014 the Introduction, Recap Mode, the Big Picture, or Thread View \u2014 from wherever you are. On a phone, tap the ", /*#__PURE__*/React.createElement("b", null, "Jump to"), " tab on the left edge.") },
+    title: "The 'Jump to' menu — go anywhere",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This menu on the left jumps you ", /*#__PURE__*/React.createElement("b", null, "straight to any mode"), " from wherever you are. On a phone, tap the ", /*#__PURE__*/React.createElement("b", null, "Jump to"), " tab on the left edge.") },
 
   { glyph: "→", view: "home", target: ".home-screen__layout",
-    title: "Recommended flow",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "A simple path through it all: ", /*#__PURE__*/React.createElement("b", null, "1. Introduction"), " for the foundations \u2192 ", /*#__PURE__*/React.createElement("b", null, "2. Recap Mode"), " for any sessions you've missed or want to revisit \u2192 ", /*#__PURE__*/React.createElement("b", null, "3. Big Picture View"), " when you want to step back and see how it all fits. Each page also has its own ", /*#__PURE__*/React.createElement("b", null, "\u201CNeed help?\u201D"), " tour button at the top.") }],
+    title: "A simple way through",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Not sure where to start? ", /*#__PURE__*/React.createElement("b", null, "Introduction"), " for the foundations \u2192 ", /*#__PURE__*/React.createElement("b", null, "Recap Mode"), " to sit with each session (Meditate to dwell, or Study to catch up) \u2192 ", /*#__PURE__*/React.createElement("b", null, "The Big Picture"), " to step back and see how it fits. Every page has its own ", /*#__PURE__*/React.createElement("b", null, "\u201C? Need help\u201D"), " tour too.") }],
 
 
   /* ── Introduction page ── */
@@ -142,27 +150,39 @@ const OT_TOURS = {
     title: "Introduction — the big idea",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "This first block sums up the ", /*#__PURE__*/React.createElement("b", null, "whole Old Testament in one sentence"), ": God saving His people back into His Kingdom, through His Promises. Everything else hangs off this.") },
   { glyph: "❖", view: "intro", target: ".overview-intro__threads", openSelector: ".overview-subtheme-reveal__head",
-    title: "The three threads — click to reveal",
+    title: "The three threads — tap to reveal",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Kingdom, Salvation and Promises run through every session. Boxes like this say ", /*#__PURE__*/React.createElement("b", null, "\u201Cclick to reveal\u201D"), " \u2014 I've opened one for you as an example. Tap the heading again to close it.") },
   { glyph: "⇌", view: "intro", target: ".intro-tension",
     title: "The tension that drives the story",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "The engine of the storyline: ", /*#__PURE__*/React.createElement("b", null, "God's character & intent"), " set against ", /*#__PURE__*/React.createElement("b", null, "Man's reality"), ". Hold this tension in mind \u2014 it's resolved only in Christ.") },
   { glyph: "→", view: "intro", target: ".intro-nav-section",
-    title: "Where to go next",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "From here, head into ", /*#__PURE__*/React.createElement("b", null, "Recap Mode"), " to work a session, or the ", /*#__PURE__*/React.createElement("b", null, "Big Picture"), " to see how it all fits together.") }],
+    title: "Where to next",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "From here, head into ", /*#__PURE__*/React.createElement("b", null, "Recap Mode"), " to sit with a session, or the ", /*#__PURE__*/React.createElement("b", null, "Big Picture"), " to see how it all fits together.") },
+
+  { glyph: "?", view: "intro", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }],
 
 
   /* ── Recap Mode (session picker, then a peek inside a session) ── */
   recap: [
+  { glyph: "✦", view: "recap", target: ".rc-modetoggle",
+    title: "Two ways to recap — pick what fits you",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Up here you choose your style. ", /*#__PURE__*/React.createElement("b", null, "Meditate & Reflect"), " is the gentle default — fewer prompts, more space to dwell and pray; best for a session you ", /*#__PURE__*/React.createElement("b", null, "already attended"), ". ", /*#__PURE__*/React.createElement("b", null, "Study & Reflect"), " goes deeper — guided questions, thread reveals and flashcards; best for ", /*#__PURE__*/React.createElement("b", null, "catching up"), " on one you missed. Switch anytime — each style keeps its own answers.") },
+
   { glyph: "↻", view: "recap", target: ".rc-picker__list",
-    title: "Recap Mode — pick a session",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Each row is one session. The ", /*#__PURE__*/React.createElement("b", null, "ring on the right"), " shows how much of that session you've filled in. Tap a row to open the guided recap.") },
+    title: "Pick a session",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Each row is one session. The ", /*#__PURE__*/React.createElement("b", null, "ring on the right"), " shows how much you've filled in. Tap a row to open it.") },
   { glyph: "✍", view: "recap", target: ".rc-btn--journal",
-    title: "My Reflective Journal",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Everything you write across all sessions is gathered here \u2014 and you can ", /*#__PURE__*/React.createElement("b", null, "Export to Excel"), " (one sheet per session) from the journal page.") },
+    title: "My Journal \u2014 view & manage all my inputs",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Everything you write across all sessions is gathered here. ", /*#__PURE__*/React.createElement("b", null, "Export"), " / ", /*#__PURE__*/React.createElement("b", null, "Import"), " a backup to move between devices, filter to ", /*#__PURE__*/React.createElement("b", null, "Apply & Pray only"), ", or tap the ", /*#__PURE__*/React.createElement("b", null, "?"), " button on the journal page for a full guide.") },
   { glyph: "▤", view: "recap", target: ".rc-fcov",
-    title: "Flashcard Overview → Recall Dashboard",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This box summarises your flashcard recall. ", /*#__PURE__*/React.createElement("b", null, "Click it"), " to open the full ", /*#__PURE__*/React.createElement("b", null, "Recall Dashboard"), " with per-session and per-card-type stats and all your saved answers.") },
+    title: "Recall Dashboard — how your memory's doing",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This box sums up your flashcard recall. ", /*#__PURE__*/React.createElement("b", null, "Tap it"), " for the full ", /*#__PURE__*/React.createElement("b", null, "Recall Dashboard"), " — per-session and per-card-type stats, plus all your saved answers.") },
+
+  { glyph: "?", view: "recap", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") },
   { glyph: "⬚", view: "recap", clickSelector: ".rc-picker__list li:nth-child(2) .rc-picker__row", target: ".rc-session",
     title: "Inside a session — Session 02 · Creation",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened ", /*#__PURE__*/React.createElement("b", null, "Session 02 \u2014 Creation"), " as an example. A recap walks you from the ", /*#__PURE__*/React.createElement("b", null, "starting question"), " through divisions, main point, threads, tension & NT, and ends with a ", /*#__PURE__*/React.createElement("b", null, "flashcard \u201CTest Yourself.\u201D"), " Tap any numbered box to reveal it.") },
@@ -178,13 +198,17 @@ const OT_TOURS = {
   bigpicture: [
   { glyph: "⊞", view: "bigpicture", scrollId: "big-picture-section", target: ".bigpic-selector",
     title: "Big Picture — choose your range",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This now shows ", /*#__PURE__*/React.createElement("b", null, "all sessions by default"), ". Use this selector to stop the map at any session \u2014 handy if you're only up to a certain week.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "By default this shows ", /*#__PURE__*/React.createElement("b", null, "all sessions"), ". Use this selector to stop the map at the session you've reached \u2014 handy if you're only up to a certain week.") },
   { glyph: "◍", view: "bigpicture", target: ".bigpic-legend",
     title: "How to read the map",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Each ", /*#__PURE__*/React.createElement("b", null, "column"), " is a session; each ", /*#__PURE__*/React.createElement("b", null, "row"), " is a thread. Bold dots mark where a thread is a session's main focus.") },
   { glyph: "❖", view: "bigpicture", scrollId: "thread-view-section", target: ".thread-toggle-bar",
-    title: "Switch to Thread View below",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Scroll on for ", /*#__PURE__*/React.createElement("b", null, "Thread View"), " \u2014 follow a single thread across every session. There's a separate help button there too.") }],
+    title: "Thread View is just below",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Scroll on for ", /*#__PURE__*/React.createElement("b", null, "Thread View"), " \u2014 follow a single thread across every session. There's a separate help button there too.") },
+
+  { glyph: "?", view: "bigpicture", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }],
 
 
   /* ── Thread View ── */
@@ -193,11 +217,15 @@ const OT_TOURS = {
     title: "Thread View — pick one thread",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Choose ", /*#__PURE__*/React.createElement("b", null, "Kingdom, Salvation, Promises"), ", or ", /*#__PURE__*/React.createElement("b", null, "Tension & NT Fulfilment"), ", then trace just that one thread from Genesis to Deuteronomy.") },
   { glyph: "↻", view: "threadview", scrollId: "thread-view-section", clickSelector: ".thread-toggle-bar .thread-toggle-btn:nth-child(3)", target: ".thread-view-page",
-    title: "Follow a thread across sessions",
+    title: "Watch it develop, session by session",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened the ", /*#__PURE__*/React.createElement("b", null, "Promises"), " thread. Each card is one session's take on it, in order \u2014 a clean way to watch a single idea develop over time.") },
   { glyph: "↳", view: "threadview", scrollId: "thread-view-section", target: ".subtheme--cov",
-    title: "Promises has a sub-thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Pentateuch"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.") }],
+    title: "Some threads have a sub-thread",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Pentateuch"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.") },
+
+  { glyph: "?", view: "threadview", scrollId: "thread-view-section", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }],
 
 
   /* ── Matrix View ── */
@@ -209,8 +237,12 @@ const OT_TOURS = {
     title: "Every theme × every session",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Each cell is a session's point for one thread; a ", /*#__PURE__*/React.createElement("b", null, "\u2605"), " marks that session's main focus. The first column stays pinned as you scroll across.") },
   { glyph: "⚖", view: "matrix", target: ".matrix-sizer",
-    title: "Adjust the layout",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Drag ", /*#__PURE__*/React.createElement("b", null, "Box width"), " to fit more on screen (Compact) or make cells easier to read (Wide).") }],
+    title: "Resize to taste",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Drag ", /*#__PURE__*/React.createElement("b", null, "Box width"), " to fit more on screen (Compact) or make cells easier to read (Wide).") },
+
+  { glyph: "?", view: "matrix", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }],
 
 
   /* ── Recall Dashboard (lives inside Recap Mode) ── */
@@ -226,7 +258,10 @@ const OT_TOURS = {
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "See which ", /*#__PURE__*/React.createElement("b", null, "kinds"), " of cards you know best \u2014 Mini Summary, Main Point, Threads, Tension, NT Fulfilment, Apply.") },
   { glyph: "✎", target: ".rc-minputs", openSelector: ".rc-minputs .rc-collapse__head",
     title: "Your saved answers",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Every flashcard answer you've written is stored here, grouped by session. Each session also has a ", /*#__PURE__*/React.createElement("b", null, "Reset Flashcards"), " button. I've expanded one as an example.") }]
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Every flashcard answer you've written is stored here, grouped by session. Each session also has a ", /*#__PURE__*/React.createElement("b", null, "Reset Flashcards"), " button. I've expanded one as an example.") },
+  { glyph: "?", target: ".help-tour__btn",
+    title: "Need help? It's always right here",
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button near the top? Tap it anytime to replay this dashboard tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }]
 
 };
 window.OT_TOURS = OT_TOURS;
@@ -318,6 +353,8 @@ function GuidedTour({ open, onClose, onNavigate, tourId }) {
   }
 
   return (/*#__PURE__*/
+    React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement("div", { className: "tour-scrim", "aria-hidden": "true" }), /*#__PURE__*/
     React.createElement("div", { className: "tourdock", role: "dialog", "aria-label": "Guided tour" }, /*#__PURE__*/
     React.createElement("div", { className: "tourdock__card" }, /*#__PURE__*/
     React.createElement("div", { className: "tourdock__head" }, /*#__PURE__*/
@@ -339,7 +376,7 @@ function GuidedTour({ open, onClose, onNavigate, tourId }) {
     React.createElement("button", { className: "rc-btn rc-btn--primary", onClick: finish }, "Done \u2713")
     )
     )
-    ));
+    )));
 
 }
 

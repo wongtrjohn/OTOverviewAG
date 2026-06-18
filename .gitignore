@@ -1,0 +1,5 @@
+# Claude Code local tooling / machine-specific config
+.claude/
+
+# Office lock & temp files (e.g. the open Data Entry workbook)
+~$*
