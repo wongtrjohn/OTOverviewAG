@@ -1,0 +1,10 @@
+# Excel lock/temp files
+~$*
+*.tmp
+# OS junk
+.DS_Store
+Thumbs.db
+# Editor
+.vscode/
+# Stray nested copy that can appear from drag-and-drop
+/v29/
