@@ -6,19 +6,39 @@ const { useState: useStateH, useMemo: useMemoH, useEffect: useEffectH, useRef: u
 
 
 /* ── localStorage persistence hook ─────────────────────────────────────────
-   Reads the stored value on first mount; writes back on every update.     */
+   Reads the stored value for THIS key, and re-reads it whenever the key
+   changes (e.g. switching session or Study/Meditate mode). This is what
+   keeps every session's answers in their own box: without the key-change
+   re-read, the hook held the first session's value in memory and then wrote
+   it back under the new session's key, so notes "followed" you across tabs.
+
+   NOTE (future Supabase): this hook is the single place that loads/saves a
+   session's answers. To move to Supabase, swap the localStorage get/set
+   below for a row keyed by (key) — e.g. user_id + session_id + mode. The
+   key-change re-read already guarantees the correct row loads on switch.   */
 function useLocalStorage(key, defaultVal) {
-  const [val, setVal] = useStateH(() => {
+  const read = (k) => {
     try {
-      const s = localStorage.getItem(key);
+      const s = localStorage.getItem(k);
       return s !== null ? JSON.parse(s) : defaultVal;
     } catch (e) {return defaultVal;}
-  });
+  };
+  /* state carries the key it belongs to, so a key change is detectable. */
+  const [state, setState] = useStateH(() => ({ key: key, val: read(key) }));
+  let val = state.val;
+  if (state.key !== key) {
+    /* Key changed since last render → load this key's own value now (no
+       stale value, no flash). Conditional setState during render of the
+       same component is the supported "reset state on prop change" pattern. */
+    val = read(key);
+    setState({ key: key, val: val });
+  }
   function set(updater) {
-    setVal((prev) => {
-      const next = typeof updater === 'function' ? updater(prev) : updater;
+    setState((prev) => {
+      const base = prev.key === key ? prev.val : read(key);
+      const next = typeof updater === 'function' ? updater(base) : updater;
       try {localStorage.setItem(key, JSON.stringify(next));} catch (e) {}
-      return next;
+      return { key: key, val: next };
     });
   }
   return [val, set];

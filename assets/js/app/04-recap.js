@@ -1143,9 +1143,9 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
     !session ? /*#__PURE__*/
     React.createElement(CR_Picker, { sessions: sessions, themes: themes, mode: mode, onPick: pick, onOpenJournal: () => setJournalOpen(true) }) :
     session.id === 12 ? /*#__PURE__*/
-    React.createElement(CR_ReviewReflect, { session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) }) : /*#__PURE__*/
+    React.createElement(CR_ReviewReflect, { key: mode + ':' + session.id, session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) }) : /*#__PURE__*/
 
-    React.createElement(CR_SessionRecap, { session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) })
+    React.createElement(CR_SessionRecap, { key: mode + ':' + session.id, session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) })
 
     )
     ));
