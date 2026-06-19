@@ -91,6 +91,10 @@ SESSION_MAP = {
 def keyword_field(nh):
     if "meditate" in nh and "prompt" in nh: return "meditatePrompt"
     if "reflection" in nh and "focus" in nh: return "reflectionFocus"
+    if "reflective" in nh and "question" in nh:
+        toks = nh.split()
+        if "nt" in toks or "new" in toks:    return "ntReflectQuestion"
+        if "ot" in toks or "old" in toks:    return "otReflectQuestion"
     if "review" in nh and "question" in nh:  return "reviewQuestions"
     if "prayer" in nh and "prompt" in nh:    return "prayerPrompts"
     return None

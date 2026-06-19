@@ -328,6 +328,117 @@ function CR_SectionTile({ tone, step, label, sublabel, defaultOpen, children }) 
 }
 
 /* ────────────────── ACTS Prayer (input-style Pause & Pray) ───────────── */
+/* Meditate-mode "Pause & Pray": a free prayer ("Commit to God", default) that
+   can be toggled to the guided ACTS prayer. Both keep the "take a breath" lede. */
+function CR_MeditatePray({ session, sd, patch }) {
+  const guided = sd.prayMode === 'acts';
+  return (
+    React.createElement("div", { className: "rc-medpray" },
+    React.createElement("div", { className: "rc-acts__stillness" },
+    React.createElement("div", { className: "rc-acts__breath-circle", "aria-hidden": "true" }),
+    React.createElement("p", { className: "rc-acts__stillness-text" }, "Take a breath. Let the passage settle in your heart before you pray.")
+    ),
+    guided ?
+    React.createElement(React.Fragment, null,
+    React.createElement("button", { className: "rc-medpray__switch", onClick: () => patch({ prayMode: 'commit' }) }, "← Back to writing a prayer"),
+    React.createElement(CR_ACTSPrayer, { session: session, sd: sd, patch: patch })
+    ) :
+    React.createElement(React.Fragment, null,
+    React.createElement("p", { className: "rc-medpray__lede" }, "Pause to give thanks and hear what God is saying to you now. Write a prayer in response to Him below, committing this time into His hands."),
+    React.createElement("textarea", { className: "rc-medpray__field", rows: 8, placeholder: "Write your prayer here — it’s saved in your browser.", value: sd.commitPrayer || '', onChange: (e) => patch({ commitPrayer: e.target.value }) }),
+    (sd.commitPrayer || '').trim() ? React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null,
+    React.createElement("button", { className: "rc-medpray__switch rc-medpray__switch--guided", onClick: () => patch({ prayMode: 'acts' }) }, "Click here to follow a guided prayer time — Adore, Confess, Thank and Supplicate")
+    )
+    ));
+
+}
+
+/* Meditate-mode body — given mini-summaries + main point (no blanks), an OT and
+   an NT reflective question, the NT link (with the tension only when both God's
+   intent and man's reality are present), and Pause & Pray. No flashcards, no
+   further-study, no at-a-glance. */
+function CR_MeditateBody({ session, sd, patch, themes, pairedDivisions }) {
+  const T = (v) => v && String(v).trim() ? String(v).trim() : '';
+  const hasTension = !!(T(session.intention) && T(session.reality));
+  const summaries = (pairedDivisions || []).map((p) => p.detail).filter((d) => d && T(d.summary));
+  const otQ = T(session.otReflectQuestion) || "As you sit with this passage, what does it show you about God — and about yourself?";
+  const ntQ = T(session.ntReflectQuestion) || "How does Christ fulfil what you’ve read here, and what does that stir in you?";
+  return (
+    React.createElement(React.Fragment, null,
+    React.createElement("p", { className: "rc-tilegrid__lede" }, "Move through each section gently — there’s no need to finish in one sitting."),
+    React.createElement("div", { className: "rc-tilegrid" },
+
+    React.createElement(CR_SectionTile, { tone: "divisions", step: "01", label: "Mini Summaries", sublabel: "The passage, section by section", defaultOpen: true },
+    summaries.length ?
+    React.createElement("div", { className: "rc-medsum" },
+    summaries.map((d, i) =>
+    React.createElement("div", { key: i, className: "rc-medsum__item" },
+    React.createElement("span", { className: "rc-medsum__div" }, d.title || d.range || ('Section ' + (i + 1))),
+    React.createElement("p", { className: "rc-medsum__text" }, d.summary)
+    ))
+    ) :
+    React.createElement("p", { className: "rc-medsum__empty" }, "No mini-summaries recorded for this session yet.")
+    ),
+
+    React.createElement(CR_SectionTile, { tone: "mainpoint", step: "02", label: "Main Point", sublabel: "The one big idea of the passage", defaultOpen: true },
+    React.createElement("blockquote", { className: "rc-mainpoint__text rc-mainpoint__text--given" },
+    renderMultiline ? renderMultiline(session.mainPoint) : React.createElement("p", null, session.mainPoint)
+    ),
+    session.keyVerse ?
+    React.createElement("div", { className: "rc-mainpoint__verse" },
+    React.createElement("span", { className: "rc-mainpoint__verse-label" }, "KEY VERSE"),
+    React.createElement("p", null, session.keyVerse)
+    ) : null
+    ),
+
+    React.createElement(CR_SectionTile, { tone: "threads", step: "03", label: "Reflect — Old Testament", sublabel: "Sit with the passage before God", defaultOpen: true },
+    React.createElement("p", { className: "rc-medq__prompt" }, otQ),
+    React.createElement("textarea", { className: "rc-medq__field", rows: 4, placeholder: "Write your reflection here — it’s saved in your browser.", value: sd.otReflect || '', onChange: (e) => patch({ otReflect: e.target.value }) }),
+    (sd.otReflect || '').trim() ? React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
+    ),
+
+    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: hasTension ? "Tension & New Testament" : "New Testament Fulfilment", sublabel: hasTension ? "God’s intent vs man’s reality, resolved in Christ" : "How Christ fulfils this passage", defaultOpen: true },
+    hasTension ?
+    React.createElement("div", { className: "rc-tension__pair" },
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--intent" },
+    React.createElement("span", { className: "rc-tension__label" }, "God's Character & Intent"),
+    React.createElement("p", null, session.intention)
+    ),
+    React.createElement("span", { className: "rc-tension__sep", "aria-hidden": "true" }, "⇄"),
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--reality" },
+    React.createElement("span", { className: "rc-tension__label" }, "Man's Reality"),
+    React.createElement("p", null, session.reality)
+    )
+    ) : null,
+    session.ntPoint ?
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--resolve" },
+    React.createElement("span", { className: "rc-tension__resolve-glyph", "aria-hidden": "true" }, "✝"),
+    React.createElement("div", { className: "rc-tension__resolve-body" },
+    React.createElement("span", { className: "rc-tension__label" }, "Christ Fulfilment"),
+    React.createElement("p", null, session.ntPoint,
+    session.ntPassage ? React.createElement(React.Fragment, null, " \xB7 ", PassageRef ? React.createElement(PassageRef, { refs: session.ntPassage }) : session.ntPassage) : null
+    )
+    )
+    ) :
+    React.createElement("p", { className: "rc-tension__empty" }, "No New Testament link recorded for this session yet.")
+    ),
+
+    React.createElement(CR_SectionTile, { tone: "apply", step: "05", label: "Reflect — New Testament", sublabel: "How does Christ meet you here?", defaultOpen: true },
+    React.createElement("p", { className: "rc-medq__prompt" }, ntQ),
+    React.createElement("textarea", { className: "rc-medq__field", rows: 4, placeholder: "Write your reflection here — it’s saved in your browser.", value: sd.ntReflect || '', onChange: (e) => patch({ ntReflect: e.target.value }) }),
+    (sd.ntReflect || '').trim() ? React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
+    ),
+
+    React.createElement(CR_SectionTile, { tone: "pray", step: "06", label: "Pause & Pray", sublabel: "Set aside time to pray it back to God", defaultOpen: true },
+    React.createElement(CR_MeditatePray, { session: session, sd: sd, patch: patch }),
+    React.createElement(CR_PrayerTime, { session: session })
+    )
+
+    )
+    ));
+
+}
+
 function CR_ACTSPrayer({ session, sd, patch }) {
   const bk = `${session.book || ''} ${session.chapter || ''}`.trim();
   const steps = [
@@ -426,7 +537,8 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     acts_a: '', acts_c: '', acts_t: '', acts_s: '',
     divs: {}, tPicked: [], tReveal: false,
     cz1: '', cz1ok: false, cz2: '', cz2ok: false,
-    myDivAttempt: ''
+    myDivAttempt: '',
+    otReflect: '', ntReflect: '', commitPrayer: '', prayMode: 'commit'
   };
   const [sd, setSd] = useLocalStorage(window.recapStorageKey ? window.recapStorageKey(session.id, mode) : 'OT_RECAP_v1_' + session.id, defaultSD);
   function patch(u) {setSd((prev) => ({ ...prev, ...u }));}
@@ -569,13 +681,18 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     React.createElement("p", { className: "rc-stillness__lede" }, "Before you read and reflect, set aside a moment of quiet. Breathe slowly. Ask God to meet you in His word \u2014 then begin, unhurried."
 
 
-    ), /*#__PURE__*/
-    React.createElement(CR_ReflectionTimer, { label: "Stillness before the Word", presets: [1, 2, 3, 5] })
+    )
     ) :
     null, /*#__PURE__*/
 
+    meditate ? /*#__PURE__*/
+    React.createElement(CR_MeditateBody, { session: session, sd: sd, patch: patch, themes: themes, pairedDivisions: pairedDivisions }) :
+    null, /*#__PURE__*/
 
-    React.createElement("p", { className: "rc-tilegrid__lede" }, meditate ? "Move through each section gently — there's no need to finish in one sitting." : "Pick a section to work through."), /*#__PURE__*/
+
+    !meditate ? /*#__PURE__*/
+    React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement("p", { className: "rc-tilegrid__lede" }, "Pick a section to work through."), /*#__PURE__*/
     React.createElement("div", { className: "rc-tilegrid" },
 
 
@@ -823,7 +940,8 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
         ));
 
     })()
-    ), /*#__PURE__*/
+    )
+    ) : null, /*#__PURE__*/
 
 
     React.createElement("footer", { className: "rc-session__foot" }, /*#__PURE__*/
@@ -973,6 +1091,8 @@ function recapJournalGroups(s, sd) {
   if (T(sd.mp)) reflect.push({ label: 'Main Point — your guess', value: T(sd.mp) });
   if (T(sd.ten)) reflect.push({ label: 'Tension & NT — your reflection', value: T(sd.ten) });
   if (T(sd.myDivAttempt)) reflect.push({ label: 'Passage divisions — your attempt', value: T(sd.myDivAttempt) });
+  if (T(sd.otReflect)) reflect.push({ label: 'Old Testament reflection', value: T(sd.otReflect) });
+  if (T(sd.ntReflect)) reflect.push({ label: 'New Testament reflection', value: T(sd.ntReflect) });
   if (reflect.length) groups.push({ group: 'Reflections', color: 'var(--c-promises)', items: reflect });
   const apply = [];
   ['app1', 'app2', 'app3'].forEach((k, i) => {
@@ -985,6 +1105,7 @@ function recapJournalGroups(s, sd) {
     if (T(sd[k])) pray.push({ label: lab, value: T(sd[k]) });
   });
   if (T(sd.pray)) pray.push({ label: 'Prayer', value: T(sd.pray) });
+  if (T(sd.commitPrayer)) pray.push({ label: 'Prayer (Commit to God)', value: T(sd.commitPrayer) });
   if (pray.length) groups.push({ group: 'Pause & Pray', color: 'var(--c-intention)', items: pray });
   return groups;
 }
@@ -1768,7 +1889,7 @@ function CR_PrayerTime({ session }) {
 
     prayFor ? /*#__PURE__*/React.createElement(React.Fragment, null, " Carry this with you: ", /*#__PURE__*/React.createElement("b", null, prayFor.charAt(0).toUpperCase() + prayFor.slice(1)), ".") : null
     ), /*#__PURE__*/
-    React.createElement(CR_ReflectionTimer, { label: "Time to pray", presets: [2, 3, 5, 10] })
+    React.createElement("p", { className: "rc-praytime__journal" }, "Your reflection and prayers can be revisited in ", /*#__PURE__*/React.createElement("b", null, "“My Journal”"), ".")
     ));
 
 }
