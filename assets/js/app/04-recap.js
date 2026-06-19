@@ -344,7 +344,7 @@ function CR_ACTSPrayer({ session, sd, patch }) {
     prompt: session.actsSupplicate || `What do you need from God as you apply this truth to your life this week?`,
     placeholder: 'Help me to…' }];
 
-  const [activeStep, setActiveStep] = useStateR(null);
+  const [openMap, setOpenMap] = useStateR(() => ({}));
   const anyWritten = steps.some((st) => (sd[st.key] || '').trim().length > 0);
   return (/*#__PURE__*/
     React.createElement("div", { className: "rc-acts" }, /*#__PURE__*/
@@ -355,13 +355,13 @@ function CR_ACTSPrayer({ session, sd, patch }) {
     React.createElement("p", { className: "rc-acts__lede" }, "Walk through each prompt below. Write freely, or simply sit and pray silently. Your prayers are saved in your browser \u2014 they\u2019ll be here when you return."), /*#__PURE__*/
     React.createElement("div", { className: "rc-acts__steps" },
     steps.map((step, i) => {
-      const isOpen = activeStep === i;
+      const isOpen = !!openMap[i];
       const val = sd[step.key] || '';
       const hasContent = val.trim().length > 0;
       return (/*#__PURE__*/
         React.createElement("div", { key: i, className: "rc-acts__step" + (isOpen ? " is-open" : "") + (hasContent ? " has-content" : ""),
           style: { '--step-color': step.color } }, /*#__PURE__*/
-        React.createElement("button", { className: "rc-acts__step-head", onClick: () => setActiveStep(isOpen ? null : i) }, /*#__PURE__*/
+        React.createElement("button", { className: "rc-acts__step-head", onClick: () => setOpenMap((m) => Object.assign({}, m, { [i]: !m[i] })) }, /*#__PURE__*/
         React.createElement("span", { className: "rc-acts__step-badge" }, step.letter), /*#__PURE__*/
         React.createElement("span", { className: "rc-acts__step-label" }, step.label),
         hasContent && !isOpen ? /*#__PURE__*/React.createElement("span", { className: "rc-acts__step-done" }, "\u2713 written") : null, /*#__PURE__*/
@@ -906,7 +906,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
 
     onOpenJournal ? /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--journal", onClick: onOpenJournal }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Journal \u2014 View & manage all my inputs"
+    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Journal \u2014 Click here to manage what I have written"
 
     ) :
     null
@@ -1104,9 +1104,9 @@ function CR_JournalRollup({ sessions, onBack }) {
 
 /* ────────────────── Outer component ────────────────── */
 
-function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, onGotoIntro, initialMode, onModeChange }) {
+function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, onGotoIntro, initialMode, onModeChange, initialJournalOpen }) {
   const [selected, setSelected] = useStateR(initialSession || null);
-  const [journalOpen, setJournalOpen] = useStateR(false);
+  const [journalOpen, setJournalOpen] = useStateR(!!initialJournalOpen);
   const [mode, setMode] = useStateR(initialMode || (window.getRecapMode ? window.getRecapMode() : 'meditate'));
   const session = selected ? sessions.find((s) => s.id === selected) : null;
 

@@ -1,5 +1,18 @@
 const { useState: useStateA, useMemo: useMemoA, useEffect: useEffectA } = React;
 
+/* ── Small inline illustrations for each view (used on the Home cards and at the
+   bottom of the Introduction). Neutral strokes use currentColor so they read on
+   both the dark intro boxes and the light home cards; thread accents are fixed. */
+const VIEW_ILLUS = {
+  recap: `<svg viewBox="0 0 220 112" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="40" y="12" width="140" height="88" rx="9" fill="currentColor" fill-opacity="0.05" stroke="currentColor" stroke-opacity="0.30"/><rect x="40" y="12" width="140" height="20" rx="9" fill="#b5894a"/><rect x="40" y="25" width="140" height="7" fill="#b5894a"/><rect x="50" y="18" width="52" height="7" rx="3.5" fill="#ffffff" fill-opacity="0.92"/><rect x="52" y="45" width="84" height="7" rx="3.5" fill="currentColor" fill-opacity="0.55"/><rect x="52" y="60" width="112" height="5" rx="2.5" fill="currentColor" fill-opacity="0.26"/><rect x="52" y="71" width="104" height="5" rx="2.5" fill="currentColor" fill-opacity="0.26"/><rect x="52" y="82" width="60" height="5" rx="2.5" fill="currentColor" fill-opacity="0.26"/><circle cx="160" cy="80" r="12" stroke="currentColor" stroke-opacity="0.16" stroke-width="4"/><circle cx="160" cy="80" r="12" stroke="#4a7c3f" stroke-width="4" stroke-linecap="round" stroke-dasharray="54 30" transform="rotate(-90 160 80)"/></svg>`,
+  bigpicture: `<svg viewBox="0 0 220 112" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" fill="none" xmlns="http://www.w3.org/2000/svg"><g stroke="currentColor" stroke-opacity="0.12"><line x1="46" y1="20" x2="46" y2="96"/><line x1="92" y1="20" x2="92" y2="96"/><line x1="138" y1="20" x2="138" y2="96"/><line x1="184" y1="20" x2="184" y2="96"/></g><polyline points="46,36 92,36 138,36 184,36" stroke="#b5894a" stroke-width="4" stroke-linecap="round"/><polyline points="46,58 92,58 138,58 184,58" stroke="#a4423a" stroke-width="4" stroke-linecap="round"/><polyline points="46,80 92,80 138,80 184,80" stroke="#3e6792" stroke-width="4" stroke-linecap="round"/><g>${[36,58,80].map(function(y){return [46,92,138,184].map(function(x){var c=y===36?'#b5894a':y===58?'#a4423a':'#3e6792';return '<circle cx="'+x+'" cy="'+y+'" r="4.5" fill="'+c+'"/>';}).join('');}).join('')}</g></svg>`,
+  thread: `<svg viewBox="0 0 220 112" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><line x1="26" y1="22" x2="26" y2="96" stroke="#a4423a" stroke-width="4" stroke-linecap="round"/><circle cx="26" cy="34" r="5" fill="#a4423a"/><circle cx="26" cy="59" r="5" fill="#a4423a"/><circle cx="26" cy="84" r="5" fill="#a4423a"/><text x="42" y="42" font-family="Georgia,serif" font-size="15" font-weight="700" fill="#a4423a">The thread of Salvation</text><text x="42" y="66" font-family="Georgia,serif" font-size="10" letter-spacing="1" fill="currentColor" fill-opacity="0.55">SUB-THREAD</text><text x="42" y="82" font-family="Georgia,serif" font-size="12.5" font-weight="600" fill="currentColor" fill-opacity="0.85">Saved through one Man</text></svg>`,
+  matrix: `<svg viewBox="0 0 220 112" width="100%" height="100%" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg"><rect x="34" y="18" width="152" height="19.5" fill="#b5894a" fill-opacity="0.92"/><g fill="#ffffff" fill-opacity="0.85"><rect x="42" y="25" width="18" height="5" rx="2.5"/><rect x="80" y="25" width="18" height="5" rx="2.5"/><rect x="118" y="25" width="18" height="5" rx="2.5"/><rect x="156" y="25" width="18" height="5" rx="2.5"/></g><g fill="none" stroke="currentColor" stroke-opacity="0.28"><rect x="34" y="18" width="152" height="78"/><line x1="72" y1="18" x2="72" y2="96"/><line x1="110" y1="18" x2="110" y2="96"/><line x1="148" y1="18" x2="148" y2="96"/><line x1="34" y1="37.5" x2="186" y2="37.5"/><line x1="34" y1="57" x2="186" y2="57"/><line x1="34" y1="76.5" x2="186" y2="76.5"/></g><g fill="currentColor" fill-opacity="0.42"><rect x="42" y="44" width="22" height="5" rx="2.5"/><rect x="80" y="44" width="22" height="5" rx="2.5"/><rect x="118" y="63" width="22" height="5" rx="2.5"/><rect x="42" y="83" width="22" height="5" rx="2.5"/><rect x="118" y="83" width="18" height="5" rx="2.5"/></g><text x="156" y="51" font-size="13" fill="#a4423a">★</text><text x="156" y="70" font-size="13" fill="#4a7c3f">★</text></svg>`
+};
+function ViewIllus({ name }) {
+  return /*#__PURE__*/React.createElement("div", { className: "view-illus", "aria-hidden": "true", dangerouslySetInnerHTML: { __html: VIEW_ILLUS[name] || "" } });
+}
+
 /* Re-run RefTagger over a scoped container after dynamic content renders.
    Retries for a few seconds in case RefTagger.js hasn't finished loading. */
 function tagRefsNow(scopeSel) {
@@ -16,7 +29,7 @@ function tagRefsNow(scopeSel) {
 }
 
 /* ─── HomeScreen v2 ──────────────────────────────────────────────────── */
-function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue }) {
+function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onOpenJournal }) {
   let __last = null;
   try {const r = localStorage.getItem('OT_LAST_v1');if (r) __last = JSON.parse(r);} catch (e) {}
   const lastSession = __last && __last.sessionId ? (sessions || []).find((s) => s.id === __last.sessionId) : null;
@@ -104,28 +117,29 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue }) {
     React.createElement("span", { className: "home-card__glyph" }, "\u229E"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__title" }, "Big Picture View"), /*#__PURE__*/
     React.createElement("p", { className: "home-card__desc" }, "At a glance: See the big threads and NT fulfilment across different sessions."), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "bigpicture" }), /*#__PURE__*/
     React.createElement("span", { className: "home-card__cta" }, "explore the map \u2192")
     ), /*#__PURE__*/
     React.createElement("button", { className: "home-card", onClick: () => onNavigate('threadview', 'thread-view-section') }, /*#__PURE__*/
     React.createElement("span", { className: "home-card__glyph" }, "\u2756"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__title" }, "Thread View"), /*#__PURE__*/
     React.createElement("p", { className: "home-card__desc" }, "Select a thread to explore across different sessions."), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "thread" }), /*#__PURE__*/
     React.createElement("span", { className: "home-card__cta" }, "explore threads \u2192")
     ), /*#__PURE__*/
     React.createElement("button", { className: "home-card", onClick: () => onNavigate('matrix') }, /*#__PURE__*/
     React.createElement("span", { className: "home-card__glyph" }, "\u25A6"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__title" }, "Matrix View"), /*#__PURE__*/
     React.createElement("p", { className: "home-card__desc" }, "Every theme against every session in one grid \u2014 read the whole story point-by-point."), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "matrix" }), /*#__PURE__*/
     React.createElement("span", { className: "home-card__cta" }, "scan the grid \u2192")
     )
     )
     ), /*#__PURE__*/
 
     React.createElement("div", { className: "home-backup" }, /*#__PURE__*/
-    React.createElement("span", { className: "home-backup__label" }, "Your answers are saved only in this browser \u2014 keep a backup if you switch devices."), /*#__PURE__*/
-    React.createElement("span", { className: "home-backup__btns" }, /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--ghost rc-btn--sm", onClick: () => window.OT_exportAnswers && window.OT_exportAnswers() }, "\u2B07 Export my answers"), /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--ghost rc-btn--sm", onClick: () => window.OT_importAnswers && window.OT_importAnswers() }, "\u2B06 Import a backup")
+    React.createElement("button", { className: "rc-btn rc-btn--journal", onClick: () => onOpenJournal && onOpenJournal() }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Journal \u2014 Click here to manage what I have written"
     )
     ), /*#__PURE__*/
 
@@ -380,26 +394,30 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement(IntroTensionPanel, { themes: themes }), /*#__PURE__*/
 
 
-    React.createElement("div", { className: "intro-nav-section intro-nav-section--vertical" }, /*#__PURE__*/
+    React.createElement("div", { className: "intro-nav-section" }, /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
     React.createElement("h2", { className: "intro-nav-block__heading" }, "\u21BB Recap View"), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__sub" }, "Missed any sessions? Or want to visit them in detail?"), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__desc" }, "See Recap Mode \u2014 Each Session explored in detail."), /*#__PURE__*/
-    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('recap') }, "Click here to go to Recap Mode \u2192"
-
-    )
+    React.createElement(ViewIllus, { name: "recap" }), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Missed a session, or want it in detail? Each session explored step by step \u2014 guided questions, prayers, and flashcards."), /*#__PURE__*/
+    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('recap') }, "Go to Recap Mode \u2192")
     ), /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
-    React.createElement("h2", { className: "intro-nav-block__heading" }, "Big Picture View"), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__sub" }, "AFTER going through every session... (Recommended), head here for an overview of the sessions."), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__desc" }, "Big Picture View: Subway map to see how every session and theme links to each other in the big picture."), /*#__PURE__*/
-    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('bigpicture') }, "Click here to go to Big Picture View \u2192"
-
+    React.createElement("h2", { className: "intro-nav-block__heading" }, "\u2586 Big Picture View"), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "bigpicture" }), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Best after you've been through the sessions \u2014 a subway map of how every session and theme connects."), /*#__PURE__*/
+    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('bigpicture') }, "Go to Big Picture \u2192")
     ), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__desc", style: { marginTop: '0.75rem' } }, "Thread View: Track one particular thread through the different sessions."), /*#__PURE__*/
-    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('threadview') }, "Click here to go to Thread View \u2192"
-
-    )
+    React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
+    React.createElement("h2", { className: "intro-nav-block__heading" }, "\u2756 Thread View"), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "thread" }), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Follow one thread \u2014 like Salvation \u2014 across every session from Genesis to Deuteronomy."), /*#__PURE__*/
+    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('threadview') }, "Go to Thread View \u2192")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
+    React.createElement("h2", { className: "intro-nav-block__heading" }, "\u25A6 Matrix View"), /*#__PURE__*/
+    React.createElement(ViewIllus, { name: "matrix" }), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Every theme against every session in one grid \u2014 read the whole story point by point."), /*#__PURE__*/
+    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('matrix') }, "Go to Matrix View \u2192")
     )
     )
     ));
@@ -788,8 +806,10 @@ function AppRecap() {
   const [recapMode, setRecapMode] = useStateA(
     __h.m === 'meditate' || __h.m === 'study' ? __h.m : window.getRecapMode ? window.getRecapMode() : 'meditate'
   );
+  const [recapJournal, setRecapJournal] = useStateA(false);
 
   function navigateTo(dest, scrollId) {
+    setRecapJournal(false);
     const view = dest === 'threadview' ? 'bigpicture' : dest;
     if (view !== 'recap') setRecapSession(null);
     setCurrentView(view);
@@ -850,10 +870,10 @@ function AppRecap() {
 
 
   if (currentView === 'home') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onStartTour: () => {setTourId('overview');setTourOpen(true);}, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');} }), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onStartTour: () => {setTourId('overview');setTourOpen(true);}, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);} }), chrome);
   }
   if (currentView === 'recap') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, RecapMode ? /*#__PURE__*/React.createElement(RecapMode, { sessions: sessions, themes: themes, onExit: goHome, initialSession: recapSession, onSessionChange: setRecapSession, onGotoIntro: () => navigateTo('intro'), initialMode: recapMode, onModeChange: setRecapMode }) : /*#__PURE__*/React.createElement("p", null, "Loading\u2026"), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, RecapMode ? /*#__PURE__*/React.createElement(RecapMode, { sessions: sessions, themes: themes, onExit: goHome, initialSession: recapSession, onSessionChange: setRecapSession, onGotoIntro: () => navigateTo('intro'), initialMode: recapMode, onModeChange: setRecapMode, initialJournalOpen: recapJournal }) : /*#__PURE__*/React.createElement("p", null, "Loading\u2026"), chrome);
   }
 
   const LABELS = { intro: 'Introduction', bigpicture: 'Big Picture & Thread View', matrix: 'Matrix View' };

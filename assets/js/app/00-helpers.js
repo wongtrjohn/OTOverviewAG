@@ -216,12 +216,33 @@ function PassageRef({ refs, className }) {
     React.createElement("span", {
       key: i,
       className: "passage-ref",
+      title: "Open " + p + " on Bible Gateway (ESV)",
       style: { cursor: 'pointer' } },
     p)
     )
     ));
 
 }
+
+/* Bible references open the passage on Bible Gateway (ESV) when clicked.
+   Self-contained so references work regardless of RefTagger: RefTagger v2 no
+   longer exposes the .tag()/click behaviour the page used to depend on, which
+   left every "passage-ref" span dead. One delegated listener covers both
+   PassageRef and linkifyRefs output (both use the .passage-ref class). */
+(function () {
+  if (typeof document === 'undefined' || (typeof window !== 'undefined' && window.__otRefClick)) return;
+  if (typeof window !== 'undefined') window.__otRefClick = true;
+  document.addEventListener('click', function (e) {
+    const t = e.target;
+    const span = t && t.closest ? t.closest('.passage-ref') : null;
+    if (!span) return;
+    if (t.closest('a')) return; // a real link already handles the click
+    const ref = (span.textContent || '').trim();
+    if (!ref) return;
+    const url = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(ref) + '&version=ESV';
+    window.open(url, '_blank', 'noopener');
+  });
+})();
 
 /* Section divider — horizontal rule + chip with label/sub. */
 function SectionDivider({ id, label, sub }) {
