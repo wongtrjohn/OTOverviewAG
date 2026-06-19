@@ -244,6 +244,62 @@ function PassageRef({ refs, className }) {
   });
 })();
 
+/* Hover a Bible reference to read the passage (ESV). Powered by Faithlife's
+   public Biblia CDN via JSONP — the same data RefTagger used — but driven by
+   our own code, since RefTagger v2 no longer tags our dynamically-rendered
+   refs or exposes a re-tag API. Covers every .passage-ref (PassageRef +
+   linkifyRefs). Click still opens the full passage on Bible Gateway. */
+(function () {
+  if (typeof document === 'undefined' || (typeof window !== 'undefined' && window.__otRefHover)) return;
+  if (typeof window !== 'undefined') window.__otRefHover = true;
+  var cache = {}, tip = null, hideTimer = null, enterTimer = null, n = 0;
+  function ensureTip() {
+    if (tip) return tip;
+    tip = document.createElement('div');
+    tip.className = 'otref-tip';
+    document.body.appendChild(tip);
+    tip.addEventListener('mouseenter', function () {clearTimeout(hideTimer);});
+    tip.addEventListener('mouseleave', hide);
+    return tip;
+  }
+  function place(span) {
+    var r = span.getBoundingClientRect(), t = ensureTip();
+    var w = 340;
+    t.style.left = Math.max(8, Math.min(window.scrollX + r.left, window.scrollX + window.innerWidth - w - 12)) + 'px';
+    t.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  function show(span, ref, html) {
+    var t = ensureTip();
+    t.innerHTML = '<div class="otref-tip__head">' + ref + ' · ESV</div><div class="otref-tip__body">' + html + '</div>';
+    place(span);
+    t.classList.add('is-on');
+  }
+  function hide() {hideTimer = setTimeout(function () {if (tip) tip.classList.remove('is-on');}, 140);}
+  function fetchVerse(ref, cb) {
+    if (cache[ref] !== undefined) {cb(cache[ref]);return;}
+    var cbName = '__otref_cb_' + n++, s = document.createElement('script'), done = false;
+    function cleanup() {try {delete window[cbName];} catch (e) {}if (s.parentNode) s.parentNode.removeChild(s);}
+    window[cbName] = function (d) {done = true;cache[ref] = d && d.content || '';cb(cache[ref]);cleanup();};
+    s.onerror = function () {if (!done) {cache[ref] = '';cb('');cleanup();}};
+    s.src = 'https://reftagger.bibliacdn.com/bible/ESV/' + encodeURIComponent(ref) + '?target=reftagger&callback=' + cbName + '&noInlineStyle=true';
+    document.head.appendChild(s);
+    setTimeout(function () {if (!done) cleanup();}, 8000);
+  }
+  document.addEventListener('mouseover', function (e) {
+    var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
+    if (!span) return;
+    clearTimeout(hideTimer);clearTimeout(enterTimer);
+    var ref = (span.textContent || '').trim();
+    if (!ref) return;
+    enterTimer = setTimeout(function () {fetchVerse(ref, function (html) {if (html) show(span, ref, html);});}, 130);
+  });
+  document.addEventListener('mouseout', function (e) {
+    var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
+    if (!span) return;
+    clearTimeout(enterTimer);hide();
+  });
+})();
+
 /* Section divider — horizontal rule + chip with label/sub. */
 function SectionDivider({ id, label, sub }) {
   return (/*#__PURE__*/

@@ -7833,24 +7833,10 @@ body.is-recap-mode .sidenav{
   <script crossorigin="anonymous" src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
   <script>window.ReactDOM || document.write('<script src="assets/js/vendor/react-dom.development.js"><\/script>');</script>
     
-  <!-- ── RefTagger by Logos: hover any Bible reference for an inline popup ── -->
-  <script>
-    var refTagger = {
-      settings: {
-        bibleVersion    : "ESV",
-        addLogosLink    : false,
-        linksOpenBibleGW: true,
-        tooltipStyle    : "light",
-        tagChapters     : true,
-        socialSharing   : [],
-        customStyle     : {
-          heading: { backgroundColor: "#5c4a1e", color: "#ffffff" },
-          body   : { color: "#29261b" }
-        }
-      }
-    };
-  </script>
-  <script src="https://api.reftagger.com/v2/RefTagger.js"></script>
+  <!-- Bible-reference hover popups are handled in assets/js/app/00-helpers.js
+       (Faithlife Biblia CDN via JSONP). RefTagger v2 was removed: it no longer
+       tagged the app's dynamically-rendered references. -->
+
 
   <style id="v28-css">
   /* ── v28 additions ── */
@@ -7997,6 +7983,13 @@ body.is-recap-mode .sidenav{
   .intro-nav-block .view-illus svg{ max-height:98px; }
   .home-card .view-illus{ color:#6b5836; margin:8px 0 4px; }
   .home-card .view-illus svg{ max-height:66px; }
+  /* Bible-reference hover popup (our own RefTagger replacement) */
+  .otref-tip{ position:absolute; z-index:1200; width:340px; max-width:92vw; background:#fffdf7; border:1px solid #d8c290; border-radius:10px; box-shadow:0 8px 28px rgba(92,74,30,.24); opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity .12s ease, transform .12s ease; }
+  .otref-tip.is-on{ opacity:1; visibility:visible; transform:translateY(0); }
+  .otref-tip__head{ background:#5c4a1e; color:#fff; font:700 12px/1.3 var(--mono,ui-monospace,monospace); letter-spacing:.04em; padding:8px 13px; border-radius:9px 9px 0 0; }
+  .otref-tip__body{ padding:11px 14px; font-family:var(--serif,Georgia,serif); font-size:14.5px; line-height:1.6; color:#29261b; max-height:300px; overflow:auto; }
+  .otref-tip__body .resourcetext p{ margin:0 0 .5em; }
+  .otref-tip__body .ch-ref,.otref-tip__body .verse-num{ color:#a4423a; font-weight:700; font-size:.8em; vertical-align:super; }
   </style>
 </head>
 <body style="font-size: 14px">
