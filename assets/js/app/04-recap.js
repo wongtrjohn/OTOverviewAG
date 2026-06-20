@@ -616,6 +616,8 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     null, /*#__PURE__*/
 
 
+    !meditate ? /*#__PURE__*/
+    React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement("section", { className: "rc-starter" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-starter__eyebrow" }, "THE STARTING QUESTION"), /*#__PURE__*/
     React.createElement("h2", { className: "rc-starter__q" }, session.recapQuestion || "(No starting question set for this session.)"), /*#__PURE__*/
@@ -671,7 +673,8 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
 
     ), /*#__PURE__*/
     React.createElement("p", { className: "rc-context__empty" }, "No context note recorded yet for this session.")
-    ),
+    )
+    ) : null,
 
 
 
