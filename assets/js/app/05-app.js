@@ -411,7 +411,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("h2", { className: "intro-nav-block__heading" }, "\u2756 Thread View"), /*#__PURE__*/
     React.createElement(ViewIllus, { name: "thread" }), /*#__PURE__*/
     React.createElement("p", { className: "intro-nav-block__desc" }, "Follow one thread \u2014 like Salvation \u2014 across every session from Genesis to Deuteronomy."), /*#__PURE__*/
-    React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('threadview') }, "Go to Thread View \u2192")
+    React.createElement("button", { className: "intro-nav-btn", onClick: () => { try { window.__OT_THREAD = 'salvation'; } catch (e) {} onNavigate('threadview', 'thread-view-section'); } }, "Go to Thread View \u2192")
     ), /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
     React.createElement("h2", { className: "intro-nav-block__heading" }, "\u25A6 Matrix View"), /*#__PURE__*/
@@ -546,7 +546,7 @@ function BigPictureView({ sessions, themes }) {
 
 /* ─── ThreadViewPage ─────────────────────────────────────────────────── */
 function ThreadViewPage({ sessions, themes }) {
-  const [activeThread, setActiveThread] = useStateA('kingdom');
+  const [activeThread, setActiveThread] = useStateA(function () { try { var t = window.__OT_THREAD; if (t) { delete window.__OT_THREAD; return t; } } catch (e) {} return 'kingdom'; });
   const ThreadStory = window.ThreadStory;
   const TensionTriad = window.TensionTriad;
   const TABS = [
