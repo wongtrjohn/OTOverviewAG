@@ -398,7 +398,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
     React.createElement("h2", { className: "intro-nav-block__heading" }, "\u21BB Recap View"), /*#__PURE__*/
     React.createElement(ViewIllus, { name: "recap" }), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__desc" }, "Missed a session, or want it in detail? Each session explored step by step \u2014 guided questions, prayers, and flashcards."), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Missed a session, or want it in detail? Each session explored step by step \u2014 guided questions and prayers."), /*#__PURE__*/
     React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('recap') }, "Go to Recap Mode \u2192")
     ), /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/

@@ -53,7 +53,7 @@ Member answers are saved in `localStorage`, namespaced per session **and** per m
 
 - Study mode: `OT_RECAP_v1_<sessionId>`
 - Meditate mode: `OT_RECAP_MED_v1_<sessionId>`
-- Flashcards: `OT_FLASH_v1_<sessionId>`
+- Flashcards: **removed 2026-06-23** (archived in `archive/flashcards.js`); the old `OT_FLASH_v1_<sessionId>` key is no longer read or written.
 - Mode choice: `OT_RECAP_MODE`; last-opened: `OT_LAST_v1`.
 
 **Important invariant (a bug that was fixed — keep it fixed):** each session/mode must keep its inputs in its own box. Two things enforce this:

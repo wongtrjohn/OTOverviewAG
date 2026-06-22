@@ -168,7 +168,7 @@ const OT_TOURS = {
   recap: [
   { glyph: "✦", view: "recap", target: ".rc-modetoggle",
     title: "Two ways to recap — pick what fits you",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Up here you choose your style. ", /*#__PURE__*/React.createElement("b", null, "Meditate & Reflect"), " is the gentle default — fewer prompts, more space to dwell and pray; best for a session you ", /*#__PURE__*/React.createElement("b", null, "already attended"), ". ", /*#__PURE__*/React.createElement("b", null, "Study & Reflect"), " goes deeper — guided questions, thread reveals and flashcards; best for ", /*#__PURE__*/React.createElement("b", null, "catching up"), " on one you missed. Switch anytime — each style keeps its own answers.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Up here you choose your style. ", /*#__PURE__*/React.createElement("b", null, "Meditate & Reflect"), " is the gentle default — fewer prompts, more space to dwell and pray; best for a session you ", /*#__PURE__*/React.createElement("b", null, "already attended"), ". ", /*#__PURE__*/React.createElement("b", null, "Study & Reflect"), " goes deeper — guided questions and thread reveals; best for", /*#__PURE__*/React.createElement("b", null, "catching up"), " on one you missed. Switch anytime — each style keeps its own answers.") },
 
   { glyph: "↻", view: "recap", target: ".rc-picker__list",
     title: "Pick a session",
@@ -176,16 +176,12 @@ const OT_TOURS = {
   { glyph: "✍", view: "recap", target: ".rc-btn--journal",
     title: "My Journal \u2014 view & manage all my inputs",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Everything you write across all sessions is gathered here. ", /*#__PURE__*/React.createElement("b", null, "Export"), " / ", /*#__PURE__*/React.createElement("b", null, "Import"), " a backup to move between devices, filter to ", /*#__PURE__*/React.createElement("b", null, "Apply & Pray only"), ", or tap the ", /*#__PURE__*/React.createElement("b", null, "?"), " button on the journal page for a full guide.") },
-  { glyph: "▤", view: "recap", target: ".rc-fcov",
-    title: "Recall Dashboard — how your memory's doing",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "This box sums up your flashcard recall. ", /*#__PURE__*/React.createElement("b", null, "Tap it"), " for the full ", /*#__PURE__*/React.createElement("b", null, "Recall Dashboard"), " — per-session and per-card-type stats, plus all your saved answers.") },
-
   { glyph: "?", view: "recap", target: ".help-tour__btn",
     title: "Need help? It's always right here",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") },
   { glyph: "⬚", view: "recap", clickSelector: ".rc-picker__list li:nth-child(2) .rc-picker__row", target: ".rc-session",
     title: "Inside a session — Session 02 · Creation",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened ", /*#__PURE__*/React.createElement("b", null, "Session 02 \u2014 Creation"), " as an example. A recap walks you from the ", /*#__PURE__*/React.createElement("b", null, "starting question"), " through divisions, main point, threads, tension & NT, and ends with a ", /*#__PURE__*/React.createElement("b", null, "flashcard \u201CTest Yourself.\u201D"), " Tap any numbered box to reveal it.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened ", /*#__PURE__*/React.createElement("b", null, "Session 02 \u2014 Creation"), " as an example. A recap walks you from the ", /*#__PURE__*/React.createElement("b", null, "starting question"), " through divisions, main point, threads, tension & NT, and ", /*#__PURE__*/React.createElement("b", null, "Pause & Pray"), ". Tap any numbered box to reveal it.") },
   { glyph: "✎", view: "recap", openSelector: ".rc-tile--apply .rc-tile__head", target: ".rc-tile--apply",
     title: "Apply to Me — don't rush this one",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "This is where the passage meets your life. ", /*#__PURE__*/React.createElement("b", null, "Take your time here"), " and write honestly. Truth we only understand stays in the head; truth we ", /*#__PURE__*/React.createElement("b", null, "apply"), " begins to take root in the heart.") },
@@ -243,26 +239,6 @@ const OT_TOURS = {
   { glyph: "?", view: "matrix", target: ".help-tour__btn",
     title: "Need help? It's always right here",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button at the top of the page? Tap it anytime to get help or replay this tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }],
-
-
-  /* ── Recall Dashboard (lives inside Recap Mode) ── */
-  recall: [
-  { glyph: "▤", target: ".rc-mdash__stats",
-    title: "Recall Dashboard — your totals",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "At a glance: ", /*#__PURE__*/React.createElement("b", null, "total cards"), ", how many you've ", /*#__PURE__*/React.createElement("b", null, "reviewed"), ", your ", /*#__PURE__*/React.createElement("b", null, "average mastery"), ", and how many sessions are going strong.") },
-  { glyph: "◧", target: ".rc-mdash__sessions",
-    title: "Session Mastery",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "One tile per session. The ", /*#__PURE__*/React.createElement("b", null, "colored bar"), " shows mastery (red \u2192 still learning, green \u2192 strong), based on how you rated each card.") },
-  { glyph: "◆", target: ".rc-mdash__types",
-    title: "By Card Type",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See which ", /*#__PURE__*/React.createElement("b", null, "kinds"), " of cards you know best \u2014 Mini Summary, Main Point, Threads, Tension, NT Fulfilment, Apply.") },
-  { glyph: "✎", target: ".rc-minputs", openSelector: ".rc-minputs .rc-collapse__head",
-    title: "Your saved answers",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Every flashcard answer you've written is stored here, grouped by session. Each session also has a ", /*#__PURE__*/React.createElement("b", null, "Reset Flashcards"), " button. I've expanded one as an example.") },
-  { glyph: "?", target: ".help-tour__btn",
-    title: "Need help? It's always right here",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "See this ", /*#__PURE__*/React.createElement("b", null, "?"), " button near the top? Tap it anytime to replay this dashboard tour — ", /*#__PURE__*/React.createElement("b", null, "every page has one"), ".") }]
-
 };
 window.OT_TOURS = OT_TOURS;
 

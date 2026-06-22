@@ -6,7 +6,7 @@ Builds on v28 (multi-file static site, Supabase not required). v27/v28 untouched
 A **Meditate & Reflect ⇄ Study & Reflect** toggle sits in the recap top bar. **Meditate & Reflect is the default** for anyone who hasn't chosen before (a returning user's saved choice is respected).
 
 - **Meditate & Reflect** — for readers who've already worked through a session once. Same sections, lighter touch: comprehension Q&A becomes one gentle reflective prompt per division, a "Be still" stillness pause with a reflection timer opens the sections, Pause & Pray gains a set-aside prayer time, and flashcards are hidden.
-- **Study & Reflect** — the full in-depth version: comprehension Q&A, guess-first reveals, thread-picking, and the casual flashcard deck.
+- **Study & Reflect** — the full in-depth version: comprehension Q&A, guess-first reveals, and thread-picking.
 
 The picker copy in Meditate mode now opens with a bold emphasised **"Finished studying a session already?"** followed by: "This mode focuses on dwelling on the truths learnt during the session and spending time with God intentionally. Fewer and more intentional questions. Your notes here are kept separate from Study mode."
 
@@ -26,8 +26,8 @@ A distinct, big-picture-style flow: a brief hero summary, then the whole Pentate
 
 These ship with gentle generic placeholders and are overridable from the Data Entry tab (see below), so you have "space to prompt" that you can fill in later without touching code.
 
-## Flashcards — casual recall
-The Mastery Dashboard, Flashcard Overview box, and v28 "Review weak cards" queue (and their helper code) are removed. The per-session deck remains in Study mode as a simple flip deck — nothing is scored.
+## Flashcards — removed (archived)
+Flashcards were removed from the app on 2026-06-23. The full feature (deck builder + flip-card runner) is archived in `archive/flashcards.js` with restore notes; its CSS remains dormant in `index.html`, so it can be brought back without rebuilding it.
 
 ## New optional Data Entry columns (single-source-of-edits preserved)
 All have built-in fallbacks if left blank:
