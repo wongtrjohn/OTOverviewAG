@@ -1280,8 +1280,11 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
   return (/*#__PURE__*/
     React.createElement("div", { className: "rc-mode rc-mode--" + mode, role: "region", "aria-label": "Recap Mode" }, /*#__PURE__*/
     React.createElement("header", { className: "rc-mode__topbar" }, /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onExit }, "\u2190 exit recap mode"
-
+    React.createElement("div", { className: "rc-mode__topnav" }, /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onExit }, "\u2190 exit recap mode"),
+    session && !journalOpen ? /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: () => setSelected(null) }, "\u2261 back to session list") :
+    null
     ), /*#__PURE__*/
     React.createElement("span", { className: "rc-mode__title" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-mode__glyph" }, "\u21BB"), "Recap Mode"
