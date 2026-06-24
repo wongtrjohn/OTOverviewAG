@@ -216,7 +216,7 @@ function PassageRef({ refs, className }) {
     React.createElement("span", {
       key: i,
       className: "passage-ref",
-      title: "Open " + p + " on Bible Gateway (ESV)",
+      title: "Read " + p + " (ESV)",
       style: { cursor: 'pointer' } },
     p)
     )
@@ -224,35 +224,17 @@ function PassageRef({ refs, className }) {
 
 }
 
-/* Bible references open the passage on Bible Gateway (ESV) when clicked.
-   Self-contained so references work regardless of RefTagger: RefTagger v2 no
-   longer exposes the .tag()/click behaviour the page used to depend on, which
-   left every "passage-ref" span dead. One delegated listener covers both
-   PassageRef and linkifyRefs output (both use the .passage-ref class). */
-(function () {
-  if (typeof document === 'undefined' || (typeof window !== 'undefined' && window.__otRefClick)) return;
-  if (typeof window !== 'undefined') window.__otRefClick = true;
-  document.addEventListener('click', function (e) {
-    const t = e.target;
-    const span = t && t.closest ? t.closest('.passage-ref') : null;
-    if (!span) return;
-    if (t.closest('a')) return; // a real link already handles the click
-    const ref = (span.textContent || '').trim();
-    if (!ref) return;
-    const url = 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(ref) + '&version=ESV';
-    window.open(url, '_blank', 'noopener');
-  });
-})();
-
-/* Hover a Bible reference to read the passage (ESV). Powered by Faithlife's
-   public Biblia CDN via JSONP — the same data RefTagger used — but driven by
-   our own code, since RefTagger v2 no longer tags our dynamically-rendered
-   refs or exposes a re-tag API. Covers every .passage-ref (PassageRef +
-   linkifyRefs). Click still opens the full passage on Bible Gateway. */
+/* Bible references: hover (desktop) or tap (mobile) shows the ESV passage in a
+   popup, fetched from Faithlife's public Biblia CDN via JSONP — the same data
+   RefTagger used — driven by our own code since RefTagger v2 no longer tags our
+   dynamically-rendered refs. Tapping no longer jumps straight to the website;
+   the popup carries a "See more" button to open Bible Gateway. Covers every
+   .passage-ref (PassageRef + linkifyRefs). */
 (function () {
   if (typeof document === 'undefined' || (typeof window !== 'undefined' && window.__otRefHover)) return;
   if (typeof window !== 'undefined') window.__otRefHover = true;
   var cache = {}, tip = null, hideTimer = null, enterTimer = null, n = 0;
+  function bgUrl(ref) { return 'https://www.biblegateway.com/passage/?search=' + encodeURIComponent(ref) + '&version=ESV'; }
   function ensureTip() {
     if (tip) return tip;
     tip = document.createElement('div');
@@ -270,7 +252,9 @@ function PassageRef({ refs, className }) {
   }
   function show(span, ref, html) {
     var t = ensureTip();
-    t.innerHTML = '<div class="otref-tip__head">' + ref + ' · ESV</div><div class="otref-tip__body">' + html + '</div>';
+    t.innerHTML = '<div class="otref-tip__head">' + ref + ' · ESV</div>' +
+                  '<div class="otref-tip__body">' + html + '</div>' +
+                  '<div class="otref-tip__foot"><a class="otref-tip__more" href="' + bgUrl(ref) + '" target="_blank" rel="noopener">See more on Bible Gateway →</a></div>';
     place(span);
     t.classList.add('is-on');
   }
@@ -297,6 +281,20 @@ function PassageRef({ refs, className }) {
     var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
     if (!span) return;
     clearTimeout(enterTimer);hide();
+  });
+  /* Click / tap shows the popup — it no longer jumps straight to the website
+     (the "See more" button in the popup opens Bible Gateway). On mobile, where
+     there is no hover, this is how the passage is read. */
+  document.addEventListener('click', function (e) {
+    var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
+    if (span) {
+      e.preventDefault();
+      clearTimeout(hideTimer);clearTimeout(enterTimer);
+      var ref = (span.textContent || '').trim();
+      if (ref) fetchVerse(ref, function (html) {show(span, ref, html || '<em>Couldn’t load this passage — use “See more” below.</em>');});
+      return;
+    }
+    if (!(e.target && e.target.closest && e.target.closest('.otref-tip'))) {if (tip) tip.classList.remove('is-on');}
   });
 })();
 

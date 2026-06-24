@@ -8053,6 +8053,21 @@ body.is-recap-mode .sidenav{
     .home-screen, .intro-bg, .rc-mode, .bigpic-and-thread-page{ animation: otViewIn .26s ease both; }
     @keyframes otViewIn{ from{ opacity: 0; transform: translateY(6px); } to{ opacity: 1; transform: none; } }
   }
+
+  /* Hover affordance: nudge a card/row CTA toward its arrow. */
+  .home-card__cta, .rc-picker__cta{ transition: transform .16s ease; }
+  .home-card:hover .home-card__cta,
+  .rc-picker__row:hover .rc-picker__cta,
+  .rc-picker__introrow:hover .rc-picker__cta{ transform: translateX(4px); }
+
+  /* Active-page indicator in the side nav. */
+  .sidenav__item{ position: relative; }
+  .sidenav__item.is-active::before{ content:""; position:absolute; left:0; top:7px; bottom:7px; width:3px; border-radius:0 3px 3px 0; background: var(--c-kingdom, #b5894a); }
+
+  /* Bible-reference popup — "See more" footer. */
+  .otref-tip__foot{ border-top:1px solid #ece0c6; padding:8px 12px; text-align:right; background:#faf4e6; border-radius:0 0 10px 10px; }
+  .otref-tip__more{ display:inline-block; font:700 12px/1 var(--mono,ui-monospace,monospace); letter-spacing:.02em; color:#5c4a1e; text-decoration:none; padding:7px 11px; border:1px solid #d8c290; border-radius:8px; background:#fffdf7; }
+  .otref-tip__more:hover{ background:#5c4a1e; color:#fff; border-color:#5c4a1e; }
   </style>
 </head>
 <body style="font-size: 14px">
