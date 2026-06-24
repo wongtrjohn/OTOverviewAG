@@ -8009,6 +8009,51 @@ body.is-recap-mode .sidenav{
   .rc-medpray__switch--guided:hover{ background:#e6d8b6; color:#3d3014; }
   .rc-praytime__journal{ margin:10px 0 0; font-size:13.5px; color:#7c6535; }
   </style>
+
+  <style id="v32-tactile">
+  /* ── Tactile press + seamless-navigation polish ── */
+
+  /* Smooth in-page scrolling, with breathing room where we scroll to anchors. */
+  @media (prefers-reduced-motion: no-preference){ html{ scroll-behavior: smooth; } }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior: auto; } }
+  #thread-view-section, #big-picture-section{ scroll-margin-top: 18px; }
+
+  /* Unified interaction transition (covers hover fades too, so nothing regresses)
+     + remove the grey mobile tap-flash (our own press replaces it). */
+  .rc-btn, .home-card, .intro-nav-btn, .rc-picker__row, .rc-picker__introrow, .home-continue,
+  .sidenav__item, .sidenav-fab, .rc-modetoggle__btn, .rc-segmented__btn, .help-tour__btn,
+  .rc-journal__help-btn, .rc-medpray__switch, .tour__dot, .scrubmap__tick,
+  .rc-collapse__head, .rc-tile__head, .rc-divcard__head, .passage-ref {
+    transition: transform .13s cubic-bezier(.22,.61,.36,1), box-shadow .18s ease,
+                background-color .15s ease, color .15s ease, border-color .15s ease, opacity .15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Press: a quick, springy depress on tap/click. */
+  .rc-btn:active, .home-card:active, .intro-nav-btn:active, .rc-picker__row:active,
+  .rc-picker__introrow:active, .home-continue:active, .sidenav__item:active, .sidenav-fab:active,
+  .rc-modetoggle__btn:active, .rc-segmented__btn:active, .help-tour__btn:active,
+  .rc-journal__help-btn:active, .rc-medpray__switch:active, .tour__dot:active, .scrubmap__tick:active,
+  .rc-collapse__head:active, .rc-tile__head:active, .rc-divcard__head:active {
+    transform: translateY(1px) scale(.985);
+    transition-duration: .045s;
+  }
+  .passage-ref:active{ transform: scale(.93); transition-duration: .045s; }
+
+  /* Visible keyboard focus (was relying on the browser default). */
+  .rc-btn:focus-visible, .home-card:focus-visible, .intro-nav-btn:focus-visible,
+  .rc-picker__row:focus-visible, .rc-picker__introrow:focus-visible, .sidenav__item:focus-visible,
+  .rc-modetoggle__btn:focus-visible, .rc-segmented__btn:focus-visible, .help-tour__btn:focus-visible,
+  .rc-journal__help-btn:focus-visible, .rc-tile__head:focus-visible, .rc-collapse__head:focus-visible {
+    outline: 2px solid var(--c-promises, #3e6792); outline-offset: 3px;
+  }
+
+  /* Gentle fade-in as each top-level view mounts — switching modes feels seamless. */
+  @media (prefers-reduced-motion: no-preference){
+    .home-screen, .intro-bg, .rc-mode, .bigpic-and-thread-page{ animation: otViewIn .26s ease both; }
+    @keyframes otViewIn{ from{ opacity: 0; transform: translateY(6px); } to{ opacity: 1; transform: none; } }
+  }
+  </style>
 </head>
 <body style="font-size: 14px">
 
