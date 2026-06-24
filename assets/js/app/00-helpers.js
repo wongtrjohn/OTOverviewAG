@@ -198,16 +198,21 @@ function PassageRef({ refs, className }) {
   if (!refs) return null;
   // Normalise unicode dashes so RefTagger recognises verse ranges (5–13 → 5-13).
   const raw = String(refs).replace(/[\u2010-\u2015\u2212]/g, '-');
-  const parts = raw.split(/[;]\s*|(?:,\s*(?=[1-3]?\s*[A-Z]))/g).
+  // Split on ";", "&", and book-introducing "," — each piece becomes its own
+  // chip. "&" matters because the verse API can't resolve "A & B" as one ref,
+  // so "Revelation 21:1-5 & 22:1-5" must become two resolvable chips.
+  const parts = raw.split(/\s*[;&]\s*|(?:,\s*(?=[1-3]?\s*[A-Z]))/g).
   map((s) => s.trim()).filter(Boolean);
-  // Carry the book name forward to chapter-only segments
-  // (e.g. "Hebrews 9:1; 9:11-14" → the 2nd chip becomes "Hebrews 9:11-14")
-  // so RefTagger can link every segment.
-  let lastBook = '';
+  // Carry book + chapter forward so partial segments become full references:
+  //   "Hebrews 9:1; 9:11-14"        → 2nd chip "Hebrews 9:11-14"
+  //   "Revelation 21:1-5 & 22:1-5"  → 2nd chip "Revelation 22:1-5"
+  //   "John 5:39-40 & 46"           → 2nd chip "John 5:46" (verse-only carry)
+  let lastBook = '', lastChap = '';
   const withBook = parts.map((p) => {
-    const m = p.match(/^((?:[1-3]\s+)?[A-Za-z][A-Za-z.]*)\s+\d/);
-    if (m) {lastBook = m[1].trim();return p;}
-    if (/^\d{1,3}:/.test(p) && lastBook) return lastBook + ' ' + p;
+    const m = p.match(/^((?:[1-3]\s+)?[A-Za-z][A-Za-z.]*)\s+(\d+)/);
+    if (m) {lastBook = m[1].trim();lastChap = m[2];return p;}
+    if (/^\d{1,3}:/.test(p) && lastBook) {lastChap = p.match(/^(\d+):/)[1];return lastBook + ' ' + p;}
+    if (/^\d{1,3}(?:[-–]\d+)?$/.test(p) && lastBook && lastChap) return lastBook + ' ' + lastChap + ':' + p;
     return p;
   });
   return (/*#__PURE__*/

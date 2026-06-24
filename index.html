@@ -6145,6 +6145,11 @@ body.is-recap-mode .shell{ display: none; }
 .rc-btn:hover{ background: var(--bg-card-2); border-color: rgba(40,30,10,0.25); }
 .rc-btn:active{ transform: translateY(1px); }
 .rc-btn--ghost{ background: transparent; border-color: rgba(40,30,10,0.22); }
+/* "back to session list" — accented so it reads distinctly from the quiet "exit" ghost */
+.rc-btn--backlist{ background: rgba(92,74,30,0.09); border-color: rgba(92,74,30,0.30); color: #5c4a1e; font-weight: 600; }
+.rc-btn--backlist:hover{ background: rgba(92,74,30,0.16); border-color: rgba(92,74,30,0.42); }
+/* subtle divider between the two top-bar actions */
+.rc-mode__topnav .rc-btn--backlist{ margin-left: 2px; box-shadow: -11px 0 0 -10px rgba(40,30,10,0.22); }
 .rc-btn--primary{
   background: var(--ink);
   color: var(--bg-card);
@@ -7020,6 +7025,7 @@ body.is-recap-mode .sidenav{
   }
   .rc-mode__topbar > :first-child{ justify-self: center; }
   .rc-mode__topbar > :last-child{ justify-self: center; }
+  .rc-mode__topnav{ justify-content: center; }
   .rc-mode__title{ justify-content: center; }
   .rc-mode__hint{ font-size: 11px; }
 
@@ -7996,7 +8002,7 @@ body.is-recap-mode .sidenav{
   /* Bible-reference hover popup (our own RefTagger replacement) */
   .otref-tip{ position:absolute; z-index:1200; width:380px; max-width:92vw; background:#fffdf7; border:1px solid #d8c290; border-radius:10px; box-shadow:0 8px 28px rgba(92,74,30,.24); opacity:0; visibility:hidden; transform:translateY(-4px); transition:opacity .12s ease, transform .12s ease; }
   .otref-tip.is-on{ opacity:1; visibility:visible; transform:translateY(0); }
-  .otref-tip__head{ background:#5c4a1e; color:#fff; font:700 12px/1.3 var(--mono,ui-monospace,monospace); letter-spacing:.04em; padding:8px 13px; border-radius:9px 9px 0 0; }
+  .otref-tip__head{ background:#5c4a1e; color:#fff; font:700 15px/1.3 var(--sans,system-ui,sans-serif); letter-spacing:.02em; padding:10px 16px; border-radius:9px 9px 0 0; }
   .otref-tip__body{ padding:14px 17px; font-family:var(--sans,system-ui,sans-serif); font-size:17px; line-height:1.72; color:#29261b; max-height:340px; overflow:auto; }
   .otref-tip__body .resourcetext p{ margin:0 0 .6em; }
   .otref-tip__body .ch-ref,.otref-tip__body .verse-num{ color:#a4423a; font-weight:700; font-size:.7em; vertical-align:super; }
@@ -8078,6 +8084,14 @@ body.is-recap-mode .sidenav{
   .otref-tip__foot{ border-top:1px solid #ece0c6; padding:8px 12px; text-align:right; background:#faf4e6; border-radius:0 0 10px 10px; }
   .otref-tip__more{ display:inline-block; font:700 12px/1 var(--mono,ui-monospace,monospace); letter-spacing:.02em; color:#5c4a1e; text-decoration:none; padding:7px 11px; border:1px solid #d8c290; border-radius:8px; background:#fffdf7; }
   .otref-tip__more:hover{ background:#5c4a1e; color:#fff; border-color:#5c4a1e; }
+  /* Phone: roomier popup + bigger tap targets so verses read comfortably */
+  @media (max-width:560px){
+    .otref-tip{ width:auto; left:8px !important; right:8px; max-width:none; }
+    .otref-tip__head{ font-size:16px; padding:12px 16px; }
+    .otref-tip__body{ font-size:18px; line-height:1.74; padding:15px 16px; max-height:60vh; }
+    .otref-tip__foot{ padding:10px 14px; text-align:center; }
+    .otref-tip__more{ display:block; font-size:14px; padding:11px 14px; }
+  }
   </style>
 </head>
 <body style="font-size: 14px">

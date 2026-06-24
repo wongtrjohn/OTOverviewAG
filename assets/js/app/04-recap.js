@@ -1283,7 +1283,7 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
     React.createElement("div", { className: "rc-mode__topnav" }, /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onExit }, "\u2190 exit recap mode"),
     session && !journalOpen ? /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: () => setSelected(null) }, "\u2261 back to session list") :
+    React.createElement("button", { className: "rc-btn rc-btn--backlist", onClick: () => setSelected(null) }, "\u2261 back to session list") :
     null
     ), /*#__PURE__*/
     React.createElement("span", { className: "rc-mode__title" }, /*#__PURE__*/
