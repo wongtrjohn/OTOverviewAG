@@ -922,10 +922,19 @@
 
 /* Back-to-home bar (shown on inner views) */
 .home-back-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 12px 20px 0;
+  padding: 10px 20px;
+  margin-bottom: 6px;
+  background: rgba(251, 247, 236, 0.92);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  backdrop-filter: blur(8px) saturate(140%);
+  border-bottom: 1px solid var(--rule, #e6d9bc);
+  box-shadow: 0 2px 10px rgba(92, 74, 30, .06);
 }
 .home-back-bar__btn { font-size: 12px !important; }
 .home-back-bar__crumb {
