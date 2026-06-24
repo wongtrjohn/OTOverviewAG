@@ -216,7 +216,6 @@ function PassageRef({ refs, className }) {
     React.createElement("span", {
       key: i,
       className: "passage-ref",
-      title: "Read " + p + " (ESV)",
       style: { cursor: 'pointer' } },
     p)
     )
@@ -269,9 +268,13 @@ function PassageRef({ refs, className }) {
     document.head.appendChild(s);
     setTimeout(function () {if (!done) cleanup();}, 8000);
   }
+  // Strip any native browser tooltip ("Read … (ESV)") off references so it can
+  // never overlap our own popup — now and for any future-rendered ref.
+  function stripTitle(span) {if (span && span.hasAttribute('title')) span.removeAttribute('title');}
   document.addEventListener('mouseover', function (e) {
     var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
     if (!span) return;
+    stripTitle(span);
     clearTimeout(hideTimer);clearTimeout(enterTimer);
     var ref = (span.textContent || '').trim();
     if (!ref) return;
@@ -288,6 +291,7 @@ function PassageRef({ refs, className }) {
   document.addEventListener('click', function (e) {
     var span = e.target && e.target.closest ? e.target.closest('.passage-ref') : null;
     if (span) {
+      stripTitle(span);
       e.preventDefault();
       clearTimeout(hideTimer);clearTimeout(enterTimer);
       var ref = (span.textContent || '').trim();
