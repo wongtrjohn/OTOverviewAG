@@ -581,6 +581,7 @@ function BigPictureView({ sessions, themes }) {
     ));
 
 }
+window.BigPictureView = BigPictureView;
 
 /* ─── ThreadViewPage ─────────────────────────────────────────────────── */
 function ThreadViewPage({ sessions, themes }) {

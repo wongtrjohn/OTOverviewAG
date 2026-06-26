@@ -1002,6 +1002,27 @@
   margin-left: auto;
   flex-shrink: 0;
 }
+.rc-picker__visited {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: #e6f4ea;
+  border: 1px solid #b7e0c4;
+  color: #1f8a4c;
+  font: 700 12px/1 var(--sans);
+  letter-spacing: 0.02em;
+}
+.rc-picker__visited-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ea35c;
+  box-shadow: 0 0 0 3px rgba(46,163,92,.18);
+}
 
 /* ── Apply This Week input ─────────────────────────────────────── */
 .rc-apply__input-wrap {
@@ -8101,6 +8122,36 @@ body.is-recap-mode .sidenav{
   .rc-medpray__switch--guided{ align-self:stretch; text-decoration:none; text-align:center; background:#efe4c8; border:1px solid #d8c290; border-radius:10px; padding:11px 14px; font-weight:700; color:#5c4a1e; }
   .rc-medpray__switch--guided:hover{ background:#e6d8b6; color:#3d3014; }
   .rc-praytime__journal{ margin:10px 0 0; font-size:13.5px; color:#7c6535; }
+
+  /* ── Pentateuch Review (session 12, Meditate-only) ── */
+  .rc-review2__bigpic{ margin:6px 0 20px; }
+  .rc-review2__bigpic .rc-bigpic__h{ margin:0 0 12px; }
+  .rc-review2__bigpic .bigpic-page{ margin:0; }
+  .rc-medq__block{ margin:0 0 22px; }
+  .rc-medq__block:last-child{ margin-bottom:0; }
+  .rc-rev__hl{ font-weight:800; padding:0 2px; border-radius:4px; }
+  .rc-rev__hl--kingdom{ color:var(--c-kingdom); background:var(--c-kingdom-soft); }
+  .rc-rev__hl--salvation{ color:var(--c-salvation); background:var(--c-salvation-soft); }
+  .rc-rev__hl--promises{ color:var(--c-promises); background:var(--c-promises-soft); }
+  /* NT-fulfilment boxes */
+  .rc-ntbox{ border:1px solid #d8c290; border-radius:14px; padding:18px 20px; background:#fffdf7; box-shadow:0 1px 4px rgba(92,74,30,.06); }
+  .rc-ntbox--tension{ border-left:5px solid var(--c-reality,#a4423a); }
+  .rc-ntbox--salv{ border-left:5px solid var(--c-salvation,#a4423a); }
+  .rc-ntbox--kingdom{ border-left:5px solid var(--c-kingdom,#b5894a); }
+  .rc-ntbox__qs{ list-style:none; margin:0 0 14px; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .rc-ntbox__q{ position:relative; padding-left:24px; font:600 16px/1.55 var(--serif,Georgia,serif); color:#3d3014; }
+  .rc-ntbox__q::before{ content:"?"; position:absolute; left:0; top:0; width:18px; height:18px; border-radius:50%; background:var(--c-reality,#a4423a); color:#fff; font:700 12px/18px var(--sans); text-align:center; }
+  .rc-ntbox__verse{ margin:0; padding:12px 14px; background:#f6efdd; border-radius:10px; font-family:var(--serif,Georgia,serif); font-size:15px; line-height:1.65; color:#3d3014; font-style:italic; }
+  .rc-ntbox--salv .rc-collapse{ margin:0 0 8px; }
+  .rc-ntbox__reveal{ margin:0; font-size:15px; line-height:1.6; color:#29261b; }
+  .rc-ntbox__summary{ margin-top:14px; padding:14px 16px; background:#f3ece0; border-radius:10px; }
+  .rc-ntbox__summary-label{ display:block; font:700 12.5px/1.4 var(--sans); letter-spacing:.02em; color:#5c4a1e; margin-bottom:8px; text-transform:uppercase; }
+  .rc-ntbox__summary p{ margin:0 0 8px; font-family:var(--serif,Georgia,serif); font-size:15px; line-height:1.65; color:#29261b; }
+  .rc-ntbox__summary p:last-child{ margin-bottom:0; font-weight:700; color:#3d3014; }
+  .rc-ntbox__list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:10px; }
+  .rc-ntbox__item{ display:flex; flex-wrap:wrap; align-items:baseline; gap:8px; padding:10px 12px; background:#f6efdd; border-radius:10px; }
+  .rc-ntbox__item-t{ font:600 15px/1.5 var(--serif,Georgia,serif); color:#3d3014; }
+  .rc-ntbox__item-ref{ font:700 13.5px/1 var(--sans); color:var(--c-kingdom,#b5894a); }
   </style>
 
   <style id="v32-tactile">

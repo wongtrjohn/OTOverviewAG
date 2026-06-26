@@ -976,6 +976,11 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
       React.createElement("span", { className: "rc-picker__topic" }, s.topic), /*#__PURE__*/
       React.createElement("span", { className: "rc-picker__passage" }, s.book, s.chapter ? ` · ${s.chapter}` : '')
       ),
+      meditate ? (
+      (window.sessionHasAnyInput && window.sessionHasAnyInput(s.id, mode)) ? /*#__PURE__*/
+      React.createElement("span", { className: "rc-picker__visited", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
+      React.createElement("span", { className: "rc-picker__visited-dot", "aria-hidden": "true" }), "Visited") :
+      null) :
       ProgressRing ? /*#__PURE__*/
       React.createElement("span", { className: "rc-picker__prog", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
       React.createElement(ProgressRing, { pct: prog.pct, size: 38, strokeW: 4 })
@@ -992,7 +997,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("section", { className: "rc-picker" },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "recap", label: "Tour" }) : null, /*#__PURE__*/
     React.createElement("header", { className: "rc-picker__head" },
-    ProgressRing ? /*#__PURE__*/
+    ProgressRing && !meditate ? /*#__PURE__*/
     React.createElement("div", { className: "rc-picker__overall" }, /*#__PURE__*/
     React.createElement(ProgressRing, { pct: overallPct, size: 52, strokeW: 5 }), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__overall-label" }, "overall", /*#__PURE__*/React.createElement("br", null), "progress")
@@ -1336,7 +1341,7 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
     !session ? /*#__PURE__*/
     React.createElement(CR_Picker, { sessions: sessions, themes: themes, mode: mode, onPick: pick, onOpenJournal: () => setJournalOpen(true) }) :
     session.id === 12 ? /*#__PURE__*/
-    React.createElement(CR_ReviewReflect, { key: mode + ':' + session.id, session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) }) : /*#__PURE__*/
+    React.createElement(CR_ReviewReflect, { key: 'meditate:' + session.id, session: session, sessions: sessions, themes: themes, mode: 'meditate', onBack: () => setSelected(null) }) : /*#__PURE__*/
 
     React.createElement(CR_SessionRecap, { key: mode + ':' + session.id, session: session, sessions: sessions, themes: themes, mode: mode, onBack: () => setSelected(null) })
 
@@ -1707,45 +1712,52 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
 
   useEffectR(() => {if (typeof window !== 'undefined') window.scrollTo({ top: 0, behavior: 'auto' });}, [session.id]);
 
-  const arcs = window.OT_ARCS || [];
-  const story = (sessions || []).filter((s) => s.id >= 2 && s.id <= 11);
-  const applyQs = session.applyQuestions && session.applyQuestions.length ?
-  session.applyQuestions.filter((q) => t(q)) :
-  t(session.ntApplication) ? [session.ntApplication] : [];
+  /* Highlight one word inside a question, coloured by its thread. */
+  function hl(text, word, thread) {
+    const parts = String(text).split(word);
+    const out = [];
+    parts.forEach((p, i) => {
+      if (p) out.push(p);
+      if (i < parts.length - 1) out.push(
+      React.createElement("strong", { key: 'h' + i, className: "rc-rev__hl rc-rev__hl--" + thread }, word));
+    });
+    return out;
+  }
+  const refEl = (r) => PassageRef ? React.createElement(PassageRef, { refs: r }) : r;
 
-  /* v29: placeholder reflective + prayer prompts — overridable from Data Entry
-     (session.reviewQuestions / session.prayerPrompts as newline- or array-lists),
-     with gentle generic fallbacks so the sections always have something to hold. */
-  const asList = (v) => Array.isArray(v) ? v.filter((x) => t(x)) :
-  t(v) ? String(v).split(/\n+/).map((x) => x.trim()).filter(Boolean) : [];
-  const reviewQs = asList(session.reviewQuestions);
-  const reviewQsShown = reviewQs.length ? reviewQs : [
-  'Looking back over Genesis to Deuteronomy, where did you most clearly see God\u2019s character and intent?',
-  'Where did you see man\u2019s reality \u2014 our sin and need \u2014 most sharply, and how does Christ answer it?',
-  'What is the one truth from this whole study you most want to carry forward? Why?'];
+  const otQs = [
+  { text: "How have you grown in appreciation of God’s pattern of Salvation throughout these books?", word: "Salvation", thread: "salvation", key: "otrev1" },
+  { text: "What has struck you about God’s character as we read about his covenants and Promises to his people?", word: "Promises", thread: "promises", key: "otrev2" },
+  { text: "How has what we’ve seen helped you to long for God’s Kingdom?", word: "Kingdom", thread: "kingdom", key: "otrev3" }];
 
-  const prayerPrompts = asList(session.prayerPrompts);
-  const prayerPromptsShown = prayerPrompts.length ? prayerPrompts : [
-  'Adore God for who He has shown Himself to be across the Pentateuch.',
-  'Confess where you have lived as though His rule were not good.',
-  'Thank Him for Christ, who fulfils every promise.',
-  'Ask Him to keep forming this story in you.'];
+  const tensionQs = [
+  "How can the holy God dwell with sinful humanity?",
+  "How can merciful and gracious Yahweh also justly visit the sins of the guilty — all at the same time?"];
 
-  const usingPlaceholders = !reviewQs.length || !prayerPrompts.length;
+  const hebItems = [
+  { t: "The Better Tent", ref: "Hebrews 8:1-6" },
+  { t: "The Better Covenant", ref: "Hebrews 8:7-13" },
+  { t: "The Better High Priest", ref: "Hebrews 9:11-27" },
+  { t: "The Better Sacrifice", ref: "Hebrews 10:12-14" },
+  { t: "Better and Confident access to God", ref: "Hebrews 10:19-22" }];
+
+  const kingdomItems = [
+  { t: "Law fulfilled", ref: "Matthew 5:17" },
+  { t: "God’s kingdom order established through a fulfilled law", ref: "Romans 8:3-4" }];
 
   return (/*#__PURE__*/
     React.createElement("article", { className: "rc-session rc-review2" }, /*#__PURE__*/
     React.createElement("header", { className: "rc-session__bar" }, /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onBack }, "\u2190 back to session list"), /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onBack }, "← back to session list"), /*#__PURE__*/
     React.createElement("span", { className: "rc-session__crumb" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-session__num" }, "SESSION 12"), /*#__PURE__*/
     React.createElement("span", { className: "rc-session__dot" }, "\xB7"), /*#__PURE__*/
-    React.createElement("span", { className: "rc-session__topic" }, "Review & Reflect")
+    React.createElement("span", { className: "rc-session__topic" }, "Pentateuch Review")
     )
     ), /*#__PURE__*/
 
     React.createElement("section", { className: "rc-review2__hero" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-review2__eyebrow" }, "REVIEW & REFLECT"), /*#__PURE__*/
+    React.createElement("span", { className: "rc-review2__eyebrow" }, "MEDITATE & REFLECT \xB7 PENTATEUCH REVIEW"), /*#__PURE__*/
     React.createElement("h1", { className: "rc-review2__title" }, session.topic || 'The whole story, in one view'),
     t(session.mainPoint) ? /*#__PURE__*/
     React.createElement("blockquote", { className: "rc-review2__mainpoint" }, renderMultiline ? renderMultiline(session.mainPoint) : session.mainPoint) :
@@ -1754,90 +1766,71 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     ), /*#__PURE__*/
 
 
-    React.createElement("section", { className: "rc-bigpic" }, /*#__PURE__*/
-    React.createElement("h2", { className: "rc-bigpic__h" }, "The big picture \u2014 Genesis to Deuteronomy"), /*#__PURE__*/
-    React.createElement("p", { className: "rc-bigpic__lede" }, "Read back over the whole journey. Don\u2019t study it line by line \u2014 let the shape of God\u2019s plan come into view."),
-    arcs.map((arc) => {
-      const inArc = story.filter((s) => s.id >= arc.startSession && s.id <= arc.endSession);
-      if (!inArc.length) return null;
-      return (/*#__PURE__*/
-        React.createElement("div", { key: arc.id, className: "rc-bigpic__arc rc-bigpic__arc--" + arc.id }, /*#__PURE__*/
-        React.createElement("div", { className: "rc-bigpic__archead" }, /*#__PURE__*/
-        React.createElement("span", { className: "rc-bigpic__arclabel" }, arc.label),
-        arc.hint ? /*#__PURE__*/React.createElement("span", { className: "rc-bigpic__archint" }, arc.hint) : null
-        ), /*#__PURE__*/
-        React.createElement("ol", { className: "rc-bigpic__list" },
-        inArc.map((s) => /*#__PURE__*/
-        React.createElement("li", { key: s.id, className: "rc-bigpic__item" }, /*#__PURE__*/
-        React.createElement("span", { className: "rc-bigpic__num" }, String(s.id).padStart(2, '0')), /*#__PURE__*/
-        React.createElement("span", { className: "rc-bigpic__body" }, /*#__PURE__*/
-        React.createElement("span", { className: "rc-bigpic__topic" }, s.book, " ", s.chapter, " \xB7 ", s.topic),
-        t(s.mainPoint) ? /*#__PURE__*/React.createElement("span", { className: "rc-bigpic__point" }, s.mainPoint) : null
-        )
-        )
-        )
-        )
-        ));
-
-    })
+    React.createElement("section", { className: "rc-review2__bigpic" }, /*#__PURE__*/
+    React.createElement("h2", { className: "rc-bigpic__h" }, "The Big Picture — the whole Pentateuch in one view"),
+    window.BigPictureView ? /*#__PURE__*/
+    React.createElement(window.BigPictureView, { sessions: sessions, themes: themes }) : /*#__PURE__*/
+    React.createElement("p", { className: "rc-medsum__empty" }, "Big Picture view unavailable.")
     ), /*#__PURE__*/
 
 
-    React.createElement("section", { className: "rc-stillness" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-stillness__eyebrow" }, "BE STILL"), /*#__PURE__*/
-    React.createElement("p", { className: "rc-stillness__lede" }, "Having seen the whole sweep of the story, pause. Where has God met you across these sessions? Sit with it before you respond."), /*#__PURE__*/
-    React.createElement(CR_ReflectionTimer, { label: "Reflect on the whole journey", presets: [2, 3, 5, 10] })
+    React.createElement("div", { className: "rc-tilegrid" }, /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "threads", step: "01", label: "Reflect — Old Testament", sublabel: "Sit with the whole journey before God", defaultOpen: true },
+    otQs.map((q) => /*#__PURE__*/
+    React.createElement("div", { key: q.key, className: "rc-medq__block" }, /*#__PURE__*/
+    React.createElement("p", { className: "rc-medq__prompt" }, hl(q.text, q.word, q.thread)), /*#__PURE__*/
+    React.createElement("textarea", { className: "rc-medq__field", rows: 3, placeholder: "Write your reflection here — it’s saved in your browser.", value: sd[q.key] || '', onChange: (e) => patch({ [q.key]: e.target.value }) }),
+    (sd[q.key] || '').trim() ? /*#__PURE__*/React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
+    ))
     ), /*#__PURE__*/
 
-
-    React.createElement("section", { className: "rc-review2__qs" }, /*#__PURE__*/
-    React.createElement("h2", { className: "rc-review2__apply-h" }, "Questions to sit with"),
-    !reviewQs.length ? /*#__PURE__*/
-    React.createElement("p", { className: "rc-review2__note" }, "These are starter prompts \u2014 add your own under ", /*#__PURE__*/React.createElement("b", null, "reviewQuestions"), " in the Data Entry tab to tailor them.") :
-    null,
-    reviewQsShown.map((q, i) => /*#__PURE__*/
-    React.createElement("div", { key: i, className: "rc-apply__qblock" }, /*#__PURE__*/
-    React.createElement("p", { className: "rc-apply__text" }, /*#__PURE__*/React.createElement("span", { className: "rc-apply__qnum" }, i + 1), q), /*#__PURE__*/
-    React.createElement("textarea", { className: "rc-apply__input", rows: 3,
-      placeholder: "Write your response here \u2014 saved locally in your browser.",
-      value: sd['rev' + (i + 1)] || '',
-      onChange: (e) => patch({ ['rev' + (i + 1)]: e.target.value }) })
+    React.createElement(CR_SectionTile, { tone: "tension", step: "02", label: "New Testament Fulfilment — Tensions", sublabel: "The two great questions of the Pentateuch", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--tension" }, /*#__PURE__*/
+    React.createElement("ul", { className: "rc-ntbox__qs" },
+    tensionQs.map((q, i) => /*#__PURE__*/React.createElement("li", { key: i, className: "rc-ntbox__q" }, q))
+    ), /*#__PURE__*/
+    React.createElement("blockquote", { className: "rc-ntbox__verse" }, "“For from his fullness we have all received, grace upon grace. For the law was given through Moses; grace and truth came through Jesus Christ.” (John 1:16-17).")
     )
-    )
-    ),
+    ), /*#__PURE__*/
 
-
-    applyQs.length ? /*#__PURE__*/
-    React.createElement("section", { className: "rc-review2__apply" }, /*#__PURE__*/
-    React.createElement("h2", { className: "rc-review2__apply-h" }, "Reflect & respond"),
-    applyQs.map((q, i) => /*#__PURE__*/
-    React.createElement("div", { key: i, className: "rc-apply__qblock" }, /*#__PURE__*/
-    React.createElement("p", { className: "rc-apply__text" }, applyQs.length > 1 ? /*#__PURE__*/React.createElement("span", { className: "rc-apply__qnum" }, i + 1) : null, q), /*#__PURE__*/
-    React.createElement("textarea", { className: "rc-apply__input", rows: 3,
-      placeholder: "Write your response here \u2014 saved locally in your browser.",
-      value: sd['app' + (i + 1)] || (i === 0 ? sd.app || '' : ''),
-      onChange: (e) => patch({ ['app' + (i + 1)]: e.target.value }) })
-    )
-    )
-    ) :
-    null, /*#__PURE__*/
-
-
-    React.createElement("section", { className: "rc-review2__pray" }, /*#__PURE__*/
-    React.createElement("h2", { className: "rc-review2__pray-h" }, "Pause & pray"), /*#__PURE__*/
-    React.createElement("div", { className: "rc-prompts" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-prompts__label" }, "PROMPTS TO PRAY THROUGH"),
-    !prayerPrompts.length ? /*#__PURE__*/
-    React.createElement("p", { className: "rc-review2__note" }, "Starter prompts \u2014 add your own under ", /*#__PURE__*/React.createElement("b", null, "prayerPrompts"), " in the Data Entry tab.") :
-    null, /*#__PURE__*/
-    React.createElement("ul", { className: "rc-prompts__list" },
-    prayerPromptsShown.map((pp, i) => /*#__PURE__*/
-    React.createElement("li", { key: i, className: "rc-prompts__item" }, pp)
+    React.createElement(CR_SectionTile, { tone: "tension", step: "03", label: "New Testament Fulfilment — Salvation through Christ", sublabel: "Click each to reveal where Christ fulfils it", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--salv" },
+    hebItems.map((h, i) => /*#__PURE__*/
+    React.createElement(CR_Collapsible, { key: i, kind: "reveal", hint: "click to reveal", label: h.t }, /*#__PURE__*/
+    React.createElement("p", { className: "rc-ntbox__reveal" }, refEl(h.ref))
+    )), /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox__summary" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-ntbox__summary-label" }, "Summary — how the Pentateuch teaches us about God’s work to save us from our sins:"), /*#__PURE__*/
+    React.createElement("p", null, "Because of the Better Tent, that our Better Priest entered into, with Himself the Better Sacrifice, we have a Better Covenant written on our hearts…"), /*#__PURE__*/
+    React.createElement("p", null, "So draw near to God with our Better Access to the Father through Christ!")
     )
     )
     ), /*#__PURE__*/
-    React.createElement(CR_ACTSPrayer, { session: session, sd: sd, patch: patch }), /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: "New Testament Fulfilment — God’s promised Kingdom", sublabel: "The law fulfilled in Christ", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--kingdom" }, /*#__PURE__*/
+    React.createElement("ul", { className: "rc-ntbox__list" },
+    kingdomItems.map((k, i) => /*#__PURE__*/
+    React.createElement("li", { key: i, className: "rc-ntbox__item" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-ntbox__item-t" }, k.t), /*#__PURE__*/
+    React.createElement("span", { className: "rc-ntbox__item-ref" }, refEl(k.ref))
+    ))
+    )
+    )
+    ), /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "apply", step: "05", label: "Reflection — New Testament", sublabel: "How has Christ met you across this journey?", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("p", { className: "rc-medq__prompt" }, "Share one aspect of the journey so far in the OT that has impacted your heart — what about our God have you seen anew or refreshed?"), /*#__PURE__*/
+    React.createElement("textarea", { className: "rc-medq__field", rows: 4, placeholder: "Write your reflection here — it’s saved in your browser.", value: sd.ntrev || '', onChange: (e) => patch({ ntrev: e.target.value }) }),
+    (sd.ntrev || '').trim() ? /*#__PURE__*/React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
+    ), /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "pray", step: "06", label: "Pause & Pray", sublabel: "Set aside time to pray it back to God", defaultOpen: true }, /*#__PURE__*/
+    React.createElement(CR_MeditatePray, { session: session, sd: sd, patch: patch }), /*#__PURE__*/
     React.createElement(CR_PrayerTime, { session: session })
+    )
+
     )
     ));
 

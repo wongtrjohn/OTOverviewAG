@@ -151,6 +151,22 @@ function getSessionProgress(sessionId, session, mode) {
   } catch (e) {}
   return getSessionProgressData(session, data, mode);
 }
+/* v33: a session counts as "visited" once any free-text input has been typed.
+   Walks the whole saved object so it works for both standard and review
+   sessions; ignores the prayMode UI toggle (not user input). */
+function objHasAnyText(v) {
+  if (typeof v === 'string') return v.trim().length > 0;
+  if (Array.isArray(v)) return v.some(objHasAnyText);
+  if (v && typeof v === 'object') return Object.keys(v).some((k) => k !== 'prayMode' && objHasAnyText(v[k]));
+  return false;
+}
+function sessionHasAnyInput(sessionId, mode) {
+  try {
+    const s = localStorage.getItem(recapStorageKey(sessionId, mode));
+    if (!s) return false;
+    return objHasAnyText(JSON.parse(s));
+  } catch (e) {return false;}
+}
 /* v29: global Study/Meditate preference */
 function getRecapMode() {
   try {const m = localStorage.getItem('OT_RECAP_MODE');return m === 'study' ? 'study' : 'meditate';}
@@ -163,6 +179,7 @@ function setRecapMode(m) {
 window.useLocalStorage = useLocalStorage;
 window.ProgressRing = ProgressRing;
 window.getSessionProgress = getSessionProgress;
+window.sessionHasAnyInput = sessionHasAnyInput;
 window.recapStorageKey = recapStorageKey;
 window.getRecapMode = getRecapMode;
 window.setRecapMode = setRecapMode;
