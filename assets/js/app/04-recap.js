@@ -334,16 +334,16 @@ function CR_MeditatePray({ session, sd, patch }) {
   const guided = sd.prayMode === 'acts';
   return (
     React.createElement("div", { className: "rc-medpray" },
-    React.createElement("div", { className: "rc-acts__stillness" },
-    React.createElement("div", { className: "rc-acts__breath-circle", "aria-hidden": "true" }),
-    React.createElement("p", { className: "rc-acts__stillness-text" }, "Take a breath. Let the passage settle in your heart before you pray.")
-    ),
     guided ?
     React.createElement(React.Fragment, null,
     React.createElement("button", { className: "rc-medpray__switch", onClick: () => patch({ prayMode: 'commit' }) }, "← Back to writing a prayer"),
     React.createElement(CR_ACTSPrayer, { session: session, sd: sd, patch: patch })
     ) :
     React.createElement(React.Fragment, null,
+    React.createElement("div", { className: "rc-acts__stillness" },
+    React.createElement("div", { className: "rc-acts__breath-circle", "aria-hidden": "true" }),
+    React.createElement("p", { className: "rc-acts__stillness-text" }, "Take a breath. Let the passage settle in your heart before you pray.")
+    ),
     React.createElement("p", { className: "rc-medpray__lede" }, "Pause to give thanks and hear what God is saying to you now. Write a prayer in response to Him below, committing this time into His hands."),
     React.createElement("textarea", { className: "rc-medpray__field", rows: 8, placeholder: "Write your prayer here — it’s saved in your browser.", value: sd.commitPrayer || '', onChange: (e) => patch({ commitPrayer: e.target.value }) }),
     (sd.commitPrayer || '').trim() ? React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null,
