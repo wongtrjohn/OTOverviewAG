@@ -451,8 +451,8 @@ window.OT_THEMES = [
   { id: 'salvation', key: 'salvation', label: "God's Salvation", short: 'Salvation',  glyph: '\u271F', tag: 'HIS SALVATION', blurb: 'God\'s rescue of His people, often through judgment.' },
   { id: 'promises',  key: 'promises',  label: "God's Promises",  short: 'Promises',   glyph: '\u2756', tag: 'HIS PROMISES',  blurb: 'God\'s covenants and faithfulness across generations.' },
   { id: 'intention', key: 'intention', label: "God's Character & Intent", short: 'Character & Intent',  glyph: '\u2734', tag: "GOD'S CHARACTER & INTENT",   blurb: 'Who God is and what He intends — His character and good purpose revealed in the passage.' },
-  { id: 'reality',   key: 'reality',   label: "Man's Reality",    short: 'Reality',    glyph: '\u26A0', tag: "MAN'S REALITY",  blurb: 'The unfolding problem of sin and human frailty — what we actually are.' },
-  { id: 'nt',        key: 'ntPoint',   label: 'NT Fulfilment',    short: 'NT',         glyph: '\u271D', tag: 'NT FULFILMENT',  blurb: 'How Christ resolves the tension between God\'s intent and Man\'s reality.', passageKey: 'ntPassage' },
+  { id: 'reality',   key: 'reality',   label: "Mankind's Sinfulness & Limitations",    short: 'Sinfulness',    glyph: '\u26A0', tag: "MANKIND'S SINFULNESS & LIMITATIONS",  blurb: 'The unfolding problem of sin and human frailty — what we actually are.' },
+  { id: 'nt',        key: 'ntPoint',   label: 'NT Fulfilment',    short: 'NT',         glyph: '\u271D', tag: 'NT FULFILMENT',  blurb: 'How Christ resolves the tension between God\'s intent and mankind\'s sinfulness & limitations.', passageKey: 'ntPassage' },
 ];
 
 

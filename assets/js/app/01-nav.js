@@ -154,7 +154,7 @@ const OT_TOURS = {
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "Kingdom, Salvation and Promises run through every session. Boxes like this say ", /*#__PURE__*/React.createElement("b", null, "\u201Cclick to reveal\u201D"), " \u2014 I've opened one for you as an example. Tap the heading again to close it.") },
   { glyph: "⇌", view: "intro", target: ".intro-tension",
     title: "The tension that drives the story",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The engine of the storyline: ", /*#__PURE__*/React.createElement("b", null, "God's character & intent"), " set against ", /*#__PURE__*/React.createElement("b", null, "Man's reality"), ". Hold this tension in mind \u2014 it's resolved only in Christ.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "The engine of the storyline: ", /*#__PURE__*/React.createElement("b", null, "God's character & intent"), " set against ", /*#__PURE__*/React.createElement("b", null, "Mankind's sinfulness & limitations"), ". Hold this tension in mind \u2014 it's resolved only in Christ.") },
   { glyph: "→", view: "intro", target: ".intro-nav-section",
     title: "Where to next",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "From here, head into ", /*#__PURE__*/React.createElement("b", null, "Recap Mode"), " to sit with a session, or the ", /*#__PURE__*/React.createElement("b", null, "Big Picture"), " to see how it all fits together.") },

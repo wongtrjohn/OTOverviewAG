@@ -49,7 +49,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "PENTATEUCH"
     ), /*#__PURE__*/
     React.createElement("h1", { className: "home-screen__title" }, /*#__PURE__*/
-    React.createElement("em", null, "God's character & intent"), ",", /*#__PURE__*/React.createElement("br", null), "Man's reality, and Christ."
+    React.createElement("em", null, "God's character & intent"), ",", /*#__PURE__*/React.createElement("br", null), "Mankind's sinfulness & limitations, and Christ."
     ), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__sub" }, "Three threads \u2014 ", /*#__PURE__*/
     React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across twelve sessions from Genesis to Deuteronomy."
@@ -199,7 +199,7 @@ function IntroTensionPanel({ themes }) {
     React.createElement("h2", { className: "intro-tension__title" }, /*#__PURE__*/
     React.createElement("span", { style: { color: "var(--c-intention)" } }, "God’s Character & Intent"),
     " ⇌ ", /*#__PURE__*/
-    React.createElement("span", { style: { color: "var(--c-reality)" } }, "Man’s Reality")
+    React.createElement("span", { style: { color: "var(--c-reality)" } }, "Mankind’s Sinfulness & Limitations")
     ), /*#__PURE__*/
     React.createElement("p", { className: "intro-tension__desc" }, "Again and again, who God is and what He intends meets what we actually are. A few examples \u2014 then the questions they raise, and how Christ answers them.",
     " ", /*#__PURE__*/
@@ -217,7 +217,7 @@ function IntroTensionPanel({ themes }) {
     ), /*#__PURE__*/
     React.createElement("div", { className: "intro-tension__vs", "aria-hidden": "true" }, "⇌"), /*#__PURE__*/
     React.createElement("div", { className: "intro-tension__col intro-tension__col--man" }, /*#__PURE__*/
-    React.createElement("span", { className: "intro-tension__col-tag" }, "MAN’S REALITY"), /*#__PURE__*/
+    React.createElement("span", { className: "intro-tension__col-tag" }, "MANKIND’S SINFULNESS & LIMITATIONS"), /*#__PURE__*/
     React.createElement("p", { className: "intro-tension__col-text" }, ex.man.text),
     PassageRef ? /*#__PURE__*/React.createElement(PassageRef, { refs: ex.man.ref, className: "intro-tension__ref" }) : /*#__PURE__*/React.createElement("span", { className: "intro-tension__ref-plain" }, ex.man.ref)
     )
@@ -276,9 +276,9 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("span", { className: "dot" }), "OT OVERVIEW ", /*#__PURE__*/
     React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " SIMPLIFIED FOR RECAP ", /*#__PURE__*/React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " 12 SESSIONS THROUGH THE PENTATEUCH"
     ), /*#__PURE__*/
-    React.createElement("h1", null, /*#__PURE__*/React.createElement("em", null, "God's character & intent"), ", Man's reality, and Christ."), /*#__PURE__*/
+    React.createElement("h1", null, /*#__PURE__*/React.createElement("em", null, "God's character & intent"), ", Mankind's sinfulness & limitations, and Christ."), /*#__PURE__*/
     React.createElement("p", { className: "hero__sub" }, "What God means to do for His people \u2014 and what we make of it. Three great threads \u2014 ", /*#__PURE__*/
-    React.createElement("b", null, "God's Kingdom"), ", ", /*#__PURE__*/React.createElement("b", null, "God's Salvation"), ", and ", /*#__PURE__*/React.createElement("b", null, "God's Promises"), " \u2014 weave a single story across the twelve sessions, where every tension between ", /*#__PURE__*/React.createElement("b", null, "God's Character & Intent"), " and ", /*#__PURE__*/React.createElement("b", null, "Man's Reality"), " is answered in ", /*#__PURE__*/React.createElement("b", null, "Christ's fulfilment"), "."
+    React.createElement("b", null, "God's Kingdom"), ", ", /*#__PURE__*/React.createElement("b", null, "God's Salvation"), ", and ", /*#__PURE__*/React.createElement("b", null, "God's Promises"), " \u2014 weave a single story across the twelve sessions, where every tension between ", /*#__PURE__*/React.createElement("b", null, "God's Character & Intent"), " and ", /*#__PURE__*/React.createElement("b", null, "Mankind's Sinfulness & Limitations"), " is answered in ", /*#__PURE__*/React.createElement("b", null, "Christ's fulfilment"), "."
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "hero__legend" }, /*#__PURE__*/
@@ -580,7 +580,7 @@ function ThreadViewPage({ sessions, themes }) {
     activeThread === 'tension' ? /*#__PURE__*/
     React.createElement("div", { className: "tension-view" }, /*#__PURE__*/
     React.createElement("p", { className: "tension-view__lede" }, /*#__PURE__*/
-    React.createElement("b", null, "God's intention & character"), " vs ", /*#__PURE__*/React.createElement("b", null, "Man's reality"), " \u2014 and how Christ resolves each tension. Click any session below to explore."
+    React.createElement("b", null, "God's intention & character"), " vs ", /*#__PURE__*/React.createElement("b", null, "Mankind's sinfulness & limitations"), " \u2014 and how Christ resolves each tension. Click any session below to explore."
     ),
     sessions.map((s) => {
       const intV = (s.intention || '').trim();

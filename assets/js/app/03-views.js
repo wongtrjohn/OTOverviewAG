@@ -128,19 +128,49 @@ function TensionTriad({ session, themes, onPinTheme }) {
   const hasTension = intV || realV;
 
   return (/*#__PURE__*/
-    React.createElement("section", { className: "triad", "aria-label": "God's character & intent vs Man's reality, resolved in Christ" }, /*#__PURE__*/
+    React.createElement("section", { className: "triad", "aria-label": "New Testament fulfilment, and the tension it resolves" }, /*#__PURE__*/
     React.createElement("header", { className: "triad__header" }, /*#__PURE__*/
-    React.createElement("span", { className: "triad__eyebrow" }, "Tension & Resolution"), /*#__PURE__*/
+    React.createElement("span", { className: "triad__eyebrow" }, "New Testament Fulfilment"), /*#__PURE__*/
     React.createElement("h3", { className: "triad__title" }, /*#__PURE__*/
-    React.createElement("span", { style: { color: 'var(--c-intention)' } }, "God's character & intent"), /*#__PURE__*/
-    React.createElement("span", { className: "triad__sep" }, "\xB7"), /*#__PURE__*/
-    React.createElement("span", { style: { color: 'var(--c-reality)' } }, "Man's reality"), /*#__PURE__*/
-    React.createElement("span", { className: "triad__sep" }, "\xB7"), /*#__PURE__*/
-    React.createElement("span", { style: { color: 'var(--c-nt)' } }, "resolved in Christ")
+    React.createElement("span", { style: { color: 'var(--c-nt)' } }, "How this passage points to Christ")
+    )
+    ), /*#__PURE__*/
+
+    React.createElement("article", {
+      className: `triad__nt ${ntV ? '' : 'is-empty'} ${onPinTheme ? 'is-clickable' : ''}`,
+      style: { '--theme-color': 'var(--c-nt)', '--theme-soft': 'var(--c-nt-soft)' },
+      onClick: (e) => {if (onPinTheme) {e.stopPropagation();onPinTheme('nt');}} }, /*#__PURE__*/
+
+    React.createElement("div", { className: "triad__nt-ask" }, /*#__PURE__*/
+    React.createElement("span", { className: "triad__nt-ask-glyph" }, "\u271D"), /*#__PURE__*/
+    React.createElement("span", { className: "triad__nt-ask-text" }, "What does this tell me ", /*#__PURE__*/
+    React.createElement("em", null, "about Jesus?")
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "triad__nt-ask-cite" }, "John 5:39")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "triad__nt-head" }, /*#__PURE__*/
+    React.createElement("span", { className: "triad__glyph" }, nt.glyph), /*#__PURE__*/
+    React.createElement("span", { className: "triad__tag" }, nt.tag), /*#__PURE__*/
+    React.createElement("span", { className: "triad__label" }, nt.label),
+    session.ntPassage ? /*#__PURE__*/
+    React.createElement("span", { className: "tcard__ntref", style: { marginLeft: 'auto' } }, linkifyRefs(session.ntPassage)) :
+    null
+    ), /*#__PURE__*/
+    React.createElement("div", { className: `triad__body ${isMono ? 'is-mono' : ''}` },
+    ntV ? renderMultiline(ntV) : /*#__PURE__*/React.createElement("p", { className: "triad__empty" }, "\u2014 no NT fulfilment recorded \u2014")
     )
     ),
 
     hasTension ? /*#__PURE__*/
+    React.createElement("details", { className: "triad__reveal" }, /*#__PURE__*/
+    React.createElement("summary", { className: "triad__reveal-summary" }, /*#__PURE__*/
+    React.createElement("span", { className: "triad__reveal-glyph", "aria-hidden": "true" }, "\u21CC"), /*#__PURE__*/
+    React.createElement("span", { className: "triad__reveal-text" }, "See the tension this resolves"), /*#__PURE__*/
+    React.createElement("span", { className: "triad__reveal-sub" }, /*#__PURE__*/
+    React.createElement("span", { style: { color: 'var(--c-intention)' } }, "God's Character & Intent"), " vs ", /*#__PURE__*/
+    React.createElement("span", { style: { color: 'var(--c-reality)' } }, "Mankind's Sinfulness & Limitations")
+    )
+    ), /*#__PURE__*/
     React.createElement("div", { className: "triad__rail" }, /*#__PURE__*/
     React.createElement("article", {
       className: `triad__col triad__col--intent ${intV ? '' : 'is-empty'} ${onPinTheme ? 'is-clickable' : ''}`,
@@ -177,42 +207,9 @@ function TensionTriad({ session, themes, onPinTheme }) {
     realV ? renderMultiline(realV) : /*#__PURE__*/React.createElement("p", { className: "triad__empty" }, "\u2014 not foregrounded in this passage \u2014")
     )
     )
+    )
     ) :
-    null,
-
-    hasTension ? /*#__PURE__*/
-    React.createElement("div", { className: "triad__bridge", "aria-hidden": "true" }, /*#__PURE__*/
-    React.createElement("span", { className: "triad__bridge-line" }), /*#__PURE__*/
-    React.createElement("span", { className: "triad__bridge-arrow" }, "\u2193"), /*#__PURE__*/
-    React.createElement("span", { className: "triad__bridge-label" }, "resolved in Christ"), /*#__PURE__*/
-    React.createElement("span", { className: "triad__bridge-line" })
-    ) :
-    null, /*#__PURE__*/
-
-    React.createElement("article", {
-      className: `triad__nt ${ntV ? '' : 'is-empty'} ${onPinTheme ? 'is-clickable' : ''}`,
-      style: { '--theme-color': 'var(--c-nt)', '--theme-soft': 'var(--c-nt-soft)' },
-      onClick: (e) => {if (onPinTheme) {e.stopPropagation();onPinTheme('nt');}} }, /*#__PURE__*/
-
-    React.createElement("div", { className: "triad__nt-ask" }, /*#__PURE__*/
-    React.createElement("span", { className: "triad__nt-ask-glyph" }, "\u271D"), /*#__PURE__*/
-    React.createElement("span", { className: "triad__nt-ask-text" }, "What does this tell me ", /*#__PURE__*/
-    React.createElement("em", null, "about Jesus?")
-    ), /*#__PURE__*/
-    React.createElement("span", { className: "triad__nt-ask-cite" }, "John 5:39")
-    ), /*#__PURE__*/
-    React.createElement("div", { className: "triad__nt-head" }, /*#__PURE__*/
-    React.createElement("span", { className: "triad__glyph" }, nt.glyph), /*#__PURE__*/
-    React.createElement("span", { className: "triad__tag" }, nt.tag), /*#__PURE__*/
-    React.createElement("span", { className: "triad__label" }, nt.label),
-    session.ntPassage ? /*#__PURE__*/
-    React.createElement("span", { className: "tcard__ntref", style: { marginLeft: 'auto' } }, linkifyRefs(session.ntPassage)) :
     null
-    ), /*#__PURE__*/
-    React.createElement("div", { className: `triad__body ${isMono ? 'is-mono' : ''}` },
-    ntV ? renderMultiline(ntV) : /*#__PURE__*/React.createElement("p", { className: "triad__empty" }, "\u2014 no NT fulfilment recorded \u2014")
-    )
-    )
     ));
 
 }

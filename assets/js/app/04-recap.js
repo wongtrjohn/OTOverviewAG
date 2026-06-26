@@ -13,9 +13,9 @@
       • Main Point — type your guess, then reveal (bold + Key Verse).
       • 3 Threads — pick which threads you think this passage covers,
         then reveal Kingdom / Salvation / Promises content in separate boxes.
-      • Tension & Christ Fulfilment — type how the study applies to NT
-        believers, then reveal God's Character & Intent vs Man's Reality
-        and Christ's fulfilment.
+      • New Testament Fulfilment — type how the study applies to NT
+        believers; Christ's fulfilment shows directly, with God's Character
+        & Intent vs Mankind's Sinfulness & Limitations in an optional reveal.
       • Apply This Week click-to-reveal.
       • Recap — Test Yourself (cloze fill-in-the-blanks).
       • Further Study Links.                                            */
@@ -354,9 +354,10 @@ function CR_MeditatePray({ session, sd, patch }) {
 }
 
 /* Meditate-mode body — given mini-summaries + main point (no blanks), an OT and
-   an NT reflective question, the NT link (with the tension only when both God's
-   intent and man's reality are present), and Pause & Pray. No flashcards, no
-   further-study, no at-a-glance. */
+   an NT reflective question, the NT link shown directly (with the tension —
+   God's intent vs mankind's sinfulness & limitations — in an optional reveal
+   when both are present), and Pause & Pray. No flashcards, no further-study,
+   no at-a-glance. */
 function CR_MeditateBody({ session, sd, patch, themes, pairedDivisions }) {
   const T = (v) => v && String(v).trim() ? String(v).trim() : '';
   const hasTension = !!(T(session.intention) && T(session.reality));
@@ -397,19 +398,7 @@ function CR_MeditateBody({ session, sd, patch, themes, pairedDivisions }) {
     (sd.otReflect || '').trim() ? React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
     ),
 
-    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: hasTension ? "Tension & New Testament" : "New Testament Fulfilment", sublabel: hasTension ? "God’s intent vs man’s reality, resolved in Christ" : "How Christ fulfils this passage", defaultOpen: true },
-    hasTension ?
-    React.createElement("div", { className: "rc-tension__pair" },
-    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--intent" },
-    React.createElement("span", { className: "rc-tension__label" }, "God's Character & Intent"),
-    React.createElement("p", null, session.intention)
-    ),
-    React.createElement("span", { className: "rc-tension__sep", "aria-hidden": "true" }, "⇄"),
-    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--reality" },
-    React.createElement("span", { className: "rc-tension__label" }, "Man's Reality"),
-    React.createElement("p", null, session.reality)
-    )
-    ) : null,
+    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: "New Testament Fulfilment", sublabel: "How Christ fulfils this passage", defaultOpen: true },
     session.ntPoint ?
     React.createElement("article", { className: "rc-tension__cell rc-tension__cell--resolve" },
     React.createElement("span", { className: "rc-tension__resolve-glyph", "aria-hidden": "true" }, "✝"),
@@ -420,7 +409,21 @@ function CR_MeditateBody({ session, sd, patch, themes, pairedDivisions }) {
     )
     )
     ) :
-    React.createElement("p", { className: "rc-tension__empty" }, "No New Testament link recorded for this session yet.")
+    React.createElement("p", { className: "rc-tension__empty" }, "No New Testament link recorded for this session yet."),
+    hasTension ?
+    React.createElement(CR_Collapsible, { kind: "tension", hint: "click to reveal", label: "See the tension this resolves — God's Character & Intent vs Mankind's Sinfulness & Limitations" },
+    React.createElement("div", { className: "rc-tension__pair rc-tension__pair--reveal" },
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--intent" },
+    React.createElement("span", { className: "rc-tension__label" }, "God's Character & Intent"),
+    React.createElement("p", null, session.intention)
+    ),
+    React.createElement("span", { className: "rc-tension__sep", "aria-hidden": "true" }, "⇄"),
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--reality" },
+    React.createElement("span", { className: "rc-tension__label" }, "Mankind's Sinfulness & Limitations"),
+    React.createElement("p", null, session.reality)
+    )
+    )
+    ) : null
     ),
 
     React.createElement(CR_SectionTile, { tone: "apply", step: "05", label: "Reflect — New Testament", sublabel: "How does Christ meet you here?", defaultOpen: true },
@@ -811,30 +814,13 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     ), /*#__PURE__*/
 
 
-    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: "Tension & New Testament", sublabel: "God\u2019s intent vs man\u2019s reality, and how Christ resolves it" }, /*#__PURE__*/
+    React.createElement(CR_SectionTile, { tone: "tension", step: "04", label: "New Testament Fulfilment", sublabel: "How this passage applies to us, resolved in Christ" }, /*#__PURE__*/
     React.createElement(CR_Scratchpad, {
       label: "How do you think this study applies to us as New Testament believers?",
-      placeholder: "Write your reflection \u2014 God's intent vs man's reality, and how Christ resolves it\u2026",
+      placeholder: "Write your reflection \u2014 how does Christ fulfil this passage for us today?\u2026",
       value: tensionAttempt,
       onChange: (v) => patch({ ten: v }),
       rows: 4 }
-    ),
-    !tensionRevealed ? /*#__PURE__*/
-    React.createElement("button", { className: "rc-btn rc-btn--primary rc-btn--lg", onClick: () => patch({ tenR: true }) }, "Reveal tension & fulfilment \u2192"
-
-    ) : /*#__PURE__*/
-
-    React.createElement("div", { className: "rc-tension__reveal" }, /*#__PURE__*/
-    React.createElement("div", { className: "rc-tension__pair" }, /*#__PURE__*/
-    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--intent" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-tension__label" }, "God's Character & Intent"), /*#__PURE__*/
-    React.createElement("p", null, session.intention || /*#__PURE__*/React.createElement("em", { className: "rc-tension__empty" }, "\u2014 not foregrounded in this passage \u2014"))
-    ), /*#__PURE__*/
-    React.createElement("span", { className: "rc-tension__sep", "aria-hidden": "true" }, "\u21C4"), /*#__PURE__*/
-    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--reality" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-tension__label" }, "Man's Reality"), /*#__PURE__*/
-    React.createElement("p", null, session.reality || /*#__PURE__*/React.createElement("em", { className: "rc-tension__empty" }, "\u2014 not foregrounded in this passage \u2014"))
-    )
     ),
     session.ntPoint ? /*#__PURE__*/
     React.createElement("article", { className: "rc-tension__cell rc-tension__cell--resolve" }, /*#__PURE__*/
@@ -848,9 +834,23 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     null
     )
     )
+    ) : /*#__PURE__*/
+    React.createElement("p", { className: "rc-tension__empty" }, "No New Testament link recorded for this session yet."),
+    session.intention || session.reality ? /*#__PURE__*/
+    React.createElement(CR_Collapsible, { kind: "tension", hint: "click to reveal", label: "See the tension this resolves \u2014 God's Character & Intent vs Mankind's Sinfulness & Limitations" }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-tension__pair rc-tension__pair--reveal" }, /*#__PURE__*/
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--intent" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-tension__label" }, "God's Character & Intent"), /*#__PURE__*/
+    React.createElement("p", null, session.intention || /*#__PURE__*/React.createElement("em", { className: "rc-tension__empty" }, "\u2014 not foregrounded in this passage \u2014"))
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "rc-tension__sep", "aria-hidden": "true" }, "\u21C4"), /*#__PURE__*/
+    React.createElement("article", { className: "rc-tension__cell rc-tension__cell--reality" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-tension__label" }, "Mankind's Sinfulness & Limitations"), /*#__PURE__*/
+    React.createElement("p", null, session.reality || /*#__PURE__*/React.createElement("em", { className: "rc-tension__empty" }, "\u2014 not foregrounded in this passage \u2014"))
+    )
+    )
     ) :
     null
-    )
 
     ), /*#__PURE__*/
 
