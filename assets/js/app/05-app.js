@@ -58,7 +58,7 @@ function TensionRevealToggle({ open, onToggle }) {
       "aria-expanded": open }, /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__text" },
-    open ? "Hide the tension" : "See how Christ resolves the tension"
+    open ? "Hide the tension" : "Click here to see how Christ resolves the tension"
     )
     ));
 

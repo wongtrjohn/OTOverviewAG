@@ -990,27 +990,29 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
 
   return (/*#__PURE__*/
     React.createElement("section", { className: "rc-picker" },
-    window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "recap", label: "Need help? Take a tour of Recap Mode" }) : null, /*#__PURE__*/
-    React.createElement("header", { className: "rc-picker__head" }, /*#__PURE__*/
-    React.createElement("div", { className: "rc-picker__head-top" }, /*#__PURE__*/
-    React.createElement("div", null, /*#__PURE__*/
-    React.createElement("span", { className: "rc-picker__eyebrow" }, "RECAP MODE \xB7 ", meditate ? 'MEDITATE & REFLECT' : 'STUDY & REFLECT'), /*#__PURE__*/
-    React.createElement("h1", { className: "rc-picker__title" }, "Which session would you like to ", meditate ? 'sit with' : 'recap', "?")
-    ),
+    window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "recap", label: "Tour" }) : null, /*#__PURE__*/
+    React.createElement("header", { className: "rc-picker__head" },
     ProgressRing ? /*#__PURE__*/
     React.createElement("div", { className: "rc-picker__overall" }, /*#__PURE__*/
-    React.createElement(ProgressRing, { pct: overallPct, size: 56, strokeW: 5 }), /*#__PURE__*/
+    React.createElement(ProgressRing, { pct: overallPct, size: 52, strokeW: 5 }), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__overall-label" }, "overall", /*#__PURE__*/React.createElement("br", null), "progress")
     ) :
-    null
-    ),
-    meditate ? /*#__PURE__*/
-    React.createElement("p", { className: "rc-picker__lede" }, /*#__PURE__*/
-    React.createElement("strong", { className: "rc-picker__lede-em" }, /*#__PURE__*/React.createElement("em", null, "Finished studying a session already?")), " This mode focuses on dwelling on the truths learnt during the session and spending time with God intentionally. Fewer and more intentional questions. Your notes here are kept separate from Study mode."
-    ) : /*#__PURE__*/
-
-    React.createElement("p", { className: "rc-picker__lede" }, "Study & Reflect walks you through each session in depth \u2014 guided questions and thread reveals. Pick one session at a time; your answers are saved locally in this browser."
-
+    null, /*#__PURE__*/
+    React.createElement("span", { className: "rc-picker__eyebrow" }, "RECAP MODE"), /*#__PURE__*/
+    React.createElement("h1", { className: "rc-picker__title" }, "Which session would you like to ", meditate ? 'sit with' : 'recap', "?"), /*#__PURE__*/
+    React.createElement("p", { className: "rc-picker__mode" }, meditate ? "Meditate & Reflect Mode" : "Study & Reflect Mode"), /*#__PURE__*/
+    React.createElement("p", { className: "rc-picker__modesub" }, meditate ? "For those who have been through a session." : "For working through a session in depth."), /*#__PURE__*/
+    React.createElement("details", { className: "rc-picker__more" }, /*#__PURE__*/
+    React.createElement("summary", { className: "rc-picker__more-summary" }, "More details"), /*#__PURE__*/
+    React.createElement("ul", { className: "rc-picker__more-list" },
+    meditate ? [/*#__PURE__*/
+    React.createElement("li", { key: "a" }, /*#__PURE__*/React.createElement("b", null, "Aim:"), " Spend time with God intentionally over the main truths of each session."), /*#__PURE__*/
+    React.createElement("li", { key: "b" }, "Fewer and more intentional questions."), /*#__PURE__*/
+    React.createElement("li", { key: "c" }, "Notes kept separate from Study & Reflect mode.")] : [/*#__PURE__*/
+    React.createElement("li", { key: "a" }, /*#__PURE__*/React.createElement("b", null, "Aim:"), " Work through each session in depth and discover its main truths for yourself."), /*#__PURE__*/
+    React.createElement("li", { key: "b" }, "Guided questions, with thread and answer reveals, one session at a time."), /*#__PURE__*/
+    React.createElement("li", { key: "c" }, "Notes kept separate from Meditate & Reflect mode.")]
+    )
     ),
 
     onOpenJournal ? /*#__PURE__*/
@@ -1026,8 +1028,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("button", { className: "rc-picker__introrow", onClick: () => onPick(1) }, /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__num" }, "01"), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__body" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-picker__topic" }, "Introduction \u2014 start here"), /*#__PURE__*/
-    React.createElement("span", { className: "rc-picker__passage" }, "The 3 big threads \xB7 why read the Old Testament?")
+    React.createElement("span", { className: "rc-picker__topic" }, "Introduction \u2014 Why OT?")
     ), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__cta" }, "go to the Introduction \u2192")
     ) :
