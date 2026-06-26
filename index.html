@@ -1824,80 +1824,11 @@
 }
 
 /* ==============================================
-   v7 — Subway map: horizontal group bands
-   Rows 1-3 = top threads (50%), rows 4-5 = tension (33.33%), row 6 = NT (16.67%)
-============================================== */
-.subway__tracks {
-  background-image: linear-gradient(
-    to bottom,
-    transparent                           50%,
-    rgba(130,80,180,.055)                 50%,
-    rgba(130,80,180,.055)                 66.666%,
-    rgba(155,55,55,.055)                  66.666%,
-    rgba(155,55,55,.055)                  83.333%,
-    rgba(38,95,130,.075)                  83.333%,
-    rgba(38,95,130,.075)                 100%
-  );
-}
-
-/* ==============================================
-   v7 — Subway labels: group separators & tints
+   Subway labels — the row group (rows are now data-driven; the old fixed
+   6-row band tints / positional captions were removed when NT Fulfilment
+   became the overarching row with the tension themes revealed on demand).
 ============================================== */
 .subway__labels { overflow: visible; }
-
-/* Make rows 4 & 6 the anchor for ::before separator titles */
-.tlabel:nth-child(4),
-.tlabel:nth-child(6) { position: relative; }
-
-/* ── Separator: "The Tension which drives the Story" ── */
-.tlabel:nth-child(4)::before {
-  content: 'THE TENSION THAT DRIVES THE STORY';
-  position: absolute;
-  left: 0; right: 0;
-  top: -17px; height: 17px;
-  display: flex; align-items: center;
-  font-size: .47rem;
-  font-weight: 700;
-  letter-spacing: .03em;
-  color: var(--ink-soft, #8a7a6a);
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: visible;
-  border-top: 1.5px solid rgba(0,0,0,.14);
-  padding-top: 2px;
-}
-
-/* ── Group tints for tension rows ── */
-.tlabel:nth-child(4) {
-  background: rgba(130,80,180,.06);
-  border-radius: 8px 0 0 0 !important;
-}
-.tlabel:nth-child(5) {
-  background: rgba(155,55,55,.06);
-  border-radius: 0 0 0 8px !important;
-  border-top: 1px solid rgba(0,0,0,.07);
-}
-
-/* ── Separator: "Resolved in Christ" above NT row ── */
-.tlabel:nth-child(6)::before {
-  content: 'RESOLVED IN CHRIST';
-  position: absolute;
-  left: 0; right: 0;
-  top: -6px; height: 15px;
-  display: flex; align-items: center;
-  font-size: .49rem;
-  font-weight: 700;
-  letter-spacing: .08em;
-  color: var(--c-nt, #3e6792);
-  text-transform: uppercase;
-  white-space: nowrap;
-  overflow: visible;
-  border-top: 1px solid rgba(38,95,130,.35);
-  padding-top: 2px;
-}
-.tlabel:nth-child(6) {
-  background: rgba(38,95,130,.07);
-}
 </style>
 
   <!-- Base styles from v24 + new recap-mode styles -->
@@ -2212,10 +2143,9 @@ body::before{
 
 /* track row label */
 .subway__labels{
-  display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  display: flex;
+  flex-direction: column;
   gap: 0;
-  align-items: stretch;
 }
 .tlabel{
   display:flex; align-items:center; gap:8px;
@@ -2248,10 +2178,10 @@ body::before{
 .subway__tracks{
   position: relative;
   display: grid;
-  grid-template-rows: repeat(6, 1fr);
+  grid-template-rows: repeat(var(--theme-rows, 6), 1fr);
   grid-template-columns: repeat(var(--sess-cols, 11), minmax(0, 1fr));
   gap: 0;
-  height: 336px; /* 6 * 56 */
+  height: calc(var(--theme-rows, 6) * 56px);
   border-left: 1px dashed var(--rule);
 }
 /* Vertical column dividers (light) */
@@ -2274,9 +2204,9 @@ body::before{
   background-image: repeating-linear-gradient(
     to bottom,
     transparent 0,
-    transparent calc((100% / 6) - 1px),
-    oklch(0.85 0.02 70 / 0.35) calc((100% / 6) - 1px),
-    oklch(0.85 0.02 70 / 0.35) calc(100% / 6)
+    transparent calc((100% / var(--theme-rows, 6)) - 1px),
+    oklch(0.85 0.02 70 / 0.35) calc((100% / var(--theme-rows, 6)) - 1px),
+    oklch(0.85 0.02 70 / 0.35) calc(100% / var(--theme-rows, 6))
   );
   pointer-events:none;
 }
@@ -2880,24 +2810,26 @@ body::before{
 .matrix-sizer__range{ flex: 1; min-width: 140px; max-width: 320px; accent-color: #a4423a; cursor: pointer; }
 .matrix-sizer__hint{ font-style: italic; color: #9a7a45; margin-left: auto; }
 
-/* Reveal bar beneath the subway/matrix NT Fulfilment row — opens the two tension themes */
+/* Obvious clickable pill that reveals the two tension themes — sits in the left
+   label column, directly beneath the NT Fulfilment row. */
 .tension-reveal-toggle{
-  display: flex; align-items: center; gap: 10px; width: 100%;
-  margin: 12px 0 4px; padding: 13px 18px;
-  background: var(--c-nt-soft, #eef3ec);
-  border: 1px solid var(--c-nt, #4a7c3f); border-radius: 10px;
-  font-family: var(--sans); font-size: 13.5px; font-weight: 600;
-  color: var(--c-nt, #3e6a33); text-align: left; cursor: pointer;
-  transition: background 140ms, box-shadow 140ms;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+  align-self: stretch; box-sizing: border-box;
+  margin: 14px 0 2px; padding: 11px 16px;
+  background: var(--c-nt, #4a7c3f); color: #fff;
+  border: 0; border-radius: 999px;
+  box-shadow: 0 4px 12px rgba(74,124,63,0.38), inset 0 1px 0 rgba(255,255,255,0.18);
+  font-family: var(--sans); font-size: 12px; font-weight: 700;
+  line-height: 1.25; text-align: center; cursor: pointer;
+  transition: transform 120ms ease, box-shadow 140ms ease, background 140ms ease;
 }
-.tension-reveal-toggle:hover{ box-shadow: 0 4px 14px rgba(40,30,10,0.08); }
-.tension-reveal-toggle.is-open{ background: #fdf5e4; border-color: #d4b87a; color: #6e5a2c; }
-.tension-reveal-toggle__glyph{ font-size: 16px; line-height: 1; }
-.tension-reveal-toggle__text{ flex: 1; }
-.tension-reveal-toggle__chev{ font-size: 12px; opacity: 0.8; }
-@media (max-width: 640px){
-  .tension-reveal-toggle{ font-size: 12.5px; padding: 12px 14px; }
-}
+.tension-reveal-toggle:hover{ transform: translateY(-1px); box-shadow: 0 7px 18px rgba(74,124,63,0.46), inset 0 1px 0 rgba(255,255,255,0.18); }
+.tension-reveal-toggle:active{ transform: translateY(0); }
+.tension-reveal-toggle.is-open{ background: #8a6f3a; box-shadow: 0 4px 12px rgba(138,111,58,0.38), inset 0 1px 0 rgba(255,255,255,0.18); }
+.tension-reveal-toggle__glyph{ font-size: 14px; line-height: 1; }
+/* Matrix: footer row spans the grid; pin the pill to the sticky left column */
+.matrix__foot{ grid-column: 1 / -1; position: sticky; left: 0; z-index: 2; display: flex; padding: 8px 0 2px; }
+.matrix__foot .tension-reveal-toggle{ align-self: flex-start; width: auto; max-width: 280px; }
 .mhead{
   font-family: var(--sans);
   text-transform: uppercase;

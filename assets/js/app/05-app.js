@@ -54,14 +54,12 @@ function TensionRevealToggle({ open, onToggle }) {
       type: "button",
       className: "tension-reveal-toggle" + (open ? " is-open" : ""),
       onClick: onToggle,
+      title: open ? "Hide the tension themes" : "Click to see how Christ resolves the tension between God and Man",
       "aria-expanded": open }, /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__text" },
-    open ?
-    "Hide the tension — God's Character & Intent vs Mankind's Sinfulness & Limitations" :
-    "Click to see how Christ resolves the tension between God and Man"
-    ), /*#__PURE__*/
-    React.createElement("span", { className: "tension-reveal-toggle__chev", "aria-hidden": "true" }, open ? "▴" : "▾")
+    open ? "Hide the tension" : "See how Christ resolves the tension"
+    )
     ));
 
 }
@@ -570,15 +568,13 @@ function BigPictureView({ sessions, themes }) {
     React.createElement("span", { className: "matrix-sizer__hint" }, "Compact fits more on screen \xB7 Wide is easier to read")
     ),
     SubwayMap ? /*#__PURE__*/
-    React.createElement(React.Fragment, null, /*#__PURE__*/
     React.createElement(SubwayMap, { sessions: displaySessions, themes: shownThemes,
       selectedSession: null, onSelectSession: () => {},
       activeTheme: activeTheme, pinnedTheme: pinnedTheme,
       colW: boxW,
       onHoverTheme: setActiveTheme,
-      onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id) }), /*#__PURE__*/
-    React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) })
-    ) :
+      onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id),
+      labelFooter: /*#__PURE__*/React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) }) }) :
     null
     )
 
@@ -650,7 +646,7 @@ function ThreadViewPage({ sessions, themes }) {
 }
 
 /* ─── Matrix grid (themes × sessions) ───────────────── */
-function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW }) {
+function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW, labelFooter }) {
   const shortPassage = window.shortPassage;
   const isPrimary = window.isPrimary;
   const truncate = window.truncate;
@@ -707,7 +703,8 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
 
     })
     )
-    )
+    ),
+    labelFooter ? /*#__PURE__*/React.createElement("div", { className: "matrix__foot" }, labelFooter) : null
     )
     ));
 
@@ -795,9 +792,9 @@ function MatrixViewPage({ sessions, themes }) {
       onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id),
       activeTheme: activeTheme,
       pinnedTheme: pinnedTheme,
-      selectedSession: null }
-    ), /*#__PURE__*/
-    React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) })
+      selectedSession: null,
+      labelFooter: /*#__PURE__*/React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) }) }
+    )
     )
 
     ));
