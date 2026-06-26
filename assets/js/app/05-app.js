@@ -48,8 +48,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "RECAP EDITION", /*#__PURE__*/
     React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "PENTATEUCH"
     ), /*#__PURE__*/
-    React.createElement("h1", { className: "home-screen__title" }, /*#__PURE__*/
-    React.createElement("em", null, "God's character & intent"), ",", /*#__PURE__*/React.createElement("br", null), "Mankind's sinfulness & limitations, and Christ."
+    React.createElement("h1", { className: "home-screen__title" }, "OT Overview — God's Kingdom, Salvation and Promises ", /*#__PURE__*/React.createElement("em", null, "fulfilled in Jesus")
     ), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__sub" }, "Three threads \u2014 ", /*#__PURE__*/
     React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across twelve sessions from Genesis to Deuteronomy."
@@ -276,9 +275,9 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("span", { className: "dot" }), "OT OVERVIEW ", /*#__PURE__*/
     React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " SIMPLIFIED FOR RECAP ", /*#__PURE__*/React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " 12 SESSIONS THROUGH THE PENTATEUCH"
     ), /*#__PURE__*/
-    React.createElement("h1", null, /*#__PURE__*/React.createElement("em", null, "God's character & intent"), ", Mankind's sinfulness & limitations, and Christ."), /*#__PURE__*/
-    React.createElement("p", { className: "hero__sub" }, "What God means to do for His people \u2014 and what we make of it. Three great threads \u2014 ", /*#__PURE__*/
-    React.createElement("b", null, "God's Kingdom"), ", ", /*#__PURE__*/React.createElement("b", null, "God's Salvation"), ", and ", /*#__PURE__*/React.createElement("b", null, "God's Promises"), " \u2014 weave a single story across the twelve sessions, where every tension between ", /*#__PURE__*/React.createElement("b", null, "God's Character & Intent"), " and ", /*#__PURE__*/React.createElement("b", null, "Mankind's Sinfulness & Limitations"), " is answered in ", /*#__PURE__*/React.createElement("b", null, "Christ's fulfilment"), "."
+    React.createElement("h1", null, "OT Overview \u2014 God's Kingdom, Salvation and Promises ", /*#__PURE__*/React.createElement("em", null, "fulfilled in Jesus")), /*#__PURE__*/
+    React.createElement("p", { className: "hero__sub" }, "Across twelve sessions from Genesis to Deuteronomy, three great threads \u2014 ", /*#__PURE__*/
+    React.createElement("b", null, "God's Kingdom"), ", ", /*#__PURE__*/React.createElement("b", null, "God's Salvation"), ", and ", /*#__PURE__*/React.createElement("b", null, "God's Promises"), " \u2014 weave a single story that finds its fulfilment in ", /*#__PURE__*/React.createElement("b", null, "Jesus"), "."
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "hero__legend" }, /*#__PURE__*/
