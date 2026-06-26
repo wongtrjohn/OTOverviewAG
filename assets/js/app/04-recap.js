@@ -1767,9 +1767,10 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
 
 
     React.createElement("section", { className: "rc-review2__bigpic" }, /*#__PURE__*/
-    React.createElement("h2", { className: "rc-bigpic__h" }, "The Big Picture — the whole Pentateuch in one view"),
+    React.createElement("h2", { className: "rc-bigpic__h" }, "The Big Picture — the whole Pentateuch in one view"), /*#__PURE__*/
+    React.createElement("p", { className: "rc-bigpic__nav" }, "Freely navigate this big picture view by mousing over the dots, then reflect on the 3 questions below."),
     window.BigPictureView ? /*#__PURE__*/
-    React.createElement(window.BigPictureView, { sessions: sessions, themes: themes }) : /*#__PURE__*/
+    React.createElement(window.BigPictureView, { sessions: sessions, themes: themes, embedded: true }) : /*#__PURE__*/
     React.createElement("p", { className: "rc-medsum__empty" }, "Big Picture view unavailable.")
     ), /*#__PURE__*/
 

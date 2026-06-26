@@ -5143,21 +5143,9 @@ body::before{
 
 /* G. Redemptive-arc ribbon behind the subway (Creation→Fall→Covenants→Christ) */
 .subway-wrap{ position: relative; }
-.subway-wrap::before{
-  content: '';
-  position: absolute; inset: 0;
-  border-radius: 16px;
-  pointer-events: none; z-index: 0;
-  background: linear-gradient(90deg,
-    oklch(0.93 0.07 95 / 0.30) 0%,    /* Creation — warm light */
-    oklch(0.55 0.05 55 / 0.16) 24%,   /* Fall — shadowed clay */
-    oklch(0.55 0.07 250 / 0.12) 52%,  /* Covenants — blue, lifting */
-    oklch(0.66 0.08 160 / 0.16) 82%,  /* toward fulfilment */
-    oklch(0.90 0.12 160 / 0.30) 100%  /* Christ — luminous emerald */
-  );
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
-          mask-image: linear-gradient(180deg, transparent 0, #000 14%, #000 86%, transparent 100%);
-}
+/* (removed decorative ::before "era" gradient — it read as a green panel that
+   cut off abruptly behind the later sessions in both the Big Picture and the
+   Pentateuch Review) */
 .subway-wrap > *{ position: relative; z-index: 1; }
 
 /* F. Covenant-sign icons */
@@ -8125,7 +8113,8 @@ body.is-recap-mode .sidenav{
 
   /* ── Pentateuch Review (session 12, Meditate-only) ── */
   .rc-review2__bigpic{ margin:6px 0 20px; }
-  .rc-review2__bigpic .rc-bigpic__h{ margin:0 0 12px; }
+  .rc-review2__bigpic .rc-bigpic__h{ margin:0 0 8px; }
+  .rc-bigpic__nav{ margin:0 0 14px; font-size:16px; line-height:1.55; color:#5c4a1e; font-style:italic; }
   .rc-review2__bigpic .bigpic-page{ margin:0; }
   .rc-medq__block{ margin:0 0 22px; }
   .rc-medq__block:last-child{ margin-bottom:0; }

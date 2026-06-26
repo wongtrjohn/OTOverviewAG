@@ -460,7 +460,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
 }
 
 /* ─── BigPictureView ─────────────────────────────────────────────────── */
-function BigPictureView({ sessions, themes }) {
+function BigPictureView({ sessions, themes, embedded }) {
   const studySessions = useMemoA(() => sessions.filter((s) => s.id !== 1 && !isReviewSession(s)), [sessions]);
   const [upToId, setUpToId] = useStateA(() => {const ss = sessions.filter((s) => s.id !== 1 && !isReviewSession(s));return ss.length ? ss[ss.length - 1].id : null;});
   const [search, setSearch] = useStateA('');
@@ -494,8 +494,9 @@ function BigPictureView({ sessions, themes }) {
   }, [upToId, displaySessions, search, boxW]);
 
   return (/*#__PURE__*/
-    React.createElement("div", { className: "bigpic-page" },
-    window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "bigpicture" }) : null, /*#__PURE__*/
+    React.createElement("div", { className: "bigpic-page" + (embedded ? " bigpic-page--embedded" : "") },
+    !embedded && window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "bigpicture" }) : null, /*#__PURE__*/
+    !embedded ? /*#__PURE__*/
     React.createElement("div", { className: "bigpic-selector" }, /*#__PURE__*/
     React.createElement("label", { className: "bigpic-selector__label", htmlFor: "bigpic-upto" }, "Display the big picture overview until session:"
 
@@ -512,7 +513,8 @@ function BigPictureView({ sessions, themes }) {
 
     ), /*#__PURE__*/
     React.createElement("p", { className: "bigpic-selector__hint" }, "(Strongly recommended to go through a study/recap first before seeing where it fits into the overview)")
-    ), /*#__PURE__*/
+    ) :
+    null, /*#__PURE__*/
 
 
     React.createElement("div", { className: "bigpic-legend" }, /*#__PURE__*/
