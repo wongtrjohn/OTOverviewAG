@@ -999,9 +999,11 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     ) :
     null, /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__eyebrow" }, "RECAP MODE"), /*#__PURE__*/
-    React.createElement("h1", { className: "rc-picker__title" }, "Which session would you like to ", meditate ? 'sit with' : 'recap', "?"), /*#__PURE__*/
-    React.createElement("p", { className: "rc-picker__mode" }, meditate ? "Meditate & Reflect Mode" : "Study & Reflect Mode"), /*#__PURE__*/
+    React.createElement("h1", { className: "rc-picker__title" }, meditate ? "Meditate & Reflect Mode" : "Study & Reflect Mode"), /*#__PURE__*/
     React.createElement("p", { className: "rc-picker__modesub" }, meditate ? "For those who have been through a session." : "For working through a session in depth."), /*#__PURE__*/
+    !meditate ? /*#__PURE__*/
+    React.createElement("p", { className: "rc-picker__modewarn" }, "Note: Strongly recommended to study God’s Word in depth with others.") :
+    null, /*#__PURE__*/
     React.createElement("details", { className: "rc-picker__more" }, /*#__PURE__*/
     React.createElement("summary", { className: "rc-picker__more-summary" }, "More details"), /*#__PURE__*/
     React.createElement("ul", { className: "rc-picker__more-list" },
@@ -1009,7 +1011,8 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("li", { key: "a" }, /*#__PURE__*/React.createElement("b", null, "Aim:"), " Spend time with God intentionally over the main truths of each session."), /*#__PURE__*/
     React.createElement("li", { key: "b" }, "Fewer and more intentional questions."), /*#__PURE__*/
     React.createElement("li", { key: "c" }, "Notes kept separate from Study & Reflect mode.")] : [/*#__PURE__*/
-    React.createElement("li", { key: "a" }, /*#__PURE__*/React.createElement("b", null, "Aim:"), " Work through each session in depth and discover its main truths for yourself."), /*#__PURE__*/
+    React.createElement("li", { key: "a" }, /*#__PURE__*/React.createElement("b", null, "Aim:"), " In depth study of God’s Word with a time of reflection."), /*#__PURE__*/
+    React.createElement("li", { key: "d" }, "Set aside a considerable amount of time to work through the sessions in depth and reflect."), /*#__PURE__*/
     React.createElement("li", { key: "b" }, "Guided questions, with thread and answer reveals, one session at a time."), /*#__PURE__*/
     React.createElement("li", { key: "c" }, "Notes kept separate from Meditate & Reflect mode.")]
     )
@@ -1221,10 +1224,14 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
   const [selected, setSelected] = useStateR(initialSession || null);
   const [journalOpen, setJournalOpen] = useStateR(!!initialJournalOpen);
   const [mode, setMode] = useStateR(initialMode || (window.getRecapMode ? window.getRecapMode() : 'meditate'));
+  const [studyNotice, setStudyNotice] = useStateR(false);
   const session = selected ? sessions.find((s) => s.id === selected) : null;
 
   /* persist + broadcast mode (for deep-link hash) */
   function chooseMode(m) {
+    /* Switching from Meditate & Reflect → Study & Reflect surfaces a one-time
+       reminder that in-depth study is best done alongside someone else. */
+    if (m === 'study' && mode === 'meditate') setStudyNotice(true);
     setMode(m);
     if (window.setRecapMode) window.setRecapMode(m);
     if (onModeChange) onModeChange(m);
@@ -1279,7 +1286,16 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
   }, [selected, mode]);
 
   return (/*#__PURE__*/
-    React.createElement("div", { className: "rc-mode rc-mode--" + mode, role: "region", "aria-label": "Recap Mode" }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-mode rc-mode--" + mode, role: "region", "aria-label": "Recap Mode" },
+    studyNotice ? /*#__PURE__*/
+    React.createElement("div", { className: "rc-modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "rc-modal-title", onClick: () => setStudyNotice(false) }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-modal__box", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
+    React.createElement("h2", { id: "rc-modal-title", className: "rc-modal__title" }, "Study & Reflect Mode"), /*#__PURE__*/
+    React.createElement("p", { className: "rc-modal__body" }, "Note: This mode is for studying God’s Word in depth. It is strongly recommended to study God’s Word in depth with someone else who has been through the study before."), /*#__PURE__*/
+    React.createElement("button", { className: "rc-btn rc-modal__ok", onClick: () => setStudyNotice(false) }, "Got it")
+    )
+    ) :
+    null, /*#__PURE__*/
     React.createElement("header", { className: "rc-mode__topbar" }, /*#__PURE__*/
     React.createElement("div", { className: "rc-mode__topnav" }, /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--ghost", onClick: onExit }, "\u2190 exit recap mode"),
@@ -1291,6 +1307,8 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
     React.createElement("span", { className: "rc-mode__glyph" }, "\u21BB"), "Recap Mode"
 
     ), /*#__PURE__*/
+    React.createElement("div", { className: "rc-modetoggle-wrap" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-modetoggle__label" }, "Toggle Between 2 Modes here:"), /*#__PURE__*/
     React.createElement("div", { className: "rc-modetoggle", role: "group", "aria-label": "Choose recap mode" }, /*#__PURE__*/
     React.createElement("button", {
       type: "button",
@@ -1307,6 +1325,7 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
       onClick: () => chooseMode('meditate') }, /*#__PURE__*/
     React.createElement("span", { className: "rc-modetoggle__glyph", "aria-hidden": "true" }, "\u2740"), "Meditate & Reflect"
 
+    )
     )
     )
     ), /*#__PURE__*/
