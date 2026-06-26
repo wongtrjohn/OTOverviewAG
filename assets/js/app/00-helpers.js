@@ -194,6 +194,28 @@ function parseFurtherStudy(raw) {
 /* PassageRef — Bible reference chips. Rendered as plain <span> text so that
    RefTagger can add hover-to-read tooltips automatically. RefTagger handles
    the click-to-open-Bible-Gateway behaviour via linksOpenBibleGW:true.      */
+/* Split a reference string into individually-resolvable references, carrying
+   book + chapter forward so each piece is a complete lookup:
+     "Hebrews 9:1; 9:11-14"        -> ["Hebrews 9:1", "Hebrews 9:11-14"]
+     "Revelation 21:1-5 & 22:1-5"  -> ["Revelation 21:1-5", "Revelation 22:1-5"]
+   Shared by PassageRef AND the inline linkifier (window.linkifyRefs) so a
+   combined ref ("A & B") can never reach the verse API as one unresolvable
+   string, in any view. */
+function splitBibleRef(refs) {
+  if (!refs) return [];
+  const raw = String(refs).replace(/[‐-―−]/g, '-');
+  const parts = raw.split(/\s*[;&]\s*|(?:,\s*(?=[1-3]?\s*[A-Z]))/g).
+  map((s) => s.trim()).filter(Boolean);
+  let lastBook = '', lastChap = '';
+  return parts.map((p) => {
+    const m = p.match(/^((?:[1-3]\s+)?[A-Za-z][A-Za-z.]*)\s+(\d+)/);
+    if (m) {lastBook = m[1].trim();lastChap = m[2];return p;}
+    if (/^\d{1,3}:/.test(p) && lastBook) {lastChap = p.match(/^(\d+):/)[1];return lastBook + ' ' + p;}
+    if (/^\d{1,3}(?:[-–]\d+)?$/.test(p) && lastBook && lastChap) return lastBook + ' ' + lastChap + ':' + p;
+    return p;
+  });
+}
+
 function PassageRef({ refs, className }) {
   if (!refs) return null;
   // Normalise unicode dashes so RefTagger recognises verse ranges (5–13 → 5-13).
@@ -362,6 +384,7 @@ function CountUp({ to, dur }) {
 window.parseDivisions = parseDivisions;
 window.parseFurtherStudy = parseFurtherStudy;
 window.PassageRef = PassageRef;
+window.splitBibleRef = splitBibleRef;
 window.SectionDivider = SectionDivider;
 window.ScrubMap = ScrubMap;
 window.CountUp = CountUp;

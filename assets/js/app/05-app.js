@@ -28,6 +28,44 @@ function tagRefsNow(scopeSel) {
   })();
 }
 
+/* The Pentateuch-in-Review session is a wrap-up, not a thread-bearing study, so
+   it's excluded from the cross-session overview tables (subway / thread / matrix). */
+function isReviewSession(s) {
+  return !!s && (s.chapter === 'Review' || s.topic === 'Pentateuch in Review');
+}
+
+/* Theme order for the subway & matrix overviews: the three threads, then NT
+   Fulfilment as the overarching resolution, and the two tension themes
+   (God's Character & Intent · Mankind's Sinfulness & Limitations) only when the
+   reader chooses to reveal them. */
+const TENSION_THEME_IDS = ['intention', 'reality'];
+function orderThemesNtOverarching(themes, showTension) {
+  const base = themes.filter((t) => !TENSION_THEME_IDS.includes(t.id)); // …kingdom, salvation, promises, nt
+  if (!showTension) return base;
+  const tension = TENSION_THEME_IDS.map((id) => themes.find((t) => t.id === id)).filter(Boolean);
+  return base.concat(tension);
+}
+
+/* Reveal bar shown beneath the subway/matrix NT Fulfilment row — expands the two
+   tension themes that Christ resolves. */
+function TensionRevealToggle({ open, onToggle }) {
+  return (/*#__PURE__*/
+    React.createElement("button", {
+      type: "button",
+      className: "tension-reveal-toggle" + (open ? " is-open" : ""),
+      onClick: onToggle,
+      "aria-expanded": open }, /*#__PURE__*/
+    React.createElement("span", { className: "tension-reveal-toggle__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
+    React.createElement("span", { className: "tension-reveal-toggle__text" },
+    open ?
+    "Hide the tension — God's Character & Intent vs Mankind's Sinfulness & Limitations" :
+    "Click to see how Christ resolves the tension between God and Man"
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "tension-reveal-toggle__chev", "aria-hidden": "true" }, open ? "▴" : "▾")
+    ));
+
+}
+
 /* ─── HomeScreen v2 ──────────────────────────────────────────────────── */
 function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onOpenJournal }) {
   let __last = null;
@@ -425,12 +463,14 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
 
 /* ─── BigPictureView ─────────────────────────────────────────────────── */
 function BigPictureView({ sessions, themes }) {
-  const studySessions = useMemoA(() => sessions.filter((s) => s.id !== 1), [sessions]);
-  const [upToId, setUpToId] = useStateA(() => {const ss = sessions.filter((s) => s.id !== 1);return ss.length ? ss[ss.length - 1].id : null;});
+  const studySessions = useMemoA(() => sessions.filter((s) => s.id !== 1 && !isReviewSession(s)), [sessions]);
+  const [upToId, setUpToId] = useStateA(() => {const ss = sessions.filter((s) => s.id !== 1 && !isReviewSession(s));return ss.length ? ss[ss.length - 1].id : null;});
   const [search, setSearch] = useStateA('');
   const [activeTheme, setActiveTheme] = useStateA(null);
   const [pinnedTheme, setPinnedTheme] = useStateA(null);
   const [boxW, setBoxW] = useStateA(118);
+  const [showTension, setShowTension] = useStateA(false);
+  const shownThemes = useMemoA(() => orderThemesNtOverarching(themes, showTension), [themes, showTension]);
   const SubwayMap = window.SubwayMap;
   const SearchBox = window.SearchBox;
   const searchMatches = window.searchMatches;
@@ -530,12 +570,15 @@ function BigPictureView({ sessions, themes }) {
     React.createElement("span", { className: "matrix-sizer__hint" }, "Compact fits more on screen \xB7 Wide is easier to read")
     ),
     SubwayMap ? /*#__PURE__*/
-    React.createElement(SubwayMap, { sessions: displaySessions, themes: themes,
+    React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement(SubwayMap, { sessions: displaySessions, themes: shownThemes,
       selectedSession: null, onSelectSession: () => {},
       activeTheme: activeTheme, pinnedTheme: pinnedTheme,
       colW: boxW,
       onHoverTheme: setActiveTheme,
-      onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id) }) :
+      onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id) }), /*#__PURE__*/
+    React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) })
+    ) :
     null
     )
 
@@ -555,6 +598,8 @@ function ThreadViewPage({ sessions, themes }) {
   { id: 'tension', label: "Tension & NT Fulfilment" }];
 
   const themeObj = themes.find((t) => t.id === activeThread);
+  /* The Pentateuch-in-Review wrap-up is excluded from the thread overview. */
+  const viewSessions = useMemoA(() => sessions.filter((s) => !isReviewSession(s)), [sessions]);
 
   /* Linkify Bible references when a thread tab renders / changes */
   useEffectA(() => {
@@ -581,7 +626,7 @@ function ThreadViewPage({ sessions, themes }) {
     React.createElement("p", { className: "tension-view__lede" }, /*#__PURE__*/
     React.createElement("b", null, "God's intention & character"), " vs ", /*#__PURE__*/React.createElement("b", null, "Mankind's sinfulness & limitations"), " \u2014 and how Christ resolves each tension. Click any session below to explore."
     ),
-    sessions.map((s) => {
+    viewSessions.map((s) => {
       const intV = (s.intention || '').trim();
       const realV = (s.reality || '').trim();
       const ntV = (s.ntPoint || '').trim();
@@ -597,7 +642,7 @@ function ThreadViewPage({ sessions, themes }) {
     })
     ) :
     themeObj && ThreadStory ? /*#__PURE__*/
-    React.createElement(ThreadStory, { theme: themeObj, sessions: sessions, onSelectSession: () => {} }) :
+    React.createElement(ThreadStory, { theme: themeObj, sessions: viewSessions, onSelectSession: () => {} }) :
     null
     )
     ));
@@ -655,7 +700,7 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
           onClick: () => {if (onPinTheme && has) onPinTheme(t.id);} },
 
         t.id === 'nt' && s.ntPassage ? /*#__PURE__*/
-        React.createElement("div", { className: "mcell__ntref" }, s.ntPassage) :
+        React.createElement("div", { className: "mcell__ntref" }, window.linkifyRefs ? window.linkifyRefs(s.ntPassage) : s.ntPassage) :
         null,
         has ? truncate(v, 200) : /*#__PURE__*/React.createElement("span", null, "\u2014")
         ));
@@ -670,11 +715,13 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
 
 /* ─── MatrixViewPage ───────────────────────────── */
 function MatrixViewPage({ sessions, themes }) {
-  const studySessions = useMemoA(() => sessions.filter((s) => s.id !== 1), [sessions]);
-  const [upToId, setUpToId] = useStateA(() => {const ss = sessions.filter((s) => s.id !== 1);return ss.length ? ss[ss.length - 1].id : null;});
+  const studySessions = useMemoA(() => sessions.filter((s) => s.id !== 1 && !isReviewSession(s)), [sessions]);
+  const [upToId, setUpToId] = useStateA(() => {const ss = sessions.filter((s) => s.id !== 1 && !isReviewSession(s));return ss.length ? ss[ss.length - 1].id : null;});
   const [activeTheme, setActiveTheme] = useStateA(null);
   const [pinnedTheme, setPinnedTheme] = useStateA(null);
   const [colW, setColW] = useStateA(180);
+  const [showTension, setShowTension] = useStateA(false);
+  const shownThemes = useMemoA(() => orderThemesNtOverarching(themes, showTension), [themes, showTension]);
 
   const displaySessions = useMemoA(
     () => upToId ? studySessions.filter((s) => s.id <= upToId) : [],
@@ -742,14 +789,15 @@ function MatrixViewPage({ sessions, themes }) {
     ), /*#__PURE__*/
     React.createElement(Matrix, {
       sessions: displaySessions,
-      themes: themes,
+      themes: shownThemes,
       colW: colW,
       onSelectSession: null,
       onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id),
       activeTheme: activeTheme,
       pinnedTheme: pinnedTheme,
       selectedSession: null }
-    )
+    ), /*#__PURE__*/
+    React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) })
     )
 
     ));

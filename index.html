@@ -2879,6 +2879,25 @@ body::before{
 .matrix-sizer__end{ font-size: 11px; color: #8a6520; }
 .matrix-sizer__range{ flex: 1; min-width: 140px; max-width: 320px; accent-color: #a4423a; cursor: pointer; }
 .matrix-sizer__hint{ font-style: italic; color: #9a7a45; margin-left: auto; }
+
+/* Reveal bar beneath the subway/matrix NT Fulfilment row — opens the two tension themes */
+.tension-reveal-toggle{
+  display: flex; align-items: center; gap: 10px; width: 100%;
+  margin: 12px 0 4px; padding: 13px 18px;
+  background: var(--c-nt-soft, #eef3ec);
+  border: 1px solid var(--c-nt, #4a7c3f); border-radius: 10px;
+  font-family: var(--sans); font-size: 13.5px; font-weight: 600;
+  color: var(--c-nt, #3e6a33); text-align: left; cursor: pointer;
+  transition: background 140ms, box-shadow 140ms;
+}
+.tension-reveal-toggle:hover{ box-shadow: 0 4px 14px rgba(40,30,10,0.08); }
+.tension-reveal-toggle.is-open{ background: #fdf5e4; border-color: #d4b87a; color: #6e5a2c; }
+.tension-reveal-toggle__glyph{ font-size: 16px; line-height: 1; }
+.tension-reveal-toggle__text{ flex: 1; }
+.tension-reveal-toggle__chev{ font-size: 12px; opacity: 0.8; }
+@media (max-width: 640px){
+  .tension-reveal-toggle{ font-size: 12.5px; padding: 12px 14px; }
+}
 .mhead{
   font-family: var(--sans);
   text-transform: uppercase;

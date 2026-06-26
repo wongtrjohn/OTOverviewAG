@@ -37,11 +37,12 @@ function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeT
     return () => window.removeEventListener('resize', update);
   }, []);
 
-  // Re-measure when the box-width slider changes so SVG rails stay aligned
+  // Re-measure when the box-width slider, column count, or row count (themes)
+  // changes so the SVG rails stay aligned — e.g. when the tension rows reveal.
   useEffect(() => {
     const el = tracksRef.current;
     if (el) setTrackBox({ w: el.clientWidth, h: el.clientHeight });
-  }, [colW, sessions.length]);
+  }, [colW, sessions.length, themes.length]);
 
   // Build SVG rails per theme
   const rails = useMemo(() => {

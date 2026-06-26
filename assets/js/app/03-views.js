@@ -220,17 +220,24 @@ function linkifyRefs(text) {
   const BOOKS = "Genesis|Gen|Exodus|Exod|Ex|Leviticus|Lev|Numbers|Num|Deuteronomy|Deut|Joshua|Josh|Judges|Judg|Ruth|Samuel|Sam|Kings|Chronicles|Chron|Ezra|Nehemiah|Neh|Esther|Esth|Job|Psalms|Psalm|Ps|Proverbs|Prov|Ecclesiastes|Eccl|Song|Isaiah|Isa|Jeremiah|Jer|Lamentations|Lam|Ezekiel|Ezek|Daniel|Dan|Hosea|Hos|Joel|Amos|Obadiah|Obad|Jonah|Micah|Mic|Nahum|Nah|Habakkuk|Hab|Zephaniah|Zeph|Haggai|Hag|Zechariah|Zech|Malachi|Mal|Matthew|Matt|Mark|Luke|John|Acts|Romans|Rom|Corinthians|Cor|Galatians|Gal|Ephesians|Eph|Philippians|Phil|Colossians|Col|Thessalonians|Thess|Timothy|Tim|Titus|Philemon|Phlm|Hebrews|Heb|James|Jas|Peter|Pet|Jude|Revelation|Rev";
   const re = new RegExp("((?:[1-3]\\s)?(?:" + BOOKS + ")\\.?)\\s(\\d+(?:[-–]\\d+)?(?::\\d+(?:[-–]\\d+)?)?(?:\\s?[,&]\\s?\\d+(?:[-–]\\d+)?(?::\\d+(?:[-–]\\d+)?)?)*)", "g");
   const out = [];let last = 0,m,key = 0;
+  const splitRef = (typeof window !== 'undefined' && window.splitBibleRef) ? window.splitBibleRef : null;
   while ((m = re.exec(text)) !== null) {
     if (m.index > last) out.push(text.slice(last, m.index));
     const ref = m[0];
-    out.push(
-      React.createElement("span", {
-        key: "r" + key++,
-        className: "passage-ref passage-ref--inline",
-        style: { cursor: "pointer" },
-        onClick: function (e) {e.stopPropagation();}
-      }, ref)
-    );
+    // Combined refs ("Revelation 21:1-5 & 22:1-5") must become one resolvable
+    // chip per passage — otherwise the verse popup can't look them up.
+    const pieces = splitRef ? splitRef(ref) : [ref];
+    pieces.forEach((p, pi) => {
+      if (pi > 0) out.push(", ");
+      out.push(
+        React.createElement("span", {
+          key: "r" + key++,
+          className: "passage-ref passage-ref--inline",
+          style: { cursor: "pointer" },
+          onClick: function (e) {e.stopPropagation();}
+        }, p)
+      );
+    });
     last = m.index + ref.length;
   }
   if (last < text.length) out.push(text.slice(last));
@@ -410,7 +417,7 @@ function ThreadStory({ theme, sessions, onSelectSession }) {
         has ? /*#__PURE__*/
         React.createElement(React.Fragment, null,
         theme.id === 'nt' && s.ntPassage ? /*#__PURE__*/
-        React.createElement("div", { className: "tcard__ntref", style: { marginBottom: 8 } }, s.ntPassage) :
+        React.createElement("div", { className: "tcard__ntref", style: { marginBottom: 8 } }, linkifyRefs(s.ntPassage)) :
         null,
         renderMultiline(v)
         ) : /*#__PURE__*/
