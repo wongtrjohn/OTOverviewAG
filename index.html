@@ -8116,7 +8116,9 @@ body.is-recap-mode .sidenav{
   .rc-review2__bigpic{ margin:6px 0 20px; }
   .rc-review2__bigpic .rc-bigpic__h{ margin:0 0 8px; }
   .rc-bigpic__nav{ margin:0 0 14px; font-size:16px; line-height:1.55; color:#5c4a1e; font-style:italic; }
-  .rc-review2__bigpic .bigpic-page{ margin:0; }
+  /* Break the embedded Big Picture out of the 860px recap column so it uses
+     the page width (the standalone heading/comment stay normal width). */
+  .rc-review2__bigpic .bigpic-page{ margin:0; max-width:none; width:min(96vw,1500px); margin-left:50%; transform:translateX(-50%); padding-left:0; padding-right:0; }
   .rc-medq__block{ margin:0 0 22px; }
   .rc-medq__block:last-child{ margin-bottom:0; }
   .rc-rev__hl{ font-weight:800; padding:0 2px; border-radius:4px; }
