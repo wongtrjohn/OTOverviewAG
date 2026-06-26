@@ -1287,14 +1287,14 @@ function RecapMode({ sessions, themes, onExit, initialSession, onSessionChange, 
 
   return (/*#__PURE__*/
     React.createElement("div", { className: "rc-mode rc-mode--" + mode, role: "region", "aria-label": "Recap Mode" },
-    studyNotice ? /*#__PURE__*/
+    studyNotice ? ReactDOM.createPortal( /*#__PURE__*/
     React.createElement("div", { className: "rc-modal", role: "dialog", "aria-modal": "true", "aria-labelledby": "rc-modal-title", onClick: () => setStudyNotice(false) }, /*#__PURE__*/
     React.createElement("div", { className: "rc-modal__box", onClick: (e) => e.stopPropagation() }, /*#__PURE__*/
     React.createElement("h2", { id: "rc-modal-title", className: "rc-modal__title" }, "Study & Reflect Mode"), /*#__PURE__*/
     React.createElement("p", { className: "rc-modal__body" }, "Note: This mode is for studying God’s Word in depth. It is strongly recommended to study God’s Word in depth with someone else who has been through the study before."), /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-modal__ok", onClick: () => setStudyNotice(false) }, "Got it")
     )
-    ) :
+    ), document.body) :
     null, /*#__PURE__*/
     React.createElement("header", { className: "rc-mode__topbar" }, /*#__PURE__*/
     React.createElement("div", { className: "rc-mode__topnav" }, /*#__PURE__*/
