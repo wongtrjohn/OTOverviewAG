@@ -22,7 +22,7 @@ function previewText(session, theme) {
   return v.replace(/\s+/g, ' ').trim();
 }
 
-function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeTheme, pinnedTheme, onHoverTheme, onPinTheme, colW, labelFooter }) {
+function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeTheme, pinnedTheme, onHoverTheme, onPinTheme, colW, labelFooter, fontScale, showMainPoint }) {
   const tracksRef = useRef(null);
   const [trackBox, setTrackBox] = useState({ w: 0, h: 0 });
 
@@ -76,7 +76,7 @@ function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeT
 
   return (/*#__PURE__*/
     React.createElement("div", { className: "subway-wrap" }, /*#__PURE__*/
-    React.createElement("div", { className: "subway", style: { '--sess-cols': sessions.length, '--theme-rows': themes.length, '--subway-w': 200 + sessions.length * (colW || 118) + 'px' } }, /*#__PURE__*/
+    React.createElement("div", { className: "subway", style: { '--sess-cols': sessions.length, '--theme-rows': themes.length, '--subway-font-scale': fontScale || 1, '--subway-w': 200 + sessions.length * (colW || 118) + 'px' } }, /*#__PURE__*/
     React.createElement("div", { className: "subway__inner" }, /*#__PURE__*/
 
     React.createElement("div", null), /*#__PURE__*/
@@ -186,6 +186,7 @@ function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeT
     ), /*#__PURE__*/
 
 
+    showMainPoint === false ? null : /*#__PURE__*/
     React.createElement("div", { className: "mp-ribbon" }, /*#__PURE__*/
     React.createElement("div", { className: "mp-ribbon__label" }, "Main point \u25E2"), /*#__PURE__*/
     React.createElement("div", { className: "mp-ribbon__row" },

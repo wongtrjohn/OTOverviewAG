@@ -467,8 +467,22 @@ function BigPictureView({ sessions, themes, embedded }) {
   const [activeTheme, setActiveTheme] = useStateA(null);
   const [pinnedTheme, setPinnedTheme] = useStateA(null);
   const [boxW, setBoxW] = useStateA(118);
+  const [fontScale, setFontScale] = useStateA(1);
   const [showTension, setShowTension] = useStateA(false);
-  const shownThemes = useMemoA(() => orderThemesNtOverarching(themes, showTension), [themes, showTension]);
+  const BIGPIC_ROWS = [
+  { id: 'kingdom', label: "God's Kingdom" },
+  { id: 'salvation', label: "God's Salvation" },
+  { id: 'promises', label: "God's Promises" },
+  { id: 'nt', label: 'NT Fulfilment' },
+  { id: 'mainPoint', label: 'Main Point' }];
+  const [visibleRows, setVisibleRows] = useStateA(() => ({ kingdom: true, salvation: true, promises: true, nt: true, mainPoint: true }));
+  /* Thread rows filtered by the row checkboxes; tension themes appended on
+     reveal. "Main Point" toggles the main-point ribbon at the foot of the map. */
+  const shownThemes = useMemoA(() => {
+    const base = themes.filter((t) => ['kingdom', 'salvation', 'promises', 'nt'].includes(t.id)).filter((t) => visibleRows[t.id] !== false);
+    const tension = themes.filter((t) => ['intention', 'reality'].includes(t.id));
+    return showTension ? base.concat(tension) : base;
+  }, [themes, showTension, visibleRows]);
   const SubwayMap = window.SubwayMap;
   const SearchBox = window.SearchBox;
   const searchMatches = window.searchMatches;
@@ -568,12 +582,34 @@ function BigPictureView({ sessions, themes, embedded }) {
       "aria-label": "Adjust subway map box width" }), /*#__PURE__*/
     React.createElement("span", { className: "matrix-sizer__end" }, "Wide"), /*#__PURE__*/
     React.createElement("span", { className: "matrix-sizer__hint" }, "Compact fits more on screen \xB7 Wide is easier to read")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "matrix-sizer" }, /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__label" }, "Text size"), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__end", style: { fontSize: '11px' } }, "A"), /*#__PURE__*/
+    React.createElement("input", { className: "matrix-sizer__range", type: "range", min: "80", max: "170", step: "5",
+      value: Math.round(fontScale * 100), onChange: (e) => setFontScale(parseInt(e.target.value, 10) / 100),
+      "aria-label": "Adjust subway map text size" }), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__end", style: { fontSize: '19px' } }, "A"), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__hint" }, "Scales all text in the map")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "matrix-rowfilter" }, /*#__PURE__*/
+    React.createElement("span", { className: "matrix-rowfilter__label" }, "Show rows:"),
+    BIGPIC_ROWS.map((r) => /*#__PURE__*/
+    React.createElement("label", { key: r.id, className: "matrix-rowfilter__opt" }, /*#__PURE__*/
+    React.createElement("input", { type: "checkbox", checked: visibleRows[r.id] !== false,
+      onChange: (e) => setVisibleRows((v) => ({ ...v, [r.id]: e.target.checked })) }),
+    r.label
+    )
+    ),
+    React.createElement("span", { className: "matrix-sizer__hint" }, "Main Point toggles the row at the foot of the map")
     ),
     SubwayMap ? /*#__PURE__*/
     React.createElement(SubwayMap, { sessions: displaySessions, themes: shownThemes,
       selectedSession: null, onSelectSession: () => {},
       activeTheme: activeTheme, pinnedTheme: pinnedTheme,
       colW: boxW,
+      fontScale: fontScale,
+      showMainPoint: visibleRows.mainPoint !== false,
       onHoverTheme: setActiveTheme,
       onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id),
       labelFooter: /*#__PURE__*/React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) }) }) :
