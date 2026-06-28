@@ -90,7 +90,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     ),
     React.createElement("div", { className: "home-verse" }, /*#__PURE__*/
     React.createElement("span", { className: "home-verse__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
-    React.createElement("p", { className: "home-verse__text" }, "The purpose of the Old Testament is to know ", /*#__PURE__*/React.createElement("em", null, "Jesus"), "."), /*#__PURE__*/
+    React.createElement("p", { className: "home-verse__text" }, "Why study the OT? To know ", /*#__PURE__*/React.createElement("em", null, "Jesus!")), /*#__PURE__*/
     React.createElement("span", { className: "home-verse__cite" }, PassageRef ? /*#__PURE__*/React.createElement(PassageRef, { refs: "John 5:39" }) : "John 5:39")
     ), /*#__PURE__*/
     React.createElement("div", { className: "home-screen__weave", "aria-hidden": "true" }, /*#__PURE__*/
