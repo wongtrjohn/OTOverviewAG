@@ -1735,15 +1735,15 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
   "How can merciful and gracious Yahweh also justly visit the sins of the guilty — all at the same time?"];
 
   const hebItems = [
-  { t: "The Better Tent", ref: "Hebrews 8:1-6" },
-  { t: "The Better Covenant", ref: "Hebrews 8:7-13" },
-  { t: "The Better High Priest", ref: "Hebrews 9:11-27" },
-  { t: "The Better Sacrifice", ref: "Hebrews 10:12-14" },
-  { t: "Better and Confident access to God", ref: "Hebrews 10:19-22" }];
+  { t: "The Better Tent", ref: "Hebrews 8:1-6", note: "The earthly tabernacle was only a copy and shadow of the real thing. Christ now ministers in the true, heavenly sanctuary set up by the Lord, not by man." },
+  { t: "The Better Covenant", ref: "Hebrews 8:7-13", note: "The first covenant was broken by the people. Christ mediates a new and better covenant — God's law written on our hearts, and our sins remembered no more." },
+  { t: "The Better High Priest", ref: "Hebrews 9:11-27", note: "Where the old priests had to repeat their offerings again and again, Christ entered the Most Holy Place once for all by His own blood, securing an eternal redemption." },
+  { t: "The Better Sacrifice", ref: "Hebrews 10:12-14", note: "The blood of bulls and goats could never truly take away sin. Christ's single sacrifice, offered once, perfects for all time those who are being made holy." },
+  { t: "Better and Confident access to God", ref: "Hebrews 10:19-22", note: "Because of all the above — the curtain torn open in His flesh — we may now draw near to God with full confidence through the blood of Jesus.", full: true }];
 
   const kingdomItems = [
-  { t: "Law fulfilled", ref: "Matthew 5:17" },
-  { t: "God’s kingdom order established through a fulfilled law", ref: "Romans 8:3-4" }];
+  { t: "Law fulfilled", ref: "Matthew 5:17", note: "Christ came not to abolish the Law and the Prophets but to fulfil them — perfectly keeping the law and embodying everything it pointed forward to." },
+  { t: "God’s kingdom order established through a fulfilled law", ref: "Romans 8:3-4", note: "What the law, weakened by our sinful flesh, could never do, God did by sending His own Son. Now the law's righteous requirement is fulfilled in us who walk by the Spirit — His good kingdom order being restored." }];
 
   return (/*#__PURE__*/
     React.createElement("article", { className: "rc-session rc-review2" }, /*#__PURE__*/
@@ -1799,7 +1799,17 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     React.createElement("div", { className: "rc-ntbox rc-ntbox--salv" },
     hebItems.map((h, i) => /*#__PURE__*/
     React.createElement(CR_Collapsible, { key: i, kind: "reveal", hint: "click to reveal", label: h.t }, /*#__PURE__*/
-    React.createElement("p", { className: "rc-ntbox__reveal" }, refEl(h.ref))
+    React.createElement("p", { className: "rc-ntbox__note" }, h.note), /*#__PURE__*/
+    React.createElement("p", { className: "rc-ntbox__reveal" }, refEl(h.ref)),
+    h.full ? /*#__PURE__*/
+    React.createElement("blockquote", { className: "rc-ntbox__fullverse" }, /*#__PURE__*/
+    React.createElement("mark", { className: "rc-ntbox__mk" }, "Therefore"),
+    ", brothers, since we have confidence to enter the holy places by the blood of Jesus, by the new and living way that he opened for us through the curtain, that is, through his flesh, and since we have a great priest over the house of God, ", /*#__PURE__*/
+    React.createElement("mark", { className: "rc-ntbox__mk rc-ntbox__mk--key" }, "let us draw near with a true heart in full assurance of faith"),
+    ", with our hearts sprinkled clean from an evil conscience and our bodies washed with pure water.", /*#__PURE__*/
+    React.createElement("cite", { className: "rc-ntbox__fullverse-cite" }, "Hebrews 10:19-22, ESV")
+    ) :
+    null
     )), /*#__PURE__*/
     React.createElement("div", { className: "rc-ntbox__summary" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-ntbox__summary-label" }, "Summary — how the Pentateuch teaches us about God’s work to save us from our sins:"), /*#__PURE__*/
@@ -1815,7 +1825,8 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     kingdomItems.map((k, i) => /*#__PURE__*/
     React.createElement("li", { key: i, className: "rc-ntbox__item" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-ntbox__item-t" }, k.t), /*#__PURE__*/
-    React.createElement("span", { className: "rc-ntbox__item-ref" }, refEl(k.ref))
+    React.createElement("span", { className: "rc-ntbox__item-ref" }, refEl(k.ref)), /*#__PURE__*/
+    React.createElement("p", { className: "rc-ntbox__item-note" }, k.note)
     ))
     )
     )
