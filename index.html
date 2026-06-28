@@ -1080,8 +1080,22 @@
 }
 .home-verse__text em { font-style: italic; font-weight: 600; }
 .home-verse__cite {
-  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
-  text-transform: uppercase; color: #9c8555;
+  margin-top: 2px;
+  font-family: var(--serif); font-style: italic; font-size: 14px;
+  letter-spacing: 0.02em; color: #9c8555;
+}
+.home-verse__cite::before { content: '— '; opacity: 0.7; }
+/* strip the generic chip box/underline so the citation sits quietly in the card */
+.home-verse__cite .passage-refs { gap: 0; }
+.home-verse__cite .passage-ref {
+  background: none; border: 0; border-radius: 0; padding: 0;
+  font: inherit; color: inherit; letter-spacing: inherit;
+  border-bottom: 1px solid transparent;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+.home-verse__cite .passage-ref:hover {
+  background: none; color: var(--c-nt, #3e6a33);
+  border-bottom-color: rgba(62,106,51,0.45);
 }
 .home-screen__layout {
   display: flex; flex-direction: column; gap: 18px;
