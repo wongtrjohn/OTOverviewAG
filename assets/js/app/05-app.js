@@ -649,14 +649,14 @@ function ThreadViewPage({ sessions, themes }) {
 }
 
 /* ─── Matrix grid (themes × sessions) ───────────────── */
-function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW, labelFooter }) {
+function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW, fontScale, labelFooter }) {
   const shortPassage = window.shortPassage;
   const isPrimary = window.isPrimary;
   const truncate = window.truncate;
   const focus = pinnedTheme || activeTheme;
   return (/*#__PURE__*/
     React.createElement("div", { className: "matrix" }, /*#__PURE__*/
-    React.createElement("div", { className: "matrix__inner", style: { '--sess-cols': sessions.length, '--mcol-w': (colW || 180) + 'px' } }, /*#__PURE__*/
+    React.createElement("div", { className: "matrix__inner", style: { '--sess-cols': sessions.length, '--mcol-w': (colW || 180) + 'px', '--matrix-font-scale': fontScale || 1 } }, /*#__PURE__*/
     React.createElement("div", { className: "mhead mhead--corner" }, "Theme \u2193 \xA0\xB7\xA0 Session \u2192"),
     sessions.map((s) => /*#__PURE__*/
     React.createElement("div", {
@@ -720,8 +720,25 @@ function MatrixViewPage({ sessions, themes }) {
   const [activeTheme, setActiveTheme] = useStateA(null);
   const [pinnedTheme, setPinnedTheme] = useStateA(null);
   const [colW, setColW] = useStateA(180);
+  const [fontScale, setFontScale] = useStateA(1);
   const [showTension, setShowTension] = useStateA(false);
-  const shownThemes = useMemoA(() => orderThemesNtOverarching(themes, showTension), [themes, showTension]);
+  const MATRIX_ROWS = [
+  { id: 'kingdom', label: "God's Kingdom" },
+  { id: 'salvation', label: "God's Salvation" },
+  { id: 'promises', label: "God's Promises" },
+  { id: 'nt', label: 'NT Fulfilment' },
+  { id: 'mainPoint', label: 'Main Point' }];
+  const [visibleRows, setVisibleRows] = useStateA(() => ({ kingdom: true, salvation: true, promises: true, nt: true, mainPoint: true }));
+  /* Rows: the three threads, NT Fulfilment, then Main Point (rendered like the
+     other cells) — filtered by the row checkboxes; the two tension themes are
+     appended on demand via the reveal pill. */
+  const shownThemes = useMemoA(() => {
+    const mainPointTheme = { id: 'mainPoint', key: 'mainPoint', label: 'Main Point', short: 'Main Point', glyph: '◆' };
+    const base = themes.filter((t) => ['kingdom', 'salvation', 'promises', 'nt'].includes(t.id)).concat([mainPointTheme]);
+    const filtered = base.filter((t) => visibleRows[t.id] !== false);
+    const tension = themes.filter((t) => ['intention', 'reality'].includes(t.id));
+    return showTension ? filtered.concat(tension) : filtered;
+  }, [themes, showTension, visibleRows]);
 
   const displaySessions = useMemoA(
     () => upToId ? studySessions.filter((s) => s.id <= upToId) : [],
@@ -787,10 +804,30 @@ function MatrixViewPage({ sessions, themes }) {
     React.createElement("span", { className: "matrix-sizer__end" }, "Wide"), /*#__PURE__*/
     React.createElement("span", { className: "matrix-sizer__hint" }, "First column stays pinned as you scroll \u2192")
     ), /*#__PURE__*/
+    React.createElement("div", { className: "matrix-sizer" }, /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__label" }, "Text size"), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__end", style: { fontSize: '11px' } }, "A"), /*#__PURE__*/
+    React.createElement("input", { className: "matrix-sizer__range", type: "range", min: "80", max: "170", step: "5",
+      value: Math.round(fontScale * 100), onChange: (e) => setFontScale(parseInt(e.target.value, 10) / 100),
+      "aria-label": "Adjust matrix text size" }), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__end", style: { fontSize: '19px' } }, "A"), /*#__PURE__*/
+    React.createElement("span", { className: "matrix-sizer__hint" }, "Scales all text in the grid")
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "matrix-rowfilter" }, /*#__PURE__*/
+    React.createElement("span", { className: "matrix-rowfilter__label" }, "Show rows:"),
+    MATRIX_ROWS.map((r) => /*#__PURE__*/
+    React.createElement("label", { key: r.id, className: "matrix-rowfilter__opt" }, /*#__PURE__*/
+    React.createElement("input", { type: "checkbox", checked: visibleRows[r.id] !== false,
+      onChange: (e) => setVisibleRows((v) => ({ ...v, [r.id]: e.target.checked })) }),
+    r.label
+    )
+    )
+    ), /*#__PURE__*/
     React.createElement(Matrix, {
       sessions: displaySessions,
       themes: shownThemes,
       colW: colW,
+      fontScale: fontScale,
       onSelectSession: null,
       onPinTheme: (id) => setPinnedTheme(pinnedTheme === id ? null : id),
       activeTheme: activeTheme,
