@@ -69,13 +69,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
   let __last = null;
   try {const r = localStorage.getItem('OT_LAST_v1');if (r) __last = JSON.parse(r);} catch (e) {}
   const lastSession = __last && __last.sessionId ? (sessions || []).find((s) => s.id === __last.sessionId) : null;
-  const ProgressRing = window.ProgressRing;
-  const getSessionProgress = window.getSessionProgress;
-  const overall = (sessions || []).reduce((acc, s) => {
-    const p = getSessionProgress(s.id, s);
-    return { filled: acc.filled + p.filled, total: acc.total + p.total };
-  }, { filled: 0, total: 0 });
-  const overallPct = overall.total > 0 ? Math.round(overall.filled / overall.total * 100) : 0;
+  const PassageRef = window.PassageRef;
   return (/*#__PURE__*/
     React.createElement("div", { className: "home-screen" }, /*#__PURE__*/
     React.createElement("header", { className: "home-screen__header" }, /*#__PURE__*/
@@ -94,12 +88,11 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     React.createElement("span", { className: "home-tour-btn__icon", "aria-hidden": "true" }, "\u21BB"), "Take the guided tour"
 
     ),
-    ProgressRing ? /*#__PURE__*/
-    React.createElement("div", { className: "home-screen__progress" }, /*#__PURE__*/
-    React.createElement(ProgressRing, { pct: overallPct, size: 64, strokeW: 6 }), /*#__PURE__*/
-    React.createElement("span", { className: "home-screen__progress-label" }, "Overall recap progress")
-    ) :
-    null, /*#__PURE__*/
+    React.createElement("div", { className: "home-verse" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-verse__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
+    React.createElement("p", { className: "home-verse__text" }, "The purpose of the Old Testament is to know ", /*#__PURE__*/React.createElement("em", null, "Jesus"), "."), /*#__PURE__*/
+    React.createElement("span", { className: "home-verse__cite" }, PassageRef ? /*#__PURE__*/React.createElement(PassageRef, { refs: "John 5:39" }) : "John 5:39")
+    ), /*#__PURE__*/
     React.createElement("div", { className: "home-screen__weave", "aria-hidden": "true" }, /*#__PURE__*/
     React.createElement("svg", { viewBox: "0 0 700 28", xmlns: "http://www.w3.org/2000/svg", preserveAspectRatio: "none" }, /*#__PURE__*/
     React.createElement("path", { d: "M0 7  Q175 3  350 7  Q525 11 700 7", stroke: "#b5894a", strokeWidth: "1.8", fill: "none", strokeLinecap: "round", opacity: "0.65" }), /*#__PURE__*/

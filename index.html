@@ -1063,16 +1063,25 @@
 .rc-apply__input::placeholder { color: #b8a07a; }
 
 /* ── HomeScreen v2 ─────────────────────────────────────────────────── */
-.home-screen__progress {
-  display: flex; align-items: center; gap: 14px;
-  justify-content: center; margin: 22px auto 0;
-  padding: 14px 24px; max-width: 300px;
-  background: rgba(181,137,74,0.1); border-radius: 14px;
-  border: 1px solid rgba(181,137,74,0.25);
+.home-verse {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  margin: 24px auto 0; padding: 20px 28px; max-width: 440px;
+  background: rgba(181,137,74,0.08);
+  border: 1px solid rgba(181,137,74,0.28); border-radius: 16px;
+  text-align: center;
 }
-.home-screen__progress-label {
-  font-family: var(--sans); font-size: 13px; color: #5c4a1e;
-  font-weight: 500; line-height: 1.35; text-align: left;
+.home-verse__glyph {
+  font-family: var(--serif); font-size: 20px; line-height: 1;
+  color: var(--c-nt, #3e6a33); opacity: 0.85;
+}
+.home-verse__text {
+  margin: 0; font-family: var(--serif); font-size: 18px; line-height: 1.4;
+  color: #4a3b1e; font-style: italic;
+}
+.home-verse__text em { font-style: italic; font-weight: 600; }
+.home-verse__cite {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #9c8555;
 }
 .home-screen__layout {
   display: flex; flex-direction: column; gap: 18px;
