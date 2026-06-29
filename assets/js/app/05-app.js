@@ -418,9 +418,11 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     ) :
     null, /*#__PURE__*/
 
+    window.ThreadDivider ? /*#__PURE__*/React.createElement(window.ThreadDivider, null) : null, /*#__PURE__*/
 
     React.createElement(IntroTensionPanel, { themes: themes }), /*#__PURE__*/
 
+    window.ThreadDivider ? /*#__PURE__*/React.createElement(window.ThreadDivider, null) : null, /*#__PURE__*/
 
     React.createElement("div", { className: "intro-nav-section" }, /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
@@ -883,6 +885,7 @@ function BigPictureAndThreadPage({ sessions, themes, onNavigate }) {
     )
     )
     ), /*#__PURE__*/
+    window.ThreadDivider ? /*#__PURE__*/React.createElement(window.ThreadDivider, null) : null, /*#__PURE__*/
     React.createElement("div", { id: "thread-view-section", className: "combined-section--thread" }, /*#__PURE__*/
     React.createElement(ThreadViewPage, { sessions: sessions, themes: themes }), /*#__PURE__*/
     React.createElement("div", { className: "combined-recap-cta" }, /*#__PURE__*/

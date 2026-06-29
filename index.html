@@ -5720,6 +5720,14 @@ button.recap-thread--btn{
 /* ============ v17: section dividers ============ */
 .secdiv{ display: flex; align-items: center; gap: 20px; margin: 46px 0 22px; }
 .secdiv:first-child{ margin-top: 6px; }
+
+/* Decorative woven-thread divider (· ✝ ·) */
+.thread-divider{ display: flex; align-items: center; width: 100%; max-width: 760px; margin: 34px auto; }
+.thread-divider__line{ flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--rule) 55%, var(--rule)); }
+.thread-divider__line--r{ background: linear-gradient(270deg, transparent, var(--rule) 55%, var(--rule)); }
+.thread-divider__med{ display: flex; align-items: center; gap: 13px; padding: 0 16px; }
+.thread-divider__dot{ width: 6px; height: 6px; border-radius: 50%; background: var(--ink, #3d3014); }
+.thread-divider__cross{ font-family: var(--serif); font-size: 18px; line-height: 1; color: var(--ink, #3d3014); }
 .secdiv__rule{ flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--rule-2) 30%, var(--rule-2) 70%, transparent); }
 .secdiv__chip{ display: flex; flex-direction: column; align-items: center; gap: 3px; text-align: center; flex: none; max-width: 60%; }
 .secdiv__label{

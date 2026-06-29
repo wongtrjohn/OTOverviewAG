@@ -360,6 +360,23 @@ function SectionDivider({ id, label, sub }) {
 
 }
 
+/* Decorative section divider — a thin rule broken by a small medallion
+   (· ✝ ·) where the threads of the story meet in Christ. Purely visual. */
+function ThreadDivider() {
+  return (/*#__PURE__*/
+    React.createElement("div", { className: "thread-divider", "aria-hidden": "true" }, /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__line" }), /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__med" }, /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__dot" }), /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__cross" }, "✝"), /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__dot" })
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "thread-divider__line thread-divider__line--r" })
+    ));
+
+}
+window.ThreadDivider = ThreadDivider;
+
 /* Mini-map scrubber — timeline above the subway view. */
 function ScrubMap({ sessions, selectedSession, onSelectSession }) {
   return (/*#__PURE__*/
