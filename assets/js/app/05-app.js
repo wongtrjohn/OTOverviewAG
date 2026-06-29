@@ -73,6 +73,8 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
   return (/*#__PURE__*/
     React.createElement("div", { className: "home-screen" }, /*#__PURE__*/
     React.createElement("header", { className: "home-screen__header" }, /*#__PURE__*/
+    React.createElement("div", { className: "home-screen__masthead" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-screen__masthead-glow", "aria-hidden": "true" }), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__eyebrow" }, /*#__PURE__*/
     React.createElement("span", { className: "dot" }), "OT OVERVIEW", /*#__PURE__*/
     React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "RECAP EDITION", /*#__PURE__*/
@@ -83,6 +85,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     React.createElement("p", { className: "home-screen__sub" }, "Three threads \u2014 ", /*#__PURE__*/
     React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across twelve sessions from Genesis to Deuteronomy."
 
+    )
     ), /*#__PURE__*/
     React.createElement("button", { className: "home-tour-btn", onClick: () => onStartTour && onStartTour() }, /*#__PURE__*/
     React.createElement("span", { className: "home-tour-btn__icon", "aria-hidden": "true" }, "\u21BB"), "Take the guided tour"

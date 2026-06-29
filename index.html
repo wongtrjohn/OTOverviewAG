@@ -765,6 +765,33 @@
   width: 100%;
   margin-bottom: 44px;
 }
+/* Hero band: faint OT-overview image behind the title under a heavy parchment
+   overlay so the text stays fully legible. */
+.home-screen__masthead {
+  position: relative;
+  padding: 40px 34px 30px;
+  margin-bottom: 26px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(181,137,74,0.30);
+  box-shadow: 0 2px 16px rgba(92,74,30,0.10);
+  background-image:
+    linear-gradient(180deg, rgba(243,236,217,0.72) 0%, rgba(243,236,217,0.88) 58%, rgba(243,236,217,0.97) 100%),
+    url("assets/img/ot-overview.webp");
+  background-size: cover;
+  background-position: center 38%;
+}
+.home-screen__masthead-glow {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  background: radial-gradient(125% 100% at 50% 28%, transparent 42%, rgba(243,236,217,0.55) 100%);
+}
+.home-screen__masthead > p,
+.home-screen__masthead > h1 { position: relative; z-index: 1; }
+.home-screen__masthead .home-screen__eyebrow { margin-bottom: 16px; }
+.home-screen__masthead .home-screen__sub { margin-bottom: 0; }
+@media (max-width: 620px){
+  .home-screen__masthead { padding: 28px 20px 22px; }
+}
 .home-screen__eyebrow {
   font-size: 10.5px;
   letter-spacing: .14em;
