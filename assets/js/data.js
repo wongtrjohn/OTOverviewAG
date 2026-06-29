@@ -447,7 +447,7 @@ window.OT_SESSIONS = [
 ];
 
 window.OT_THEMES = [
-  { id: 'kingdom',   key: 'kingdom',   label: "God's Kingdom",   short: 'Kingdom',    glyph: '\u265B', tag: 'HIS KINGDOM',   blurb: 'God\'s good rule over His people and creation.' },
+  { id: 'kingdom',   key: 'kingdom',   label: "God's Kingdom",   short: 'Kingdom',    glyph: '\u265A', tag: 'HIS KINGDOM',   blurb: 'God\'s good rule over His people and creation.' },
   { id: 'salvation', key: 'salvation', label: "God's Salvation", short: 'Salvation',  glyph: '\u271F', tag: 'HIS SALVATION', blurb: 'God\'s rescue of His people, often through judgment.' },
   { id: 'promises',  key: 'promises',  label: "God's Promises",  short: 'Promises',   glyph: '\u2756', tag: 'HIS PROMISES',  blurb: 'God\'s covenants and faithfulness across generations.' },
   { id: 'intention', key: 'intention', label: "God's Character & Intent", short: 'Character & Intent',  glyph: '\u2734', tag: "GOD'S CHARACTER & INTENT",   blurb: 'Who God is and what He intends — His character and good purpose revealed in the passage.' },
