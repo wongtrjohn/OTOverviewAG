@@ -13,6 +13,21 @@ function ViewIllus({ name }) {
   return /*#__PURE__*/React.createElement("div", { className: "view-illus", "aria-hidden": "true", dangerouslySetInnerHTML: { __html: VIEW_ILLUS[name] || "" } });
 }
 
+/* Page hero band — a faint session image behind the title under a heavy
+   parchment overlay, so each landing screen gets the warmth of the home banner
+   while staying fully legible. */
+function PageHero({ img, eyebrow, title, sub }) {
+  return (/*#__PURE__*/
+    React.createElement("div", { className: "hero-band", style: img ? { '--hero-img': 'url("' + img + '")' } : null }, /*#__PURE__*/
+    React.createElement("span", { className: "hero-band__glow", "aria-hidden": "true" }),
+    eyebrow ? /*#__PURE__*/React.createElement("p", { className: "hero-band__eyebrow" }, eyebrow) : null, /*#__PURE__*/
+    React.createElement("h1", { className: "hero-band__title" }, title),
+    sub ? /*#__PURE__*/React.createElement("p", { className: "hero-band__sub" }, sub) : null
+    ));
+
+}
+window.PageHero = PageHero;
+
 /* Re-run RefTagger over a scoped container after dynamic content renders.
    Retries for a few seconds in case RefTagger.js hasn't finished loading. */
 function tagRefsNow(scopeSel) {
@@ -508,6 +523,7 @@ function BigPictureView({ sessions, themes, embedded }) {
   return (/*#__PURE__*/
     React.createElement("div", { className: "bigpic-page" + (embedded ? " bigpic-page--embedded" : "") },
     !embedded && window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "bigpicture" }) : null, /*#__PURE__*/
+    !embedded ? /*#__PURE__*/React.createElement(PageHero, { img: "assets/img/ot-overview.webp", eyebrow: "OT OVERVIEW · BIG PICTURE", title: "The Big Picture", sub: "Every session and theme, woven together across the Pentateuch." }) : null, /*#__PURE__*/
     !embedded ? /*#__PURE__*/
     React.createElement("div", { className: "bigpic-selector" }, /*#__PURE__*/
     React.createElement("label", { className: "bigpic-selector__label", htmlFor: "bigpic-upto" }, "Display the big picture overview until session:"
@@ -789,6 +805,7 @@ function MatrixViewPage({ sessions, themes }) {
   return (/*#__PURE__*/
     React.createElement("div", { className: "bigpic-page matrix-page" },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "matrix" }) : null, /*#__PURE__*/
+    React.createElement(PageHero, { img: "assets/img/ex19.webp", eyebrow: "OT OVERVIEW · MATRIX", title: "The Matrix", sub: "Every theme against every session, point by point in one grid." }), /*#__PURE__*/
     React.createElement("div", { className: "bigpic-selector" }, /*#__PURE__*/
     React.createElement("label", { className: "bigpic-selector__label", htmlFor: "matrix-upto" }, "Show the matrix grid until session:"
 

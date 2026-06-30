@@ -1003,6 +1003,8 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("span", { className: "rc-picker__overall-label" }, "overall", /*#__PURE__*/React.createElement("br", null), "progress")
     ) :
     null, /*#__PURE__*/
+    React.createElement("div", { className: "rc-picker__masthead hero-band", style: { '--hero-img': 'url("assets/img/gen1.webp")' } }, /*#__PURE__*/
+    React.createElement("span", { className: "hero-band__glow", "aria-hidden": "true" }), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__eyebrow" }, "RECAP MODE"), /*#__PURE__*/
     React.createElement("h1", { className: "rc-picker__title" }, meditate ? "Meditate & Reflect Mode" : "Study & Reflect Mode"), /*#__PURE__*/
     React.createElement("p", { className: "rc-picker__modesub" }, meditate ? "For those who have been through a session." : "For working through a session in depth."), /*#__PURE__*/
@@ -1021,7 +1023,8 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("li", { key: "b" }, "Guided questions, with thread and answer reveals, one session at a time."), /*#__PURE__*/
     React.createElement("li", { key: "c" }, "Notes kept separate from Meditate & Reflect mode.")]
     )
-    ),
+    )
+    ), /*#__PURE__*/
 
     onOpenJournal ? /*#__PURE__*/
     React.createElement("button", { className: "rc-btn rc-btn--journal", onClick: onOpenJournal }, /*#__PURE__*/
