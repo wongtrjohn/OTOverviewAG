@@ -3587,11 +3587,20 @@ body::before{
   background:
     linear-gradient(180deg, var(--theme-soft), var(--bg-card) 75%);
   position: relative;
+  overflow: hidden;
   display: flex; flex-direction: column;
   gap: 10px;
   cursor: pointer;
   transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
 }
+/* faint per-thread glyph watermark (extends the ThreadStory motif) */
+.overview-thread__watermark{
+  position: absolute; top: -26px; right: -10px;
+  font-family: var(--serif); font-size: 118px; line-height: 1;
+  color: var(--theme-color); opacity: 0.06; pointer-events: none;
+  z-index: 0; user-select: none;
+}
+.overview-thread > *:not(.overview-thread__watermark){ position: relative; z-index: 1; }
 .overview-thread::before{
   content:'';
   position: absolute; left:0; top:0; bottom: 0;
@@ -7623,6 +7632,14 @@ body.is-recap-mode .sidenav{
   transform: none;
 }
 .rc-tile.is-open:hover{ transform: none; }
+/* faint tone glyph watermark behind the tile header (illuminated section motif) */
+.rc-tile__watermark{
+  position: absolute; top: -14px; right: 10px;
+  font-family: var(--serif); font-size: 120px; line-height: 1;
+  color: var(--tile-color); opacity: 0.05; pointer-events: none;
+  z-index: 0; user-select: none;
+}
+.rc-tile__head, .rc-tile__body{ position: relative; z-index: 1; }
 
 /* Header — EXACTLY the design: badge | text | act pill, left-aligned. */
 .rc-tile__head{

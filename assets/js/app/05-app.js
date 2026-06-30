@@ -410,6 +410,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
       return (/*#__PURE__*/
         React.createElement("article", { key: t.id, className: "overview-thread",
           style: { '--theme-color': `var(--c-${t.id})`, '--theme-soft': `var(--c-${t.id}-soft)` } }, /*#__PURE__*/
+        React.createElement("span", { className: "overview-thread__watermark", "aria-hidden": "true" }, t.glyph), /*#__PURE__*/
         React.createElement("div", { className: "overview-thread__head" }, /*#__PURE__*/
         React.createElement("span", { className: "overview-thread__glyph" }, t.glyph), /*#__PURE__*/
         React.createElement("span", { className: "overview-thread__label" }, t.label)

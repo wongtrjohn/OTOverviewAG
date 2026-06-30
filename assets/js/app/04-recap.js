@@ -310,10 +310,12 @@ function CR_ClozeRow({ label, word, context, initGuess, initChecked, onChange })
 }
 
 /* ────────────────── Section Tile (design box style) ────────────────── */
+const CR_TILE_GLYPH = { divisions: '§', mainpoint: '◆', threads: '❖', tension: '✝', apply: '✎', pray: '✦', recap: '↻' };
 function CR_SectionTile({ tone, step, label, sublabel, defaultOpen, children }) {
   const [open, setOpen] = useStateR(!!defaultOpen);
   return (/*#__PURE__*/
     React.createElement("article", { className: "rc-tile rc-tile--" + tone + (open ? " is-open" : "") }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-tile__watermark", "aria-hidden": "true" }, CR_TILE_GLYPH[tone] || '✦'), /*#__PURE__*/
     React.createElement("button", { className: "rc-tile__head", onClick: () => setOpen((v) => !v), "aria-expanded": open }, /*#__PURE__*/
     React.createElement("span", { className: "rc-tile__step", "aria-hidden": "true" }, step), /*#__PURE__*/
     React.createElement("span", { className: "rc-tile__textcol" }, /*#__PURE__*/
