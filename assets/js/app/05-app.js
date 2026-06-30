@@ -805,7 +805,7 @@ function MatrixViewPage({ sessions, themes }) {
   return (/*#__PURE__*/
     React.createElement("div", { className: "bigpic-page matrix-page" },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "matrix" }) : null, /*#__PURE__*/
-    React.createElement(PageHero, { img: "assets/img/ex19.webp", eyebrow: "OT OVERVIEW · MATRIX", title: "The Matrix", sub: "Every theme against every session, point by point in one grid." }), /*#__PURE__*/
+    React.createElement(PageHero, { img: "assets/img/gen1.webp", eyebrow: "OT OVERVIEW · MATRIX", title: "The Matrix", sub: "Every theme against every session, point by point in one grid." }), /*#__PURE__*/
     React.createElement("div", { className: "bigpic-selector" }, /*#__PURE__*/
     React.createElement("label", { className: "bigpic-selector__label", htmlFor: "matrix-upto" }, "Show the matrix grid until session:"
 
