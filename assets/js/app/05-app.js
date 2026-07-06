@@ -777,18 +777,19 @@ function MatrixViewPage({ sessions, themes }) {
   const [fontScale, setFontScale] = useStateA(1);
   const [showTension, setShowTension] = useStateA(false);
   const MATRIX_ROWS = [
+  { id: 'mainPoint', label: 'Main Point' },
   { id: 'kingdom', label: "God's Kingdom" },
   { id: 'salvation', label: "God's Salvation" },
   { id: 'promises', label: "God's Promises" },
-  { id: 'nt', label: 'NT Fulfilment' },
-  { id: 'mainPoint', label: 'Main Point' }];
+  { id: 'nt', label: 'NT Fulfilment' }];
   const [visibleRows, setVisibleRows] = useStateA(() => ({ kingdom: true, salvation: true, promises: true, nt: true, mainPoint: true }));
-  /* Rows: the three threads, NT Fulfilment, then Main Point (rendered like the
-     other cells) — filtered by the row checkboxes; the two tension themes are
-     appended on demand via the reveal pill. */
+  /* Rows: Main Point leads, then the three threads and NT Fulfilment (all
+     rendered like ordinary cells) — filtered by the row checkboxes. Keeping NT
+     Fulfilment last means the tension-reveal pill at the foot sits directly
+     beneath it; the two tension themes are appended on demand via that pill. */
   const shownThemes = useMemoA(() => {
     const mainPointTheme = { id: 'mainPoint', key: 'mainPoint', label: 'Main Point', short: 'Main Point', glyph: '◆' };
-    const base = themes.filter((t) => ['kingdom', 'salvation', 'promises', 'nt'].includes(t.id)).concat([mainPointTheme]);
+    const base = [mainPointTheme].concat(themes.filter((t) => ['kingdom', 'salvation', 'promises', 'nt'].includes(t.id)));
     const filtered = base.filter((t) => visibleRows[t.id] !== false);
     const tension = themes.filter((t) => ['intention', 'reality'].includes(t.id));
     return showTension ? filtered.concat(tension) : filtered;
