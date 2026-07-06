@@ -149,7 +149,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     React.createElement("button", { className: "home-card home-card--featured", onClick: () => onNavigate('recap') }, /*#__PURE__*/
     React.createElement("span", { className: "home-card__glyph" }, "\u21BB"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__title" }, "Recap Mode"), /*#__PURE__*/
-    React.createElement("p", { className: "home-card__desc" }, "Missed a session? Work through it step by step with guided questions, thread reveals, cloze tests, and suggested answers."), /*#__PURE__*/
+    React.createElement("p", { className: "home-card__desc" }, "Reflect, meditate and study session-by-session in detail."), /*#__PURE__*/
     React.createElement(ViewIllus, { name: "recap" }), /*#__PURE__*/
     React.createElement("span", { className: "home-card__cta" }, "start recapping \u2192")
     ), /*#__PURE__*/
@@ -755,7 +755,7 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
         t.id === 'nt' && s.ntPassage ? /*#__PURE__*/
         React.createElement("div", { className: "mcell__ntref" }, window.linkifyRefs ? window.linkifyRefs(s.ntPassage) : s.ntPassage) :
         null,
-        has ? truncate(v, 200) : /*#__PURE__*/React.createElement("span", null, "\u2014")
+        has ? truncate(v, t.id === 'mainPoint' ? Infinity : 200) : /*#__PURE__*/React.createElement("span", null, "\u2014")
         ));
 
     })
@@ -992,7 +992,7 @@ function AppRecap() {
   useEffectA(() => {
     let seen = false;
     try {seen = !!(window.localStorage && window.localStorage.getItem('OT_TOUR_SEEN_v5'));} catch (_) {seen = false;}
-    if (!seen) {setTourId('overview');setTourOpen(true);}
+    if (!seen) {setTourId('recap');setTourOpen(true);}
   }, []);
 
   const SideNav = window.SideNav;

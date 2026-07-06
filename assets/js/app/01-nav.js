@@ -168,7 +168,7 @@ const OT_TOURS = {
   recap: [
   { glyph: "✦", view: "recap", target: ".rc-modetoggle",
     title: "Two ways to recap — pick what fits you",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Up here you choose your style. ", /*#__PURE__*/React.createElement("b", null, "Meditate & Reflect"), " is the gentle default — fewer prompts, more space to dwell and pray; best for a session you ", /*#__PURE__*/React.createElement("b", null, "already attended"), ". ", /*#__PURE__*/React.createElement("b", null, "Study & Reflect"), " goes deeper — guided questions and thread reveals; best for", /*#__PURE__*/React.createElement("b", null, "catching up"), " on one you missed. Switch anytime — each style keeps its own answers.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Up here you choose your style. ", /*#__PURE__*/React.createElement("b", null, "Meditate & Reflect"), " is the gentle default — fewer prompts, more space to dwell and pray; best for a session you ", /*#__PURE__*/React.createElement("b", null, "already attended"), ". ", /*#__PURE__*/React.createElement("b", null, "Study & Reflect"), " goes deeper — guided questions and thread reveals; best for ", /*#__PURE__*/React.createElement("b", null, "catching up"), " on one you missed. Switch anytime — each style keeps its own answers.") },
 
   { glyph: "↻", view: "recap", target: ".rc-picker__list",
     title: "Pick a session",
@@ -249,14 +249,24 @@ const OT_TOUR_RETURN = { recap: ".rc-session__bar .rc-btn--ghost" };
 function GuidedTour({ open, onClose, onNavigate, tourId }) {
   const steps = OT_TOURS[tourId] || OT_TOURS.overview;
   const [step, setStep] = useStateN(0);
+  /* Tracks the view we last asked the app to navigate to during this tour, so we
+     don't re-navigate (and jarringly scroll to the top) between steps that live
+     on the same page. */
+  const navViewRef = useRefN(null);
 
   /* reset to first step whenever a tour opens or the tour changes */
-  useEffectN(() => {if (open) setStep(0);}, [open, tourId]);
+  useEffectN(() => {if (open) {setStep(0);navViewRef.current = null;}}, [open, tourId]);
 
   useEffectN(() => {
     if (!open) return;
     const s = steps[Math.min(step, steps.length - 1)];
-    if (s.view && onNavigate) onNavigate(s.view, s.scrollId);
+    /* Only navigate when the page actually changes (or a step targets a specific
+       section via scrollId). Staying put avoids a scroll-to-top flash between
+       steps that share a page — e.g. the later Recap-mode steps. */
+    if (s.view && onNavigate && (s.view !== navViewRef.current || s.scrollId)) {
+      onNavigate(s.view, s.scrollId);
+    }
+    navViewRef.current = s.view;
     let el = null,peekEl = null,fabEl = null;
     const timers = [];
 
@@ -275,7 +285,12 @@ function GuidedTour({ open, onClose, onNavigate, tourId }) {
       }
       if (el) {
         el.classList.add('tour-highlight');
-        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        /* Tall targets (e.g. a whole recap session, or an expanded tile) can't be
+           centred without their top sliding under the sticky top bar — which,
+           because the highlight sits above the bar, looks like it "eats into" it.
+           Align those to the start instead, where scroll-margin-top clears the bar. */
+        const tall = el.getBoundingClientRect().height > window.innerHeight * 0.72;
+        el.scrollIntoView({ behavior: 'smooth', block: tall ? 'start' : 'center' });
       } else {
         window.scrollTo({ top: 0, behavior: 'smooth' });
       }
