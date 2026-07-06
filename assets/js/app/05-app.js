@@ -69,12 +69,12 @@ function TensionRevealToggle({ open, onToggle }) {
     React.createElement("button", {
       type: "button",
       className: "tension-reveal-toggle" + (open ? " is-open" : ""),
-      onClick: onToggle,
-      title: open ? "Hide the tension themes" : "Click to see how Christ resolves the tension between God and Man",
+      onClick: (e) => { e.stopPropagation(); onToggle(); },
+      title: open ? "Hide Christ's fulfilment detail" : "Click to see Christ's fulfilment in detail",
       "aria-expanded": open }, /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
     React.createElement("span", { className: "tension-reveal-toggle__text" },
-    open ? "Hide the tension" : "Click here to see how Christ resolves the tension"
+    open ? "Hide the detail" : "Click to see Christ's fulfilment in detail"
     )
     ));
 
@@ -703,7 +703,7 @@ function ThreadViewPage({ sessions, themes }) {
 }
 
 /* ─── Matrix grid (themes × sessions) ───────────────── */
-function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW, fontScale, labelFooter }) {
+function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pinnedTheme, selectedSession, colW, fontScale, ntReveal }) {
   const shortPassage = window.shortPassage;
   const isPrimary = window.isPrimary;
   const truncate = window.truncate;
@@ -726,7 +726,7 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
     themes.map((t) => /*#__PURE__*/
     React.createElement(React.Fragment, { key: t.id }, /*#__PURE__*/
     React.createElement("div", {
-      className: "mlabel",
+      className: "mlabel" + (t.id === 'nt' && ntReveal ? " mlabel--nt" : ""),
       style: {
         '--theme-color': `var(--c-${t.id})`,
         opacity: focus && focus !== t.id ? 0.4 : 1,
@@ -735,7 +735,8 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
       onClick: () => onPinTheme && onPinTheme(pinnedTheme === t.id ? null : t.id) }, /*#__PURE__*/
 
     React.createElement("span", { className: "mlabel__glyph" }, t.glyph),
-    t.label
+    t.label,
+    t.id === 'nt' && ntReveal ? ntReveal : null
     ),
     sessions.map((s) => {
       const v = s[t.key] || '';
@@ -760,8 +761,7 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
 
     })
     )
-    ),
-    labelFooter ? /*#__PURE__*/React.createElement("div", { className: "matrix__foot" }, labelFooter) : null
+    )
     )
     ));
 
@@ -889,7 +889,7 @@ function MatrixViewPage({ sessions, themes }) {
       activeTheme: activeTheme,
       pinnedTheme: pinnedTheme,
       selectedSession: null,
-      labelFooter: /*#__PURE__*/React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) }) }
+      ntReveal: /*#__PURE__*/React.createElement(TensionRevealToggle, { open: showTension, onToggle: () => setShowTension((v) => !v) }) }
     )
     )
 

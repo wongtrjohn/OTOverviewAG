@@ -2959,6 +2959,10 @@ body::before{
 /* Matrix: footer row spans the grid; pin the pill to the sticky left column */
 .matrix__foot{ grid-column: 1 / -1; position: sticky; left: 0; z-index: 2; display: flex; padding: 8px 0 2px; }
 .matrix__foot .tension-reveal-toggle{ align-self: flex-start; width: auto; max-width: 280px; }
+/* Tension-reveal pill nested inside the NT Fulfilment matrix label box: the
+   glyph + name sit on the first line, the pill wraps to its own line beneath. */
+.mlabel--nt{ flex-wrap: wrap; align-content: center; row-gap: 6px; }
+.mlabel--nt .tension-reveal-toggle{ flex-basis: 100%; width: 100%; align-self: stretch; margin: 4px 0 0; padding: 9px 10px; font-size: calc(11px * var(--matrix-font-scale, 1)); }
 .mhead{
   font-family: var(--sans);
   text-transform: uppercase;
