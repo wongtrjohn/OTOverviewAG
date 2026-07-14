@@ -652,7 +652,7 @@ function CR_SessionRecap({ session, sessions, themes, onBack, mode }) {
     session.prayFor && session.prayFor.trim() ? /*#__PURE__*/
     React.createElement("div", { className: "rc-prayfor" }, /*#__PURE__*/
     React.createElement("span", { className: "rc-prayfor__label" }, /*#__PURE__*/
-    React.createElement("span", { className: "rc-prayfor__icon", "aria-hidden": "true" }, "\uD83D\uDE4F"), "Before we begin, pray for:"
+    React.createElement("span", { className: "rc-prayfor__icon", "aria-hidden": "true" }, "\uD83D\uDE4F"), "Before we begin:"
 
     ), /*#__PURE__*/
     React.createElement("p", { className: "rc-prayfor__text" }, session.prayFor ? session.prayFor.charAt(0).toUpperCase() + session.prayFor.slice(1) : '')
@@ -1693,7 +1693,7 @@ function CR_PrayerTime({ session }) {
     React.createElement("p", { className: "rc-praytime__lede" }, "Don\u2019t rush past this. Take the passage back to God in your own words \u2014 adoring, confessing, thanking, asking.",
 
 
-    prayFor ? /*#__PURE__*/React.createElement(React.Fragment, null, " Carry this with you: ", /*#__PURE__*/React.createElement("b", null, prayFor.charAt(0).toUpperCase() + prayFor.slice(1)), ".") : null
+    prayFor ? /*#__PURE__*/React.createElement(React.Fragment, null, " Carry this with you: ", /*#__PURE__*/React.createElement("b", null, prayFor.charAt(0).toUpperCase() + prayFor.slice(1)), /[.!?]$/.test(prayFor) ? "" : ".") : null
     ), /*#__PURE__*/
     React.createElement("p", { className: "rc-praytime__journal" }, "Your reflection and prayers can be revisited in ", /*#__PURE__*/React.createElement("b", null, "“My Journal”"), ".")
     ));

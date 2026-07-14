@@ -253,20 +253,29 @@ function GuidedTour({ open, onClose, onNavigate, tourId }) {
      don't re-navigate (and jarringly scroll to the top) between steps that live
      on the same page. */
   const navViewRef = useRefN(null);
+  /* Also tracks the section (scrollId) we last asked the app to scroll to, so
+     consecutive steps that share one section don't re-navigate and bounce the
+     page back to that section's top before highlighting their own target. */
+  const navScrollRef = useRefN(null);
 
   /* reset to first step whenever a tour opens or the tour changes */
-  useEffectN(() => {if (open) {setStep(0);navViewRef.current = null;}}, [open, tourId]);
+  useEffectN(() => {if (open) {setStep(0);navViewRef.current = null;navScrollRef.current = null;}}, [open, tourId]);
 
   useEffectN(() => {
     if (!open) return;
     const s = steps[Math.min(step, steps.length - 1)];
-    /* Only navigate when the page actually changes (or a step targets a specific
-       section via scrollId). Staying put avoids a scroll-to-top flash between
-       steps that share a page — e.g. the later Recap-mode steps. */
-    if (s.view && onNavigate && (s.view !== navViewRef.current || s.scrollId)) {
+    /* Only navigate when the page actually changes, or when a step targets a
+       *different* section (scrollId) than the one we last scrolled to. Staying
+       put avoids a scroll-to-top/section flash between steps that share a page
+       or section — e.g. the later Recap-mode steps and the whole Thread View
+       tour, whose steps all live in the thread-view-section. */
+    const viewChanged = s.view !== navViewRef.current;
+    const scrollChanged = !!s.scrollId && s.scrollId !== navScrollRef.current;
+    if (s.view && onNavigate && (viewChanged || scrollChanged)) {
       onNavigate(s.view, s.scrollId);
     }
     navViewRef.current = s.view;
+    if (s.scrollId) navScrollRef.current = s.scrollId;
     let el = null,peekEl = null,fabEl = null;
     const timers = [];
 
