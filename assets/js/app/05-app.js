@@ -80,8 +80,57 @@ function TensionRevealToggle({ open, onToggle }) {
 
 }
 
+/* ─── First-visit welcome — intent picker ────────────────────────────── */
+/* Drives the welcome card the member sees on arrival (and can re-open any
+   time from the home "Welcome" button). */
+const HOME_INTENTS = [
+{ id: 'tour', glyph: "?",
+  label: "Show me around first",
+  desc: "A one-minute guided tour of everything on the site." },
+{ id: 'intro', glyph: "✝",
+  label: "I'm new — where do I start?",
+  desc: "Read the Introduction — the three threads and the one big idea." },
+{ id: 'reflect', glyph: "↻",
+  label: "I want to reflect session-by-session",
+  desc: "Reflect, Meditate or study a session in detail in Recap Mode." },
+{ id: 'bigpicture', glyph: "⊞",
+  label: "Show me how it all fits together",
+  desc: "See the Big Picture, Thread and Matrix views across every session." }];
+
+
+function HomeWelcome({ onChoose, onDismiss }) {
+  useEffectA(() => {
+    function onKey(e) {if (e.key === 'Escape') onDismiss();}
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+  return (/*#__PURE__*/
+    React.createElement(React.Fragment, null, /*#__PURE__*/
+    React.createElement("div", { className: "welcome-scrim", onClick: onDismiss, "aria-hidden": "true" }), /*#__PURE__*/
+    React.createElement("div", { className: "welcome-card", role: "dialog", "aria-modal": "true", "aria-label": "Welcome to the OT Overview" }, /*#__PURE__*/
+    React.createElement("span", { className: "welcome-card__glyph", "aria-hidden": "true" }, "✝"), /*#__PURE__*/
+    React.createElement("p", { className: "welcome-card__eyebrow" }, "WELCOME"), /*#__PURE__*/
+    React.createElement("h2", { className: "welcome-card__title" }, "Welcome to the OT Overview"), /*#__PURE__*/
+    React.createElement("p", { className: "welcome-card__sub" }, "What brings you here today?"), /*#__PURE__*/
+    React.createElement("div", { className: "welcome-card__opts" },
+    HOME_INTENTS.map((it) => /*#__PURE__*/
+    React.createElement("button", { key: it.id, className: "welcome-opt", onClick: () => onChoose(it.id) }, /*#__PURE__*/
+    React.createElement("span", { className: "welcome-opt__glyph", "aria-hidden": "true" }, it.glyph), /*#__PURE__*/
+    React.createElement("span", { className: "welcome-opt__text" }, /*#__PURE__*/
+    React.createElement("span", { className: "welcome-opt__label" }, it.label), /*#__PURE__*/
+    React.createElement("span", { className: "welcome-opt__desc" }, it.desc)
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "welcome-opt__arrow", "aria-hidden": "true" }, "→")
+    ))
+    ), /*#__PURE__*/
+    React.createElement("button", { className: "welcome-skip", onClick: onDismiss }, "Just let me look around →")
+    )
+    ));
+
+}
+
 /* ─── HomeScreen v2 ──────────────────────────────────────────────────── */
-function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onOpenJournal }) {
+function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, onOpenWelcome }) {
   let __last = null;
   try {const r = localStorage.getItem('OT_LAST_v1');if (r) __last = JSON.parse(r);} catch (e) {}
   const lastSession = __last && __last.sessionId ? (sessions || []).find((s) => s.id === __last.sessionId) : null;
@@ -103,8 +152,8 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
 
     )
     ), /*#__PURE__*/
-    React.createElement("button", { className: "home-tour-btn", onClick: () => onStartTour && onStartTour() }, /*#__PURE__*/
-    React.createElement("span", { className: "home-tour-btn__icon", "aria-hidden": "true" }, "\u21BB"), "Take the guided tour"
+    React.createElement("button", { className: "home-welcome-btn", onClick: () => onOpenWelcome && onOpenWelcome() }, /*#__PURE__*/
+    React.createElement("span", { className: "home-welcome-btn__icon", "aria-hidden": "true" }, "\u2726"), "Welcome! Click here to begin"
 
     ),
     React.createElement("div", { className: "home-verse" }, /*#__PURE__*/
@@ -155,7 +204,7 @@ function HomeScreen({ sessions, themes, onNavigate, onStartTour, onContinue, onO
     ), /*#__PURE__*/
 
 
-    React.createElement("div", { className: "home-screen__section-head" }, /*#__PURE__*/
+    React.createElement("div", { className: "home-screen__section-head", id: "home-explore" }, /*#__PURE__*/
     React.createElement("h2", { className: "home-screen__section-title" }, "Big Picture View"), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__section-sub" }, "Head here after going through each session or to track a particular thread/NT fulfilment")
     ), /*#__PURE__*/
@@ -949,6 +998,43 @@ function AppRecap() {
   );
   const [recapJournal, setRecapJournal] = useStateA(false);
 
+  /* First-visit welcome — replaces the old auto-fired tour. Suppressed once
+     answered/dismissed, and for anyone who already has saved recap answers or
+     has finished a tour before (returning members shouldn't be re-welcomed). */
+  const [welcomeOpen, setWelcomeOpen] = useStateA(() => {
+    try {
+      if (localStorage.getItem('OT_WELCOME_SEEN_v1')) return false;
+      let returning = !!(localStorage.getItem('OT_LAST_v1') || localStorage.getItem('OT_TOUR_SEEN_v5'));
+      for (let i = 0; i < localStorage.length && !returning; i++) {
+        const k = localStorage.key(i) || '';
+        if (k.indexOf('OT_RECAP_v1_') === 0 || k.indexOf('OT_RECAP_MED_v1_') === 0) returning = true;
+      }
+      if (returning) {localStorage.setItem('OT_WELCOME_SEEN_v1', '1');return false;}
+      return true;
+    } catch (e) {return false;}
+  });
+
+  function dismissWelcome() {
+    try {localStorage.setItem('OT_WELCOME_SEEN_v1', '1');} catch (e) {}
+    setWelcomeOpen(false);
+  }
+  /* Route a welcome-card / hero-chip intent to the right mode. Also used by
+     the chips after the welcome is gone, so the flag-set is a harmless no-op. */
+  function chooseIntent(intent) {
+    dismissWelcome();
+    if (intent === 'tour') {setTourId('overview');setTourOpen(true);return;}
+    if (intent === 'reflect') {
+      setRecapMode('meditate');
+      if (window.setRecapMode) window.setRecapMode('meditate');
+      navigateTo('recap');
+      return;
+    }
+    /* "how it all fits together" → the three explore views on the home page,
+       not straight into the subway map. */
+    if (intent === 'bigpicture') {navigateTo('home', 'home-explore');return;}
+    navigateTo('intro');
+  }
+
   function navigateTo(dest, scrollId) {
     setRecapJournal(false);
     const view = dest === 'threadview' ? 'bigpicture' : dest;
@@ -990,18 +1076,28 @@ function AppRecap() {
     return () => {try {delete window.startOTTour;} catch (_) {}};
   }, []);
 
+  /* First time the member lands in Recap Mode, auto-open its tour. Skipped when
+     a tour is already running (e.g. the overview tour passing through recap),
+     and only ever once (OT_RECAP_TOUR_SEEN_v1). */
   useEffectA(() => {
-    let seen = false;
-    try {seen = !!(window.localStorage && window.localStorage.getItem('OT_TOUR_SEEN_v5'));} catch (_) {seen = false;}
-    if (!seen) {setTourId('recap');setTourOpen(true);}
-  }, []);
+    if (currentView !== 'recap' || tourOpen) return;
+    let seen = true;
+    try {seen = !!(window.localStorage && window.localStorage.getItem('OT_RECAP_TOUR_SEEN_v1'));} catch (_) {seen = true;}
+    if (seen) return;
+    try {if (window.localStorage) window.localStorage.setItem('OT_RECAP_TOUR_SEEN_v1', '1');} catch (_) {}
+    setTourId('recap');
+    setTourOpen(true);
+  }, [currentView, tourOpen]);
 
   const SideNav = window.SideNav;
   const GuidedTour = window.GuidedTour;
   const RecapMode = window.RecapMode;
 
+  /* Stable key so React keeps this subtree (incl. GuidedTour, which holds the
+     current tour step in state) mounted as currentView changes — otherwise a
+     view change during a tour remounts GuidedTour and snaps it back to step 1. */
   const chrome = /*#__PURE__*/
-  React.createElement(React.Fragment, null,
+  React.createElement(React.Fragment, { key: "chrome" },
   SideNav ? /*#__PURE__*/React.createElement(SideNav, { currentView: currentView, onNavigate: navigateTo, recapOpen: currentView === 'recap' }) : null,
   GuidedTour ? /*#__PURE__*/
   React.createElement(GuidedTour, { open: tourOpen, tourId: tourId, onClose: () => setTourOpen(false),
@@ -1011,7 +1107,9 @@ function AppRecap() {
 
 
   if (currentView === 'home') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onStartTour: () => {setTourId('overview');setTourOpen(true);}, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);} }), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);}, onOpenWelcome: () => setWelcomeOpen(true) }),
+    welcomeOpen ? /*#__PURE__*/React.createElement(HomeWelcome, { onChoose: chooseIntent, onDismiss: dismissWelcome }) : null,
+    chrome);
   }
   if (currentView === 'recap') {
     return /*#__PURE__*/React.createElement(React.Fragment, null, RecapMode ? /*#__PURE__*/React.createElement(RecapMode, { sessions: sessions, themes: themes, onExit: goHome, initialSession: recapSession, onSessionChange: setRecapSession, onGotoIntro: () => navigateTo('intro'), initialMode: recapMode, onModeChange: setRecapMode, initialJournalOpen: recapJournal }) : /*#__PURE__*/React.createElement("p", null, "Loading\u2026"), chrome);

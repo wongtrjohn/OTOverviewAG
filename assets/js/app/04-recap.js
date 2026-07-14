@@ -998,13 +998,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
   return (/*#__PURE__*/
     React.createElement("section", { className: "rc-picker" },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "recap", label: "Tour" }) : null, /*#__PURE__*/
-    React.createElement("header", { className: "rc-picker__head" },
-    ProgressRing && !meditate ? /*#__PURE__*/
-    React.createElement("div", { className: "rc-picker__overall" }, /*#__PURE__*/
-    React.createElement(ProgressRing, { pct: overallPct, size: 52, strokeW: 5 }), /*#__PURE__*/
-    React.createElement("span", { className: "rc-picker__overall-label" }, "overall", /*#__PURE__*/React.createElement("br", null), "progress")
-    ) :
-    null, /*#__PURE__*/
+    React.createElement("header", { className: "rc-picker__head" }, /*#__PURE__*/
     React.createElement("div", { className: "rc-picker__masthead hero-band", style: { '--hero-img': 'url("assets/img/gen1.webp")' } }, /*#__PURE__*/
     React.createElement("span", { className: "hero-band__glow", "aria-hidden": "true" }), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__eyebrow" }, "RECAP MODE"), /*#__PURE__*/
