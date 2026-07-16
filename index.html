@@ -8426,6 +8426,38 @@ body.is-recap-mode .sidenav{
   @media (prefers-reduced-motion: reduce){ .home-welcome-btn{ animation: none; } }
   #home-explore{ scroll-margin-top: 18px; }
 
+  /* ── "A simple way through" — recommended-path strip above the home cards ── */
+  .home-path{
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 10px;
+    padding: 12px 16px; margin: 0 0 4px;
+    background: #fbf4e4; border: 1px dashed #d4b87a; border-radius: 12px;
+  }
+  .home-path__lead{ font-family: var(--serif, Georgia, serif); font-style: italic; font-size: 15px; color: #6b5a33; margin-right: 4px; }
+  .home-path__step{
+    display: inline-flex; align-items: center; gap: 7px;
+    font-family: var(--sans, 'Manrope', sans-serif); font-size: 13px; font-weight: 600; color: #4a3c16;
+  }
+  .home-path__step b{
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #b5894a; color: #fff; font-size: 12px; font-weight: 700;
+  }
+  .home-path__arrow{ color: #b5894a; font-weight: 700; }
+  @media (max-width: 560px){
+    .home-path{ gap: 6px 8px; padding: 11px 12px; }
+    .home-path__lead{ flex-basis: 100%; text-align: center; margin: 0 0 2px; }
+    .home-path__step{ font-size: 12.5px; }
+  }
+
+  /* ── Coachmark — one-time gentle nudge on the Introduction card ── */
+  .home-card--intro-hero.is-coachmark{ animation: coachPulse 2s ease-in-out infinite; }
+  @keyframes coachPulse{
+    0%, 100%{ box-shadow: 0 0 0 0 rgba(164,66,58,0.30); }
+    60%{ box-shadow: 0 0 0 9px rgba(164,66,58,0); }
+  }
+  .home-card__start-tag.is-coachmark{ background: #a4423a; color: #fff; }
+  @media (prefers-reduced-motion: reduce){ .home-card--intro-hero.is-coachmark{ animation: none; } }
+
   @media (max-width: 560px){
     .welcome-card{ padding: 18px 14px 10px; }
     .welcome-card__title{ font-size: 22px; }

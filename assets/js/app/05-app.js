@@ -130,7 +130,7 @@ function HomeWelcome({ onChoose, onDismiss }) {
 }
 
 /* ─── HomeScreen v2 ──────────────────────────────────────────────────── */
-function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, onOpenWelcome }) {
+function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, onOpenWelcome, coachmark }) {
   let __last = null;
   try {const r = localStorage.getItem('OT_LAST_v1');if (r) __last = JSON.parse(r);} catch (e) {}
   const lastSession = __last && __last.sessionId ? (sessions || []).find((s) => s.id === __last.sessionId) : null;
@@ -185,8 +185,17 @@ function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, o
 
     React.createElement("div", { className: "home-screen__layout" }, /*#__PURE__*/
 
-    React.createElement("button", { className: "home-card home-card--intro-hero", onClick: () => onNavigate('intro') }, /*#__PURE__*/
-    React.createElement("span", { className: "home-card__start-tag" }, "START HERE"), /*#__PURE__*/
+    React.createElement("nav", { className: "home-path", "aria-label": "A simple way through" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-path__lead" }, "A simple way through"), /*#__PURE__*/
+    React.createElement("span", { className: "home-path__step" }, /*#__PURE__*/React.createElement("b", null, "1"), " Foundations"), /*#__PURE__*/
+    React.createElement("span", { className: "home-path__arrow", "aria-hidden": "true" }, "→"), /*#__PURE__*/
+    React.createElement("span", { className: "home-path__step" }, /*#__PURE__*/React.createElement("b", null, "2"), " Session by session"), /*#__PURE__*/
+    React.createElement("span", { className: "home-path__arrow", "aria-hidden": "true" }, "→"), /*#__PURE__*/
+    React.createElement("span", { className: "home-path__step" }, /*#__PURE__*/React.createElement("b", null, "3"), " The big picture")
+    ), /*#__PURE__*/
+
+    React.createElement("button", { className: "home-card home-card--intro-hero" + (coachmark ? " is-coachmark" : ""), onClick: () => onNavigate('intro') }, /*#__PURE__*/
+    React.createElement("span", { className: "home-card__start-tag" + (coachmark ? " is-coachmark" : "") }, coachmark ? "NEW? START HERE" : "START HERE"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__glyph" }, "\u271D"), /*#__PURE__*/
     React.createElement("span", { className: "home-card__title" }, "01 \xB7 Introduction"), /*#__PURE__*/
     React.createElement("p", { className: "home-card__desc" }, "Session 01 \u2014 OT Overview \u2014 The 3 big threads; and why read the OT?"), /*#__PURE__*/
@@ -805,7 +814,7 @@ function Matrix({ sessions, themes, onSelectSession, onPinTheme, activeTheme, pi
         t.id === 'nt' && s.ntPassage ? /*#__PURE__*/
         React.createElement("div", { className: "mcell__ntref" }, window.linkifyRefs ? window.linkifyRefs(s.ntPassage) : s.ntPassage) :
         null,
-        has ? truncate(v, t.id === 'mainPoint' ? Infinity : 200) : /*#__PURE__*/React.createElement("span", null, "\u2014")
+        has ? (window.truncateRich || truncate)(v, t.id === 'mainPoint' ? Infinity : 200) : /*#__PURE__*/React.createElement("span", null, "\u2014")
         ));
 
     })
@@ -1014,12 +1023,39 @@ function AppRecap() {
     } catch (e) {return false;}
   });
 
+  /* Coachmark: a one-time gentle pulse on the Introduction card for a new
+     member who *declined* the welcome (dismissed it without choosing) — a soft
+     "start here" nudge. Shown until they leave the home page. */
+  const [coachmark, setCoachmark] = useStateA(() => {
+    try {return localStorage.getItem('OT_COACHMARK_v1') === 'show';} catch (e) {return false;}
+  });
+  function looksNew() {
+    try {
+      if (localStorage.getItem('OT_LAST_v1')) return false;
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i) || '';
+        if (k.indexOf('OT_RECAP_v1_') === 0 || k.indexOf('OT_RECAP_MED_v1_') === 0) return false;
+      }
+    } catch (e) {return false;}
+    return true;
+  }
+
   function dismissWelcome() {
     try {localStorage.setItem('OT_WELCOME_SEEN_v1', '1');} catch (e) {}
     setWelcomeOpen(false);
   }
-  /* Route a welcome-card / hero-chip intent to the right mode. Also used by
-     the chips after the welcome is gone, so the flag-set is a harmless no-op. */
+  /* Declining the welcome (skip / Esc / backdrop) — arm the Intro-card coachmark
+     for a genuinely new member, once ever. */
+  function declineWelcome() {
+    dismissWelcome();
+    try {
+      if (looksNew() && !localStorage.getItem('OT_COACHMARK_v1')) {
+        localStorage.setItem('OT_COACHMARK_v1', 'show');
+        setCoachmark(true);
+      }
+    } catch (e) {}
+  }
+  /* Route a welcome-card intent to the right place. */
   function chooseIntent(intent) {
     dismissWelcome();
     if (intent === 'tour') {setTourId('overview');setTourOpen(true);return;}
@@ -1051,6 +1087,14 @@ function AppRecap() {
     }
   }
   function goHome() {navigateTo('home');}
+
+  /* Once the coachmark has done its job (the member leaves home), retire it. */
+  useEffectA(() => {
+    if (coachmark && currentView !== 'home') {
+      setCoachmark(false);
+      try {localStorage.setItem('OT_COACHMARK_v1', 'done');} catch (e) {}
+    }
+  }, [currentView, coachmark]);
 
   /* Write current view to hash for deep-linking */
   useEffectA(() => {
@@ -1107,8 +1151,8 @@ function AppRecap() {
 
 
   if (currentView === 'home') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);}, onOpenWelcome: () => setWelcomeOpen(true) }),
-    welcomeOpen ? /*#__PURE__*/React.createElement(HomeWelcome, { onChoose: chooseIntent, onDismiss: dismissWelcome }) : null,
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);}, onOpenWelcome: () => setWelcomeOpen(true), coachmark: coachmark }),
+    welcomeOpen ? /*#__PURE__*/React.createElement(HomeWelcome, { onChoose: chooseIntent, onDismiss: declineWelcome }) : null,
     chrome);
   }
   if (currentView === 'recap') {

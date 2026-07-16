@@ -262,7 +262,7 @@ function CR_ThreadsBlock({ session, themes, initPicked, initRevealed, onChange }
         wasPicked && !isPresent ? /*#__PURE__*/React.createElement("span", { className: "rc-threadbox__judge is-bad" }, "\u2014 not in this one") : null
         ),
         isPresent ? /*#__PURE__*/
-        React.createElement("p", { className: "rc-threadbox__body" }, content) : /*#__PURE__*/
+        React.createElement("p", { className: "rc-threadbox__body" }, window.renderInline ? window.renderInline(content, "rtb" + t.id + "_") : content) : /*#__PURE__*/
 
         React.createElement("p", { className: "rc-threadbox__empty" }, "This thread isn't foregrounded in this passage \u2014 it's developed elsewhere in the OT.")
 

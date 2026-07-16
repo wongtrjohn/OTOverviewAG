@@ -244,11 +244,55 @@ function linkifyRefs(text) {
   return out.length ? out : text;
 }
 
+/* Inline emphasis: content authors mark words to bold with **double asterisks**
+   (added in the workbook, e.g. to highlight the kingdom/salvation/promises words
+   inside a matrix cell). parseBold splits a line into plain and bold runs so the
+   markers never leak through as literal asterisks. */
+function parseBold(line) {
+  if (!line || line.indexOf('**') < 0) return [{ b: false, t: line || '' }];
+  const parts = [];const re = /\*\*([^*]+)\*\*/g;let last = 0,m;
+  while ((m = re.exec(line)) !== null) {
+    if (m.index > last) parts.push({ b: false, t: line.slice(last, m.index) });
+    parts.push({ b: true, t: m[1] });
+    last = re.lastIndex;
+  }
+  if (last < line.length) parts.push({ b: false, t: line.slice(last) });
+  return parts;
+}
+
+/* Render one line with bold runs + inline Bible-reference chips. */
+function renderInline(line, keyBase) {
+  return parseBold(line).map((seg, i) => seg.b ? /*#__PURE__*/
+  React.createElement("b", { key: keyBase + "b" + i }, linkifyRefs(seg.t)) : /*#__PURE__*/
+  React.createElement(React.Fragment, { key: keyBase + "t" + i }, linkifyRefs(seg.t)));
+}
+
 function renderMultiline(s) {
   if (!s) return null;
   return s.split(/\n+/).map((line, i) => /*#__PURE__*/
-  React.createElement("p", { key: i }, linkifyRefs(line))
+  React.createElement("p", { key: i }, renderInline(line, "l" + i + "_"))
   );
+}
+
+/* Like truncate(), but bold-aware: keeps **markers** out of the visible length
+   count and returns React nodes when a line contains bold. Falls back to the
+   plain-string truncate() when there is no markup, so unmarked cells are
+   byte-for-byte unchanged. Used by the Matrix cells (refs are linkified by a
+   later DOM pass, so this does not linkify inline). */
+function truncateRich(s, n) {
+  if (s == null) return '';
+  s = String(s).replace(/\s+/g, ' ').trim();
+  if (s.indexOf('**') < 0) return truncate(s, n);
+  const parts = parseBold(s);const nodes = [];let used = 0;
+  for (let i = 0; i < parts.length; i++) {
+    if (used >= n) break;
+    let t = parts[i].t;let cut = false;
+    if (used + t.length > n) {t = t.slice(0, n - used).replace(/[,\s]+\S*$/, '');cut = true;}
+    used += parts[i].t.length;
+    nodes.push(parts[i].b ? /*#__PURE__*/React.createElement("b", { key: i }, t) : t);
+    if (cut) {nodes.push("…");break;}
+  }
+  return nodes;
 }
 
 
@@ -437,4 +481,6 @@ window.SessionDetail = SessionDetail;
 window.ThreadStory = ThreadStory;
 window.TensionTriad = TensionTriad;
 window.renderMultiline = renderMultiline;
+window.renderInline = renderInline;
 window.linkifyRefs = linkifyRefs;
+window.truncateRich = truncateRich;

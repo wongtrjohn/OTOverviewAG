@@ -19,7 +19,10 @@ function previewText(session, theme) {
     const ref = session.ntPassage || '';
     v = (ref ? ref + ' — ' : '') + v;
   }
-  return v.replace(/\s+/g, ' ').trim();
+  // Strip **bold** markers: this text goes into a plain-text station tooltip
+  // that is sliced by character length, so keep the markers out of the count
+  // and never let them surface as literal asterisks.
+  return v.replace(/\*\*/g, '').replace(/\s+/g, ' ').trim();
 }
 
 function SubwayMap({ sessions, themes, selectedSession, onSelectSession, activeTheme, pinnedTheme, onHoverTheme, onPinTheme, colW, labelFooter, fontScale, showMainPoint }) {
