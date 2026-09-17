@@ -728,20 +728,36 @@ window.OT_COVENANT_DEEPDIVE = [
     name: 'The New Covenant',
     accent: 'nt',
     isNew: true,
-    with: '“The house of Israel and the house of Judah” — fulfilled for all in Christ',
+    with: 'The house of Israel and the house of Judah (Jer 31:31)',
     passage: 'Jeremiah 31:31–40',
     session: null,
-    summary: 'Jeremiah promises a covenant unlike the one Israel broke — one that finally does what the others pointed toward. Every earlier thread is gathered up and completed here.',
+    summary: 'Jeremiah promises a covenant unlike the one Israel broke (Jer 31:32) — one that finally does what the earlier covenants could not.',
     promise: 'God will write His law on their hearts, be their God, make Himself known to all, and forgive their sin, remembering it no more (Jer 31:33–34).',
-    sign: { label: 'The Lord’s Supper & the Spirit on the heart', ref: 'Luke 22:20' },
-    surety: '“Jesus has become the guarantor (surety) of a better covenant” (Heb 7:22). Sealed once for all in His own blood (Luke 22:20).',
-    gathers: [
-      { from: 'From Noah', text: 'As unbreakable as creation’s fixed order — sun, moon and stars (Jer 31:35–36), the very pledge God gave Noah.' },
-      { from: 'From Abraham', text: '“I will be their God, and they shall be My people” (31:33) — the relationship promise, now opened to all who believe.' },
-      { from: 'From Moses', text: 'The Law is written on the heart, not on stone (31:33); sin is forgiven and remembered no more (31:34) — what the old covenant could not do.' },
-      { from: 'From David', text: 'Fulfilled in Jesus, the Son of David and everlasting King — the “sure mercies of David.”' }
+    sign: { label: 'The law written on the heart', ref: 'Jer 31:33' },
+    surety: 'God guarantees it by the fixed order of creation itself — as long as sun, moon and stars endure, this covenant will not fail (Jer 31:35–37).',
+    carries: [
+      'Takes up the Mosaic covenant it replaces — but “not like” the one they broke (Jer 31:32).',
+      'Keeps the relationship promise: “I will be their God, and they shall be My people” (Jer 31:33).'
+    ],
+    adds: [
+      'The law written on hearts, not on stone (Jer 31:33).',
+      'Everyone will know God directly, from the least to the greatest (Jer 31:34).',
+      'Sin forgiven and remembered no more (Jer 31:34).',
+      'As unbreakable as the fixed order of sun, moon and stars (Jer 31:35–36).',
+      'A restored city, holy to the LORD forever (Jer 31:38–40).'
     ]
   }
+];
+
+/* "Fulfilled in Christ" — kept SEPARATE from the Jeremiah 31 card above. This
+   is where every covenant thread lands in Jesus, each with a NT reference. */
+window.OT_COVENANT_FULFILMENT = [
+  { label: 'The guarantor (surety)', text: '“Jesus has become the guarantor of a better covenant” — He Himself secures it.', ref: 'Heb 7:22' },
+  { label: 'Sealed in His blood',    text: '“This cup is the new covenant in My blood” — the covenant cut at the cross.', ref: 'Luke 22:20' },
+  { label: 'Law on the heart',       text: 'Written by the Spirit on human hearts, not on tablets of stone.', ref: '2 Cor 3:3–6' },
+  { label: 'Sin remembered no more', text: '“Their sins and lawless deeds I will remember no more” — full, final forgiveness.', ref: 'Heb 10:16–17' },
+  { label: 'The Son of David',       text: 'Jesus is given the throne of David, to reign forever — the everlasting King.', ref: 'Luke 1:32–33' },
+  { label: 'Blessing to all nations',text: 'In Christ the blessing of Abraham reaches the nations; all who believe are Abraham’s offspring.', ref: 'Gal 3:14, 29' }
 ];
 
 /* Recurring elements traced across all five covenants — the "at a glance"
@@ -751,55 +767,115 @@ window.OT_COVENANT_THREADS = [
     id: 'bond',
     label: 'The bond — “I will be your God”',
     steps: [
-      { cov: 'kingdom',   name: 'Noah',    text: 'God binds Himself to preserve all life.' },
-      { cov: 'promises',  name: 'Abraham', text: '“I will be their God” (Gen 17:8).' },
-      { cov: 'salvation', name: 'Moses',   text: '“I will… be your God, and you shall be My people” (Ex 6:7).' },
-      { cov: 'intention', name: 'David',   text: 'God a Father to the king (2 Sam 7:14).' },
-      { cov: 'nt',        name: 'New',     text: '“They shall all know Me” (Jer 31:33–34).' }
+      { cov: 'kingdom',   name: 'Noah',    text: 'God binds Himself to preserve all life.',              ref: 'Gen 9:11' },
+      { cov: 'promises',  name: 'Abraham', text: '“I will be their God.”',                                ref: 'Gen 17:8' },
+      { cov: 'salvation', name: 'Moses',   text: '“I will be your God, and you shall be My people.”',     ref: 'Ex 6:7' },
+      { cov: 'intention', name: 'David',   text: 'God a Father to the king.',                             ref: '2 Sam 7:14' },
+      { cov: 'nt',        name: 'New',     text: '“They shall all know Me.”',                             ref: 'Jer 31:34' }
     ]
   },
   {
     id: 'offspring',
     label: 'The offspring → the King',
     steps: [
-      { cov: 'kingdom',   name: 'Noah',    text: 'Humanity preserved to multiply.' },
-      { cov: 'promises',  name: 'Abraham', text: 'A promised “offspring” & great nation.' },
-      { cov: 'salvation', name: 'Moses',   text: 'The offspring become a nation.' },
-      { cov: 'intention', name: 'David',   text: 'A royal Son on an eternal throne.' },
-      { cov: 'nt',        name: 'New',     text: 'Christ — Son of David & offspring of Abraham (Gal 3:16).' }
+      { cov: 'kingdom',   name: 'Noah',    text: 'Humanity preserved to multiply.',                      ref: 'Gen 9:1' },
+      { cov: 'promises',  name: 'Abraham', text: 'A promised “offspring” & great nation.',               ref: 'Gen 12:2' },
+      { cov: 'salvation', name: 'Moses',   text: 'The offspring become a nation.',                        ref: 'Ex 1:7' },
+      { cov: 'intention', name: 'David',   text: 'A royal Son on an eternal throne.',                     ref: '2 Sam 7:12–13' },
+      { cov: 'nt',        name: 'New',     text: 'A righteous Branch, a King for David.',                 ref: 'Jer 33:15' }
     ]
   },
   {
     id: 'sign',
     label: 'The sign',
     steps: [
-      { cov: 'kingdom',   name: 'Noah',    text: 'The rainbow.' },
-      { cov: 'promises',  name: 'Abraham', text: 'Circumcision.' },
-      { cov: 'salvation', name: 'Moses',   text: 'The Sabbath.' },
-      { cov: 'intention', name: 'David',   text: 'The sure “house.”' },
-      { cov: 'nt',        name: 'New',     text: 'The Lord’s Supper & the Spirit.' }
+      { cov: 'kingdom',   name: 'Noah',    text: 'The rainbow.',                    ref: 'Gen 9:13' },
+      { cov: 'promises',  name: 'Abraham', text: 'Circumcision.',                   ref: 'Gen 17:11' },
+      { cov: 'salvation', name: 'Moses',   text: 'The Sabbath.',                    ref: 'Ex 31:13' },
+      { cov: 'intention', name: 'David',   text: 'The sure “house.”',               ref: '2 Sam 7:16' },
+      { cov: 'nt',        name: 'New',     text: 'The law written on the heart.',   ref: 'Jer 31:33' }
     ]
   },
   {
     id: 'surety',
     label: 'The surety — who guarantees it',
     steps: [
-      { cov: 'kingdom',   name: 'Noah',    text: '“I will remember” (Gen 9:15).' },
-      { cov: 'promises',  name: 'Abraham', text: 'God alone passes through the pieces (Gen 15:17).' },
-      { cov: 'salvation', name: 'Moses',   text: 'The blood of the covenant (Ex 24:8).' },
-      { cov: 'intention', name: 'David',   text: '“Made sure forever” (2 Sam 7:16).' },
-      { cov: 'nt',        name: 'New',     text: 'Jesus, guarantor of a better covenant (Heb 7:22).' }
+      { cov: 'kingdom',   name: 'Noah',    text: '“I will remember.”',                        ref: 'Gen 9:15' },
+      { cov: 'promises',  name: 'Abraham', text: 'God alone passes through the pieces.',       ref: 'Gen 15:17' },
+      { cov: 'salvation', name: 'Moses',   text: 'The blood of the covenant.',                ref: 'Ex 24:8' },
+      { cov: 'intention', name: 'David',   text: '“Made sure forever.”',                      ref: '2 Sam 7:16' },
+      { cov: 'nt',        name: 'New',     text: 'As sure as sun, moon & stars.',             ref: 'Jer 31:35–36' }
     ]
   },
   {
     id: 'reach',
     label: 'The reach',
     steps: [
-      { cov: 'kingdom',   name: 'Noah',    text: 'All creation.' },
-      { cov: 'promises',  name: 'Abraham', text: 'One family — for all nations.' },
-      { cov: 'salvation', name: 'Moses',   text: 'One nation.' },
-      { cov: 'intention', name: 'David',   text: 'One royal house.' },
-      { cov: 'nt',        name: 'New',     text: 'All who are in Christ, from every nation.' }
+      { cov: 'kingdom',   name: 'Noah',    text: 'All creation.',                    ref: 'Gen 9:17' },
+      { cov: 'promises',  name: 'Abraham', text: 'One family — for all nations.',    ref: 'Gen 12:3' },
+      { cov: 'salvation', name: 'Moses',   text: 'One nation.',                      ref: 'Ex 19:6' },
+      { cov: 'intention', name: 'David',   text: 'One royal house.',                 ref: '2 Sam 7:16' },
+      { cov: 'nt',        name: 'New',     text: 'All who know Me, least to greatest.', ref: 'Jer 31:34' }
+    ]
+  }
+];
+
+/* The PROGRESS of the covenants — a ladder showing what each covenant ADDS
+   on top of the one before it, every point with a specific verse reference. */
+window.OT_COVENANT_PROGRESS = [
+  {
+    id: 'noahic', name: 'Noahic', accent: 'kingdom', base: true,
+    note: 'The starting point — the first covenant, and the pattern all the others build on.',
+    adds: [
+      { text: 'The very idea of a covenant — a binding, universal promise', ref: 'Gen 9:9–11' },
+      { text: 'Kept by God alone, with no conditions attached', ref: 'Gen 9:15–16' },
+      { text: 'A visible covenant sign — the rainbow', ref: 'Gen 9:13' }
+    ]
+  },
+  {
+    id: 'abrahamic', name: 'Abrahamic', accent: 'promises',
+    note: 'Narrows to one family — and adds the great promises.',
+    adds: [
+      { text: 'A chosen people through one man', ref: 'Gen 12:2' },
+      { text: 'A promised land', ref: 'Gen 15:18' },
+      { text: 'Blessing to all nations through his offspring', ref: 'Gen 22:18' },
+      { text: 'A personal bond: “I will be their God”', ref: 'Gen 17:7' },
+      { text: 'God seals it Himself by a self-oath', ref: 'Gen 15:17' },
+      { text: 'A new sign: circumcision', ref: 'Gen 17:10–11' }
+    ]
+  },
+  {
+    id: 'mosaic', name: 'Mosaic', accent: 'salvation',
+    note: 'The family is now a nation — and adds the law, a mediator, and God’s presence.',
+    adds: [
+      { text: 'The Law — God’s commands', ref: 'Ex 20:1–17' },
+      { text: 'A mediator between God and the people (Moses)', ref: 'Ex 20:19' },
+      { text: 'Atoning sacrifice — the blood of the covenant', ref: 'Ex 24:8' },
+      { text: 'God dwelling among them in the tabernacle', ref: 'Ex 25:8' },
+      { text: 'A national calling: a kingdom of priests, a holy nation', ref: 'Ex 19:6' },
+      { text: 'A new sign: the Sabbath', ref: 'Ex 31:13' }
+    ]
+  },
+  {
+    id: 'davidic', name: 'Davidic', accent: 'intention',
+    note: 'The nation now has a king — and adds an everlasting throne.',
+    adds: [
+      { text: 'An everlasting kingship and dynasty', ref: '2 Sam 7:16' },
+      { text: 'A specific offspring — David’s son on the throne', ref: '2 Sam 7:12–13' },
+      { text: 'God as Father to the king', ref: '2 Sam 7:14' },
+      { text: 'A temple as God’s dwelling, built by the son', ref: '2 Sam 7:13' }
+    ]
+  },
+  {
+    id: 'new', name: 'New Covenant', accent: 'nt', isNew: true,
+    note: 'What every earlier covenant pointed toward — and could not itself deliver.',
+    adds: [
+      { text: 'The law written on the heart, not on stone', ref: 'Jer 31:33' },
+      { text: 'Full, permanent forgiveness of sin', ref: 'Jer 31:34' },
+      { text: 'Everyone knows God directly, least to greatest', ref: 'Jer 31:34' },
+      { text: 'Unbreakable — unlike the covenant they broke', ref: 'Jer 31:32' },
+      { text: 'As secure as creation’s fixed order', ref: 'Jer 31:35–36' },
+      { text: 'A restored, holy city forever', ref: 'Jer 31:38–40' }
     ]
   }
 ];

@@ -1446,6 +1446,110 @@
   text-transform: uppercase; color: var(--cov-accent, #b5894a);
 }
 .covglance__steptext { font-size: 12.5px; line-height: 1.45; color: var(--ink-2, #3d342a); }
+.covglance__stepref {
+  margin-top: 2px; font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+  color: var(--cov-accent, #736750);
+}
+
+/* ── The progress of the covenants (accumulation ladder) ───────────── */
+.covprog {
+  margin-top: 34px; padding: 22px 22px 10px;
+  background: var(--bg-card, #fbf7ec); border: 1px solid var(--rule, #d5c8a8);
+  border-radius: 14px;
+}
+.covprog__head {
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+  color: var(--ink, #1d1812); margin: 0 0 4px;
+}
+.covprog__sub { font-size: 13.5px; line-height: 1.6; color: var(--muted, #736750); margin: 0 0 20px; max-width: 60ch; }
+.covprog__rung { position: relative; display: flex; gap: 16px; padding-bottom: 22px; }
+/* connecting spine between rungs */
+.covprog__rung::before {
+  content: ""; position: absolute; left: 17px; top: 34px; bottom: -4px;
+  width: 2px; background: var(--rule, #d5c8a8);
+}
+.covprog__rung:last-child { padding-bottom: 4px; }
+.covprog__rung:last-child::before { display: none; }
+.covprog__marker { flex: none; z-index: 1; }
+.covprog__dot {
+  width: 36px; height: 36px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--serif); font-size: 17px; font-weight: 700; line-height: 1;
+  color: #fff; background: var(--cov-accent, #b5894a);
+  box-shadow: 0 0 0 4px var(--bg-card, #fbf7ec);
+}
+.covprog__body { flex: 1; min-width: 0; padding-top: 2px; }
+.covprog__rownhead { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px; }
+.covprog__name {
+  font-family: var(--serif); font-size: 20px; font-weight: 700; line-height: 1.1;
+  color: var(--ink, #1d1812);
+}
+.covprog__addlabel {
+  font-family: var(--sans); font-size: 10px; font-weight: 700; letter-spacing: .09em;
+  text-transform: uppercase; color: var(--cov-accent, #7a5ab4);
+  background: color-mix(in oklab, var(--cov-accent) 12%, #fff);
+  border: 1px solid color-mix(in oklab, var(--cov-accent) 30%, transparent);
+  padding: 2px 8px; border-radius: 999px;
+}
+.covprog__note { font-size: 13px; line-height: 1.55; color: var(--ink-3, #6e6452); margin: 5px 0 10px; }
+.covprog__adds { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+.covprog__add {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px;
+  padding-left: 16px; position: relative;
+  font-size: 13.5px; line-height: 1.5; color: var(--ink-2, #3d342a);
+}
+.covprog__add::before {
+  content: "+"; position: absolute; left: 0; top: 0;
+  font-weight: 800; color: var(--cov-accent, #7a5ab4);
+}
+.covprog__addtext { flex: 1 1 auto; min-width: 55%; }
+.covprog__addref {
+  flex: none; font-family: var(--mono); font-size: 11px; font-weight: 600;
+  color: var(--cov-accent, #7a5ab4);
+  background: color-mix(in oklab, var(--cov-accent) 8%, var(--bg-card-2, #f7f1de));
+  border-radius: 5px; padding: 1px 7px;
+}
+.covprog__rung--new .covprog__body {
+  background: radial-gradient(600px 200px at 100% 0%, var(--cov-soft), transparent 70%);
+  border-radius: 10px; padding: 8px 10px 4px; margin-top: -8px;
+}
+
+/* ── Fulfilled in Christ (kept separate from the Jeremiah 31 card) ──── */
+.covfulfil {
+  margin-top: 34px; padding: 24px 24px 12px;
+  border: 1px solid var(--c-nt, #3e6a33); border-radius: 14px;
+  background:
+    radial-gradient(900px 360px at 90% -20%, var(--c-nt-soft), transparent 60%),
+    var(--bg-card, #fbf7ec);
+  box-shadow: var(--shadow-deep);
+}
+.covfulfil__eyebrow {
+  display: inline-block; font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--c-nt, #3e6a33);
+  margin-bottom: 6px;
+}
+.covfulfil__head {
+  font-family: var(--serif); font-size: 26px; font-weight: 700;
+  color: var(--ink, #1d1812); margin: 0 0 6px;
+}
+.covfulfil__sub { font-size: 14px; line-height: 1.6; color: var(--ink-2, #3d342a); margin: 0 0 18px; max-width: 62ch; }
+.covfulfil__row {
+  display: grid; grid-template-columns: 1fr; gap: 2px 14px;
+  padding: 12px 0; border-top: 1px solid color-mix(in oklab, var(--c-nt) 22%, transparent);
+}
+.covfulfil__row:first-of-type { border-top: 0; }
+@media (min-width: 640px) {
+  .covfulfil__row { grid-template-columns: 168px 1fr auto; align-items: baseline; }
+}
+.covfulfil__label {
+  font-family: var(--sans); font-size: 12.5px; font-weight: 700;
+  color: var(--c-nt, #3e6a33);
+}
+.covfulfil__text { font-size: 13.5px; line-height: 1.55; color: var(--ink-2, #3d342a); }
+.covfulfil__ref {
+  font-family: var(--mono); font-size: 11.5px; font-weight: 600;
+  color: var(--c-nt, #3e6a33); white-space: nowrap;
+}
 
 
 /* ── Sub-theme reveal in Introduction ─────────────────────────────── */

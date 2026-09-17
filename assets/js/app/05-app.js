@@ -707,6 +707,8 @@ window.BigPictureView = BigPictureView;
 function CovenantDeepDive() {
   const COVS = window.OT_COVENANT_DEEPDIVE || [];
   const THREADS = window.OT_COVENANT_THREADS || [];
+  const PROGRESS = window.OT_COVENANT_PROGRESS || [];
+  const FULFIL = window.OT_COVENANT_FULFILMENT || [];
 
   const renderCard = (c) => /*#__PURE__*/
     React.createElement("article", {
@@ -748,18 +750,7 @@ function CovenantDeepDive() {
     )
     ),
 
-    /* New Covenant: how it gathers every earlier thread. */
-    c.isNew && c.gathers ? /*#__PURE__*/
-    React.createElement("div", { className: "covcard__gathers" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__fieldlabel" }, "How it gathers every thread"),
-    c.gathers.map((g, i) => /*#__PURE__*/
-    React.createElement("div", { key: i, className: "covcard__gather" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__gatherfrom" }, g.from), /*#__PURE__*/
-    React.createElement("span", { className: "covcard__gathertext" }, g.text)
-    )
-    )
-    ) :
-    /* Earlier covenants: what carries forward vs. what is added. */
+    /* What carries forward vs. what is added. */
     (c.carries || c.adds ? /*#__PURE__*/
     React.createElement("div", { className: "covcard__develop" },
     c.carries && c.carries.length ? /*#__PURE__*/
@@ -777,7 +768,7 @@ function CovenantDeepDive() {
 
   return (/*#__PURE__*/
     React.createElement("div", { className: "covdeep" }, /*#__PURE__*/
-    React.createElement("p", { className: "covdeep__lede" }, "A ", /*#__PURE__*/React.createElement("b", null, "covenant"), " is a binding relationship God makes with His people. Read in order, the covenants build like layers — each one ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — until every thread is gathered up in the ", /*#__PURE__*/React.createElement("b", null, "New Covenant"), " in Christ."
+    React.createElement("p", { className: "covdeep__lede" }, "A ", /*#__PURE__*/React.createElement("b", null, "covenant"), " is a binding relationship God makes with His people. Read in order, the covenants build like layers — each one ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — up to the ", /*#__PURE__*/React.createElement("b", null, "New Covenant"), " promised in Jeremiah 31. How each thread is finally fulfilled in Christ follows at the end."
     ), /*#__PURE__*/
 
     React.createElement("div", { className: "covdeep__flow", "aria-hidden": "true" },
@@ -791,6 +782,34 @@ function CovenantDeepDive() {
 
     React.createElement("div", { className: "covdeep__stack" }, COVS.map(renderCard)),
 
+    PROGRESS.length ? /*#__PURE__*/
+    React.createElement("div", { className: "covprog" }, /*#__PURE__*/
+    React.createElement("h3", { className: "covprog__head" }, "The progress of the covenants"), /*#__PURE__*/
+    React.createElement("p", { className: "covprog__sub" }, "Nothing is lost along the way — each covenant keeps what came before and stacks something new on top. Here is what each one ", /*#__PURE__*/React.createElement("b", null, "adds"), ", step by step."),
+    PROGRESS.map((p, pi) => /*#__PURE__*/
+    React.createElement("div", { key: p.id, className: "covprog__rung" + (p.isNew ? " covprog__rung--new" : ""), style: { '--cov-accent': `var(--c-${p.accent})`, '--cov-soft': `var(--c-${p.accent}-soft)` } }, /*#__PURE__*/
+    React.createElement("div", { className: "covprog__marker", "aria-hidden": "true" }, /*#__PURE__*/
+    React.createElement("span", { className: "covprog__dot" }, p.isNew ? "✦" : pi + 1)
+    ), /*#__PURE__*/
+    React.createElement("div", { className: "covprog__body" }, /*#__PURE__*/
+    React.createElement("div", { className: "covprog__rownhead" }, /*#__PURE__*/
+    React.createElement("span", { className: "covprog__name" }, p.name), /*#__PURE__*/
+    React.createElement("span", { className: "covprog__addlabel" }, p.base ? "establishes" : "adds")
+    ),
+    p.note ? /*#__PURE__*/React.createElement("p", { className: "covprog__note" }, p.note) : null, /*#__PURE__*/
+    React.createElement("ul", { className: "covprog__adds" },
+    p.adds.map((a, ai) => /*#__PURE__*/
+    React.createElement("li", { key: ai, className: "covprog__add" }, /*#__PURE__*/
+    React.createElement("span", { className: "covprog__addtext" }, a.text), /*#__PURE__*/
+    React.createElement("span", { className: "covprog__addref" }, a.ref)
+    )
+    )
+    )
+    )
+    )
+    )
+    ) : null,
+
     THREADS.length ? /*#__PURE__*/
     React.createElement("div", { className: "covglance" }, /*#__PURE__*/
     React.createElement("h3", { className: "covglance__head" }, "At a glance — the same threads, developing"), /*#__PURE__*/
@@ -802,10 +821,25 @@ function CovenantDeepDive() {
     row.steps.map((s, i) => /*#__PURE__*/
     React.createElement("div", { key: i, className: "covglance__step", style: { '--cov-accent': `var(--c-${s.cov})`, '--cov-soft': `var(--c-${s.cov}-soft)` } }, /*#__PURE__*/
     React.createElement("span", { className: "covglance__stepname" }, s.name), /*#__PURE__*/
-    React.createElement("span", { className: "covglance__steptext" }, s.text)
+    React.createElement("span", { className: "covglance__steptext" }, s.text),
+    s.ref ? /*#__PURE__*/React.createElement("span", { className: "covglance__stepref" }, s.ref) : null
     )
     )
     )
+    )
+    )
+    ) : null,
+
+    FULFIL.length ? /*#__PURE__*/
+    React.createElement("div", { className: "covfulfil" }, /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__eyebrow" }, "✝  Separate — the goal of it all"), /*#__PURE__*/
+    React.createElement("h3", { className: "covfulfil__head" }, "Fulfilled in Christ"), /*#__PURE__*/
+    React.createElement("p", { className: "covfulfil__sub" }, "The Old Testament covenants all lean forward. Jesus is where every promise, sign and surety finally lands — He is the guarantor of the New Covenant, sealed in His own blood."),
+    FULFIL.map((f, i) => /*#__PURE__*/
+    React.createElement("div", { key: i, className: "covfulfil__row" }, /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__label" }, f.label), /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__text" }, f.text), /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__ref" }, f.ref)
     )
     )
     ) : null
