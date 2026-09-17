@@ -697,6 +697,122 @@ function BigPictureView({ sessions, themes, embedded }) {
 }
 window.BigPictureView = BigPictureView;
 
+/* ─── CovenantDeepDive — the "Covenants" tab in the Thread View ────────────
+   Walks through all four OT covenants (Noahic → Abrahamic → Mosaic →
+   Davidic), showing for each what it CARRIES forward from the covenants before
+   and what it ADDS, then ends on the New Covenant (Jer 31:31–40) that
+   gathers every thread. A compact "at a glance" table traces recurring elements
+   — the bond, the offspring/King, the sign, the surety, the reach — across
+   all five. Reads curated data from window.OT_COVENANT_DEEPDIVE / _THREADS. */
+function CovenantDeepDive() {
+  const COVS = window.OT_COVENANT_DEEPDIVE || [];
+  const THREADS = window.OT_COVENANT_THREADS || [];
+
+  const renderCard = (c) => /*#__PURE__*/
+    React.createElement("article", {
+      key: c.id,
+      className: "covcard" + (c.isNew ? " covcard--new" : ""),
+      style: { '--cov-accent': `var(--c-${c.accent})`, '--cov-soft': `var(--c-${c.accent}-soft)` } }, /*#__PURE__*/
+
+    React.createElement("div", { className: "covcard__head" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__order", "aria-hidden": "true" }, c.isNew ? "✦" : c.order), /*#__PURE__*/
+    React.createElement("div", { className: "covcard__headmeta" }, /*#__PURE__*/
+    React.createElement("h3", { className: "covcard__name" }, c.name), /*#__PURE__*/
+    React.createElement("div", { className: "covcard__tags" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__passage" }, c.passage),
+    c.session ? /*#__PURE__*/React.createElement("span", { className: "covcard__session" }, "Session ", String(c.session).padStart(2, '0')) : null,
+    c.sessionNote ? /*#__PURE__*/React.createElement("span", { className: "covcard__sessnote" }, c.sessionNote) : null
+    )
+    )
+    ), /*#__PURE__*/
+
+    React.createElement("p", { className: "covcard__with" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__withlabel" }, "With"), " ", c.with
+    ),
+    c.summary ? /*#__PURE__*/React.createElement("p", { className: "covcard__summary" }, c.summary) : null, /*#__PURE__*/
+
+    React.createElement("div", { className: "covcard__promise" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel" }, "The promise"), /*#__PURE__*/
+    React.createElement("p", null, c.promise)
+    ), /*#__PURE__*/
+
+    React.createElement("div", { className: "covcard__row2" },
+    c.sign ? /*#__PURE__*/
+    React.createElement("div", { className: "covcard__sign" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel" }, "The sign"), /*#__PURE__*/
+    React.createElement("p", null, /*#__PURE__*/React.createElement("b", null, c.sign.label), " · ", c.sign.ref)
+    ) : null, /*#__PURE__*/
+    React.createElement("div", { className: "covcard__surety" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel covcard__fieldlabel--surety" }, "How it is guaranteed — the surety"), /*#__PURE__*/
+    React.createElement("p", null, c.surety)
+    )
+    ),
+
+    /* New Covenant: how it gathers every earlier thread. */
+    c.isNew && c.gathers ? /*#__PURE__*/
+    React.createElement("div", { className: "covcard__gathers" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel" }, "How it gathers every thread"),
+    c.gathers.map((g, i) => /*#__PURE__*/
+    React.createElement("div", { key: i, className: "covcard__gather" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__gatherfrom" }, g.from), /*#__PURE__*/
+    React.createElement("span", { className: "covcard__gathertext" }, g.text)
+    )
+    )
+    ) :
+    /* Earlier covenants: what carries forward vs. what is added. */
+    (c.carries || c.adds ? /*#__PURE__*/
+    React.createElement("div", { className: "covcard__develop" },
+    c.carries && c.carries.length ? /*#__PURE__*/
+    React.createElement("div", { className: "covcard__col covcard__col--carries" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__collabel" }, "↻ Carries forward"), /*#__PURE__*/
+    React.createElement("ul", null, c.carries.map((t, i) => /*#__PURE__*/React.createElement("li", { key: i }, t)))
+    ) : null,
+    c.adds && c.adds.length ? /*#__PURE__*/
+    React.createElement("div", { className: "covcard__col covcard__col--adds" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__collabel" }, "✦ New this time"), /*#__PURE__*/
+    React.createElement("ul", null, c.adds.map((t, i) => /*#__PURE__*/React.createElement("li", { key: i }, t)))
+    ) : null
+    ) : null)
+    );
+
+  return (/*#__PURE__*/
+    React.createElement("div", { className: "covdeep" }, /*#__PURE__*/
+    React.createElement("p", { className: "covdeep__lede" }, "A ", /*#__PURE__*/React.createElement("b", null, "covenant"), " is a binding relationship God makes with His people. Read in order, the covenants build like layers — each one ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — until every thread is gathered up in the ", /*#__PURE__*/React.createElement("b", null, "New Covenant"), " in Christ."
+    ), /*#__PURE__*/
+
+    React.createElement("div", { className: "covdeep__flow", "aria-hidden": "true" },
+    COVS.map((c, i) => /*#__PURE__*/
+    React.createElement(React.Fragment, { key: c.id },
+    i > 0 ? /*#__PURE__*/React.createElement("span", { className: "covdeep__flowarrow" }, "→") : null, /*#__PURE__*/
+    React.createElement("span", { className: "covdeep__flowpill" + (c.isNew ? " is-new" : ""), style: { '--cov-accent': `var(--c-${c.accent})` } }, c.name.replace(' Covenant', '').replace('The ', ''))
+    )
+    )
+    ), /*#__PURE__*/
+
+    React.createElement("div", { className: "covdeep__stack" }, COVS.map(renderCard)),
+
+    THREADS.length ? /*#__PURE__*/
+    React.createElement("div", { className: "covglance" }, /*#__PURE__*/
+    React.createElement("h3", { className: "covglance__head" }, "At a glance — the same threads, developing"), /*#__PURE__*/
+    React.createElement("p", { className: "covglance__sub" }, "Follow any one row left to right to watch a single theme grow from Noah to the New Covenant."),
+    THREADS.map((row) => /*#__PURE__*/
+    React.createElement("div", { key: row.id, className: "covglance__row" }, /*#__PURE__*/
+    React.createElement("div", { className: "covglance__rowlabel" }, row.label), /*#__PURE__*/
+    React.createElement("div", { className: "covglance__steps" },
+    row.steps.map((s, i) => /*#__PURE__*/
+    React.createElement("div", { key: i, className: "covglance__step", style: { '--cov-accent': `var(--c-${s.cov})`, '--cov-soft': `var(--c-${s.cov}-soft)` } }, /*#__PURE__*/
+    React.createElement("span", { className: "covglance__stepname" }, s.name), /*#__PURE__*/
+    React.createElement("span", { className: "covglance__steptext" }, s.text)
+    )
+    )
+    )
+    )
+    )
+    ) : null
+    ));
+
+}
+
 /* ─── ThreadViewPage ─────────────────────────────────────────────────── */
 function ThreadViewPage({ sessions, themes }) {
   const [activeThread, setActiveThread] = useStateA(function () { try { var t = window.__OT_THREAD; if (t) { delete window.__OT_THREAD; return t; } } catch (e) {} return 'kingdom'; });
@@ -706,6 +822,7 @@ function ThreadViewPage({ sessions, themes }) {
   { id: 'kingdom', label: "God's Kingdom" },
   { id: 'salvation', label: "God's Salvation" },
   { id: 'promises', label: "God's Promises" },
+  { id: 'covenants', label: "The Covenants" },
   { id: 'tension', label: "Tension & NT Fulfilment" }];
 
   const themeObj = themes.find((t) => t.id === activeThread);
@@ -725,13 +842,15 @@ function ThreadViewPage({ sessions, themes }) {
     TABS.map((tab) => /*#__PURE__*/
     React.createElement("button", { key: tab.id,
       className: "thread-toggle-btn" + (activeThread === tab.id ? " is-active" : ""),
-      style: tab.id !== 'tension' ? { '--tab-color': `var(--c-${tab.id})` } : {},
+      style: tab.id === 'covenants' ? { '--tab-color': `var(--c-promises)` } : tab.id !== 'tension' ? { '--tab-color': `var(--c-${tab.id})` } : {},
       onClick: () => setActiveThread(tab.id) },
     tab.label
     )
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "thread-view-page__content" },
+    activeThread === 'covenants' ? /*#__PURE__*/
+    React.createElement(CovenantDeepDive, null) :
     activeThread === 'tension' ? /*#__PURE__*/
     React.createElement("div", { className: "tension-view" }, /*#__PURE__*/
     React.createElement("p", { className: "tension-view__lede" }, /*#__PURE__*/

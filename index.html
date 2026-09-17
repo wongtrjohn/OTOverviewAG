@@ -1271,6 +1271,183 @@
 }
 
 
+/* ── Covenant Deep Dive (Thread View → "The Covenants" tab) ─────────── */
+.covdeep__lede {
+  font-size: 15.5px; color: var(--ink-2, #3d342a); line-height: 1.75;
+  margin: 4px 0 22px; max-width: 62ch;
+}
+/* Flow of covenant names across the top */
+.covdeep__flow {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px;
+  margin: 0 0 30px; padding: 14px 16px;
+  background: var(--bg-card-2, #f7f1de); border: 1px solid var(--rule, #d5c8a8);
+  border-radius: 12px;
+}
+.covdeep__flowarrow { color: var(--muted, #736750); font-weight: 700; }
+.covdeep__flowpill {
+  font-family: var(--sans); font-size: 13px; font-weight: 600;
+  color: var(--cov-accent, #5c4a1e);
+  padding: 5px 12px; border-radius: 999px;
+  border: 1.5px solid color-mix(in oklab, var(--cov-accent) 45%, transparent);
+  background: color-mix(in oklab, var(--cov-accent) 10%, #fff);
+}
+.covdeep__flowpill.is-new {
+  color: #fff; background: var(--cov-accent, #3e6a33);
+  border-color: var(--cov-accent, #3e6a33);
+}
+
+/* Vertical stack of covenant cards, joined by a faint spine */
+.covdeep__stack { position: relative; display: flex; flex-direction: column; gap: 20px; }
+
+.covcard {
+  position: relative;
+  background: var(--bg-card, #fbf7ec);
+  border: 1px solid var(--rule, #d5c8a8);
+  border-left: 5px solid var(--cov-accent, #b5894a);
+  border-radius: 12px; padding: 20px 22px;
+  box-shadow: var(--shadow-soft);
+}
+.covcard__head { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+.covcard__order {
+  flex: none; width: 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: var(--serif); font-size: 18px; font-weight: 700; line-height: 1;
+  color: #fff; background: var(--cov-accent, #b5894a);
+  box-shadow: 0 2px 6px -1px color-mix(in oklab, var(--cov-accent) 55%, transparent);
+}
+.covcard__headmeta { flex: 1; min-width: 0; }
+.covcard__name {
+  font-family: var(--serif); font-size: 24px; font-weight: 700; line-height: 1.1;
+  color: var(--ink, #1d1812); margin: 2px 0 6px;
+}
+.covcard__tags { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.covcard__passage {
+  font-family: var(--mono); font-size: 12px; font-weight: 600;
+  color: var(--cov-accent, #7a5ab4);
+  background: color-mix(in oklab, var(--cov-accent) 9%, #fff);
+  border: 1px solid color-mix(in oklab, var(--cov-accent) 30%, transparent);
+  padding: 2px 9px; border-radius: 6px;
+}
+.covcard__session {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 600; letter-spacing: .02em;
+  color: var(--muted, #736750);
+  background: var(--bg-card-2, #f7f1de); border: 1px solid var(--rule, #d5c8a8);
+  padding: 2px 8px; border-radius: 6px;
+}
+.covcard__sessnote { font-size: 11.5px; font-style: italic; color: var(--muted, #736750); }
+
+.covcard__with { font-size: 14px; color: var(--ink-2, #3d342a); margin: 0 0 6px; }
+.covcard__withlabel {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--muted, #736750);
+}
+.covcard__summary { font-size: 14.5px; line-height: 1.65; color: var(--ink-2, #3d342a); margin: 0 0 14px; }
+
+.covcard__fieldlabel {
+  display: block;
+  font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--cov-accent, #7a5ab4);
+  margin-bottom: 4px;
+}
+.covcard__fieldlabel--surety { color: color-mix(in oklab, var(--cov-accent) 78%, #a4423a); }
+.covcard__promise {
+  background: color-mix(in oklab, var(--cov-accent) 7%, var(--bg-card-2, #f7f1de));
+  border-radius: 9px; padding: 11px 14px; margin-bottom: 12px;
+}
+.covcard__promise p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--ink, #1d1812); }
+
+.covcard__row2 { display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 4px; }
+@media (min-width: 640px) { .covcard__row2 { grid-template-columns: 1fr 1.3fr; } }
+.covcard__sign p, .covcard__surety p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--ink-2, #3d342a); }
+.covcard__surety {
+  border-left: 3px solid color-mix(in oklab, var(--cov-accent) 60%, #a4423a);
+  padding-left: 12px;
+}
+
+/* Carries forward vs. new this time */
+.covcard__develop {
+  display: grid; grid-template-columns: 1fr; gap: 14px;
+  margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--rule, #d5c8a8);
+}
+@media (min-width: 640px) { .covcard__develop { grid-template-columns: 1fr 1fr; } }
+.covcard__collabel {
+  display: block; font-family: var(--sans); font-size: 11px; font-weight: 700;
+  letter-spacing: .04em; margin-bottom: 7px;
+}
+.covcard__col--carries .covcard__collabel { color: var(--muted, #736750); }
+.covcard__col--adds .covcard__collabel { color: var(--cov-accent, #7a5ab4); }
+.covcard__col ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.covcard__col li {
+  position: relative; padding-left: 15px;
+  font-size: 13.5px; line-height: 1.5; color: var(--ink-2, #3d342a);
+}
+.covcard__col li::before {
+  content: ""; position: absolute; left: 0; top: 8px;
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.covcard__col--carries li::before { background: var(--rule-2, #c2b491); }
+.covcard__col--adds li::before { background: var(--cov-accent, #7a5ab4); }
+
+/* The New Covenant — the culmination */
+.covcard--new {
+  border-width: 1px; border-left-width: 6px;
+  background:
+    radial-gradient(900px 340px at 90% -20%, var(--cov-soft), transparent 60%),
+    var(--bg-card, #fbf7ec);
+  box-shadow: var(--shadow-deep);
+}
+.covcard--new .covcard__name { font-size: 26px; }
+.covcard__gathers { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--rule, #d5c8a8); }
+.covcard__gathers > .covcard__fieldlabel { margin-bottom: 10px; }
+.covcard__gather {
+  display: flex; gap: 10px; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px solid color-mix(in oklab, var(--rule) 60%, transparent);
+}
+.covcard__gather:last-child { border-bottom: 0; }
+.covcard__gatherfrom {
+  flex: none; width: 92px;
+  font-family: var(--sans); font-size: 11.5px; font-weight: 700; letter-spacing: .03em;
+  color: var(--cov-accent, #3e6a33);
+}
+.covcard__gathertext { font-size: 13.5px; line-height: 1.55; color: var(--ink-2, #3d342a); }
+
+/* At-a-glance comparison table */
+.covglance {
+  margin-top: 34px; padding: 22px 22px 8px;
+  background: var(--bg-card-2, #f7f1de); border: 1px solid var(--rule, #d5c8a8);
+  border-radius: 14px;
+}
+.covglance__head {
+  font-family: var(--serif); font-size: 22px; font-weight: 700;
+  color: var(--ink, #1d1812); margin: 0 0 4px;
+}
+.covglance__sub { font-size: 13.5px; color: var(--muted, #736750); margin: 0 0 18px; }
+.covglance__row {
+  padding: 14px 0; border-top: 1px solid var(--rule, #d5c8a8);
+}
+.covglance__rowlabel {
+  font-family: var(--sans); font-size: 13.5px; font-weight: 700;
+  color: var(--ink, #1d1812); margin-bottom: 10px;
+}
+.covglance__steps {
+  display: grid; grid-template-columns: 1fr; gap: 8px;
+}
+@media (min-width: 560px) { .covglance__steps { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 900px) { .covglance__steps { grid-template-columns: repeat(5, 1fr); } }
+.covglance__step {
+  background: var(--bg-card, #fbf7ec);
+  border: 1px solid var(--rule, #d5c8a8);
+  border-top: 3px solid var(--cov-accent, #b5894a);
+  border-radius: 8px; padding: 8px 10px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.covglance__stepname {
+  font-family: var(--sans); font-size: 10.5px; font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; color: var(--cov-accent, #b5894a);
+}
+.covglance__steptext { font-size: 12.5px; line-height: 1.45; color: var(--ink-2, #3d342a); }
+
+
 /* ── Sub-theme reveal in Introduction ─────────────────────────────── */
 .overview-subtheme-reveal {
   margin: 10px 0 4px; border: 1px solid rgba(181,137,74,0.35); border-radius: 10px;

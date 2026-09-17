@@ -627,6 +627,183 @@ window.OT_COVENANTS = [
   },
 ];
 
+/* ── Covenant Deep Dive ──────────────────────────────────────────────────
+   A teaching comparison of the great covenants, shown as its own tab in the
+   Thread View. Each covenant CARRIES forward themes from the ones before and
+   ADDS something new, until every thread is gathered up in the New Covenant.
+   The Davidic covenant (2 Sam 7) sits outside the Pentateuch sessions, so it
+   has no session link — it is here for the comparison. Content is curated
+   teaching material, not workbook content, so it lives here in data.js. */
+window.OT_COVENANT_DEEPDIVE = [
+  {
+    id: 'noahic',
+    order: 1,
+    name: 'Noahic Covenant',
+    accent: 'kingdom',
+    with: 'All humanity & every living creature',
+    passage: 'Genesis 6–9',
+    session: 4,
+    summary: 'After the flood, God binds Himself to the whole world with the first covenant Scripture names.',
+    promise: 'Never again will God destroy all life by a flood; the rhythms of creation — seedtime and harvest, day and night — will hold (Gen 8:22).',
+    sign: { label: 'The rainbow', ref: 'Gen 9:12–17' },
+    surety: 'God binds Himself by His own word — “I will remember” (Gen 9:15–16). The guarantee rests on God alone and asks nothing of us.',
+    carries: [
+      'Renews the creation blessing — “Be fruitful and multiply” (Gen 9:1; cf. Gen 1:28).'
+    ],
+    adds: [
+      'The first covenant named in Scripture.',
+      'God revealed as the One who makes a binding promise and gives a visible sign.',
+      'Universal in scope and unconditional — upheld by God, not earned by us.'
+    ]
+  },
+  {
+    id: 'abrahamic',
+    order: 2,
+    name: 'Abrahamic Covenant',
+    accent: 'promises',
+    with: 'Abraham & his offspring',
+    passage: 'Genesis 12, 15, 17',
+    session: 5,
+    summary: 'God narrows His purpose to one man and his family — the channel through whom all nations will be blessed.',
+    promise: 'Land, a great nation of descendants, and blessing — through Abraham “all the families of the earth” will be blessed (Gen 12:2–3).',
+    sign: { label: 'Circumcision', ref: 'Gen 17:9–14' },
+    surety: 'God alone passes between the divided pieces while Abraham sleeps (Gen 15:12–21). God swears the oath on Himself — He is the surety who guarantees it.',
+    carries: [
+      'The blessing still reaches “all the earth,” as under Noah — but now it flows through one chosen family.'
+    ],
+    adds: [
+      'A chosen people, a promised land, and a coming “offspring.”',
+      'The relationship promise: “I will be their God” (Gen 17:7–8).',
+      'The first hint that God Himself must keep the covenant (Gen 15).'
+    ]
+  },
+  {
+    id: 'mosaic',
+    order: 3,
+    name: 'Mosaic Covenant',
+    accent: 'salvation',
+    with: 'Israel, the nation, at Sinai',
+    passage: 'Exodus 19–24',
+    session: 7,
+    summary: 'God gathers Abraham’s descendants — now a nation — to Himself, giving them His law and His presence.',
+    promise: '“If you obey My voice and keep My covenant… you shall be My treasured possession, a kingdom of priests, a holy nation” (Ex 19:5–6).',
+    sign: { label: 'The Sabbath', ref: 'Ex 31:12–18' },
+    surety: 'Sealed with the blood of the covenant thrown on the altar and the people (Ex 24:6–8), through the mediator Moses.',
+    carries: [
+      'Fulfils the Abrahamic promise — the family has become a nation.',
+      'Deepens the relationship: God comes to dwell among them (Ex 25:8).'
+    ],
+    adds: [
+      'The Law, a mediator (Moses), and the sacrificial system.',
+      'God’s dwelling in the tabernacle, at the centre of the camp.',
+      'A condition — “if you obey” — which exposes that the people cannot keep it, and points ahead to a better covenant.'
+    ]
+  },
+  {
+    id: 'davidic',
+    order: 4,
+    name: 'Davidic Covenant',
+    accent: 'intention',
+    with: 'David & his royal line',
+    passage: '2 Samuel 7',
+    session: null,
+    sessionNote: 'Beyond the Pentateuch — shown here for the comparison.',
+    summary: 'God promises David a dynasty that will never end — focusing the hope of every earlier covenant onto one coming King.',
+    promise: 'God will raise up David’s offspring and establish the throne of his kingdom forever; God will be a father to him (2 Sam 7:12–14).',
+    sign: { label: 'The sure “house” itself', ref: '2 Sam 7:16' },
+    surety: '“Your house and your kingdom shall be made sure forever… your throne shall be established forever” (2 Sam 7:16) — later called the “sure mercies of David” (Isa 55:3). Surety: God Himself guarantees an unending dynasty.',
+    carries: [
+      'The Abrahamic “offspring” narrows further — to a single royal Son.',
+      'The kingdom hoped for at Sinai (“a kingdom of priests”) now has a king.'
+    ],
+    adds: [
+      'Kingship — a Messianic King through whom God will rule forever.',
+      'The temple, built by David’s son, becomes God’s dwelling.',
+      'A throne “forever” that only Christ, the Son of David, can fill.'
+    ]
+  },
+  {
+    id: 'new',
+    order: 5,
+    name: 'The New Covenant',
+    accent: 'nt',
+    isNew: true,
+    with: '“The house of Israel and the house of Judah” — fulfilled for all in Christ',
+    passage: 'Jeremiah 31:31–40',
+    session: null,
+    summary: 'Jeremiah promises a covenant unlike the one Israel broke — one that finally does what the others pointed toward. Every earlier thread is gathered up and completed here.',
+    promise: 'God will write His law on their hearts, be their God, make Himself known to all, and forgive their sin, remembering it no more (Jer 31:33–34).',
+    sign: { label: 'The Lord’s Supper & the Spirit on the heart', ref: 'Luke 22:20' },
+    surety: '“Jesus has become the guarantor (surety) of a better covenant” (Heb 7:22). Sealed once for all in His own blood (Luke 22:20).',
+    gathers: [
+      { from: 'From Noah', text: 'As unbreakable as creation’s fixed order — sun, moon and stars (Jer 31:35–36), the very pledge God gave Noah.' },
+      { from: 'From Abraham', text: '“I will be their God, and they shall be My people” (31:33) — the relationship promise, now opened to all who believe.' },
+      { from: 'From Moses', text: 'The Law is written on the heart, not on stone (31:33); sin is forgiven and remembered no more (31:34) — what the old covenant could not do.' },
+      { from: 'From David', text: 'Fulfilled in Jesus, the Son of David and everlasting King — the “sure mercies of David.”' }
+    ]
+  }
+];
+
+/* Recurring elements traced across all five covenants — the "at a glance"
+   comparison beneath the cards. Each step's `cov` maps to a covenant accent. */
+window.OT_COVENANT_THREADS = [
+  {
+    id: 'bond',
+    label: 'The bond — “I will be your God”',
+    steps: [
+      { cov: 'kingdom',   name: 'Noah',    text: 'God binds Himself to preserve all life.' },
+      { cov: 'promises',  name: 'Abraham', text: '“I will be their God” (Gen 17:8).' },
+      { cov: 'salvation', name: 'Moses',   text: '“I will… be your God, and you shall be My people” (Ex 6:7).' },
+      { cov: 'intention', name: 'David',   text: 'God a Father to the king (2 Sam 7:14).' },
+      { cov: 'nt',        name: 'New',     text: '“They shall all know Me” (Jer 31:33–34).' }
+    ]
+  },
+  {
+    id: 'offspring',
+    label: 'The offspring → the King',
+    steps: [
+      { cov: 'kingdom',   name: 'Noah',    text: 'Humanity preserved to multiply.' },
+      { cov: 'promises',  name: 'Abraham', text: 'A promised “offspring” & great nation.' },
+      { cov: 'salvation', name: 'Moses',   text: 'The offspring become a nation.' },
+      { cov: 'intention', name: 'David',   text: 'A royal Son on an eternal throne.' },
+      { cov: 'nt',        name: 'New',     text: 'Christ — Son of David & offspring of Abraham (Gal 3:16).' }
+    ]
+  },
+  {
+    id: 'sign',
+    label: 'The sign',
+    steps: [
+      { cov: 'kingdom',   name: 'Noah',    text: 'The rainbow.' },
+      { cov: 'promises',  name: 'Abraham', text: 'Circumcision.' },
+      { cov: 'salvation', name: 'Moses',   text: 'The Sabbath.' },
+      { cov: 'intention', name: 'David',   text: 'The sure “house.”' },
+      { cov: 'nt',        name: 'New',     text: 'The Lord’s Supper & the Spirit.' }
+    ]
+  },
+  {
+    id: 'surety',
+    label: 'The surety — who guarantees it',
+    steps: [
+      { cov: 'kingdom',   name: 'Noah',    text: '“I will remember” (Gen 9:15).' },
+      { cov: 'promises',  name: 'Abraham', text: 'God alone passes through the pieces (Gen 15:17).' },
+      { cov: 'salvation', name: 'Moses',   text: 'The blood of the covenant (Ex 24:8).' },
+      { cov: 'intention', name: 'David',   text: '“Made sure forever” (2 Sam 7:16).' },
+      { cov: 'nt',        name: 'New',     text: 'Jesus, guarantor of a better covenant (Heb 7:22).' }
+    ]
+  },
+  {
+    id: 'reach',
+    label: 'The reach',
+    steps: [
+      { cov: 'kingdom',   name: 'Noah',    text: 'All creation.' },
+      { cov: 'promises',  name: 'Abraham', text: 'One family — for all nations.' },
+      { cov: 'salvation', name: 'Moses',   text: 'One nation.' },
+      { cov: 'intention', name: 'David',   text: 'One royal house.' },
+      { cov: 'nt',        name: 'New',     text: 'All who are in Christ, from every nation.' }
+    ]
+  }
+];
+
 // Sub-themes — narrower threads that live inside a parent theme
 window.OT_SUBTHEMES = [
   {
