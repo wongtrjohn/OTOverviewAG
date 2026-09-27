@@ -150,6 +150,10 @@ function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, o
     React.createElement("p", { className: "home-screen__sub" }, "Three threads \u2014 ", /*#__PURE__*/
     React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across twelve sessions from Genesis to Deuteronomy."
 
+    ), /*#__PURE__*/
+    React.createElement("p", { className: "home-screen__updated" }, /*#__PURE__*/
+    React.createElement("span", { className: "home-screen__updated-dot", "aria-hidden": "true" }), "Last updated study: ", /*#__PURE__*/
+    React.createElement("strong", null, "Pentateuch Review")
     )
     ), /*#__PURE__*/
     React.createElement("button", { className: "home-welcome-btn", onClick: () => onOpenWelcome && onOpenWelcome() }, /*#__PURE__*/
