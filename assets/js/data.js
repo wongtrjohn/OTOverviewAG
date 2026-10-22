@@ -727,8 +727,7 @@ window.OT_COVENANT_DEEPDIVE = [
     accent: 'intention',
     with: 'David & his royal line',
     passage: '2 Samuel 7',
-    session: null,
-    sessionNote: 'Beyond the Pentateuch — shown here for the comparison.',
+    session: 14,
     summary: 'God promises David a dynasty that will never end — focusing the hope of every earlier covenant onto one coming King.',
     promise: 'God will raise up David’s offspring and establish the throne of his kingdom forever; God will be a father to him (2 Sam 7:12–14).',
     sign: { label: 'The sure “house” itself', ref: '2 Sam 7:16' },
@@ -751,7 +750,7 @@ window.OT_COVENANT_DEEPDIVE = [
     isNew: true,
     with: 'The house of Israel and the house of Judah (Jer 31:31)',
     passage: 'Jeremiah 31:31–40',
-    session: null,
+    session: 20,
     summary: 'Jeremiah promises a covenant unlike the one Israel broke (Jer 31:32) — one that finally does what the earlier covenants could not.',
     promise: 'God will write His law on their hearts, be their God, make Himself known to all, and forgive their sin, remembering it no more (Jer 31:33–34).',
     sign: { label: 'The law written on the heart', ref: 'Jer 31:33' },
@@ -779,6 +778,39 @@ window.OT_COVENANT_FULFILMENT = [
   { label: 'Sin remembered no more', text: '“Their sins and lawless deeds I will remember no more” — full, final forgiveness.', ref: 'Heb 10:16–17' },
   { label: 'The Son of David',       text: 'Jesus is given the throne of David, to reign forever — the everlasting King.', ref: 'Luke 1:32–33' },
   { label: 'Blessing to all nations',text: 'In Christ the blessing of Abraham reaches the nations; all who believe are Abraham’s offspring.', ref: 'Gal 3:14, 29' }
+];
+
+/* "Made New in Christ" — the five great OT longings that the return from exile
+   and Nehemiah's rebuilding did NOT complete (see the Nehemiah study), each
+   finally made new in Jesus. `refs` are the OT study passages (auto-linked);
+   `sessions` link to the sessions that cover them. Shown as a sub-view under
+   the Tension & NT Fulfilment tab in the Thread View. */
+window.OT_MADE_NEW = [
+  { n: 1, title: 'Exodus',
+    longing: 'A rescue greater than the return from Babylon — God Himself leading His people home for good.',
+    refs: 'Isaiah 11:11-16; Isaiah 40:1-5', sessions: [18],
+    christ: 'Jesus accomplishes the true exodus — the departure He achieves at Jerusalem — rescuing His people from sin and death.',
+    christRef: 'Luke 9:31' },
+  { n: 2, title: 'Temple',
+    longing: "God's glory had departed the defiled temple (Ezekiel 8-11); the hope was for His presence to return and dwell forever (Ezekiel 43, 47).",
+    refs: 'Ezekiel 8-11; Ezekiel 43:1-12; Ezekiel 47:1-12', sessions: [16, 21],
+    christ: "Jesus is the true temple — God dwelling with us — and by His Spirit His people become God's dwelling place.",
+    christRef: 'John 2:19-21; Ephesians 2:21-22' },
+  { n: 3, title: 'Spirit & Heart',
+    longing: "A heart of stone removed and a new heart and Spirit given, so God's people can finally love and obey Him.",
+    refs: 'Jeremiah 31:33; Ezekiel 36:26-27', sessions: [20, 16],
+    christ: "Jesus pours out the promised Holy Spirit, writing God's law on believers' hearts.",
+    christRef: 'Acts 2:33; 2 Corinthians 3:3' },
+  { n: 4, title: 'Covenant era',
+    longing: 'A covenant not like the one Israel broke — sins forgiven and remembered no more.',
+    refs: 'Jeremiah 31:31-34; Ezekiel 36:25-28', sessions: [20, 16],
+    christ: 'Jesus inaugurates the New Covenant in His blood — full and final forgiveness.',
+    christRef: 'Luke 22:20; Hebrews 8:6-13' },
+  { n: 5, title: 'Davidic King',
+    longing: "A coming King from David's line — who is God Himself (Mighty God, Isaiah 9:6) — reigning forever in righteousness and peace.",
+    refs: 'Isaiah 9:6-7; Isaiah 11:1-10; 2 Samuel 7:12-16', sessions: [18, 14],
+    christ: 'Jesus is the promised Son of David, given the throne to reign forever.',
+    christRef: 'Luke 1:32-33' },
 ];
 
 /* Recurring elements traced across all five covenants — the "at a glance"

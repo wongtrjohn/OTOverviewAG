@@ -708,11 +708,12 @@ window.BigPictureView = BigPictureView;
    gathers every thread. A compact "at a glance" table traces recurring elements
    — the bond, the offspring/King, the sign, the surety, the reach — across
    all five. Reads curated data from window.OT_COVENANT_DEEPDIVE / _THREADS. */
-function CovenantDeepDive() {
+function CovenantDeepDive({ onOpenSession }) {
   const COVS = window.OT_COVENANT_DEEPDIVE || [];
   const THREADS = window.OT_COVENANT_THREADS || [];
   const PROGRESS = window.OT_COVENANT_PROGRESS || [];
   const FULFIL = window.OT_COVENANT_FULFILMENT || [];
+  const openSession = onOpenSession || function () {};
 
   const renderCard = (c) => /*#__PURE__*/
     React.createElement("article", {
@@ -726,7 +727,7 @@ function CovenantDeepDive() {
     React.createElement("h3", { className: "covcard__name" }, c.name), /*#__PURE__*/
     React.createElement("div", { className: "covcard__tags" }, /*#__PURE__*/
     React.createElement("span", { className: "covcard__passage" }, c.passage),
-    c.session ? /*#__PURE__*/React.createElement("span", { className: "covcard__session" }, "Session ", String(c.session).padStart(2, '0')) : null,
+    c.session ? /*#__PURE__*/React.createElement("button", { className: "covcard__session", style: { cursor: 'pointer' }, onClick: () => openSession(c.session), title: "Open Session " + String(c.session).padStart(2, '0') }, "Session ", String(c.session).padStart(2, '0'), " →") : null,
     c.sessionNote ? /*#__PURE__*/React.createElement("span", { className: "covcard__sessnote" }, c.sessionNote) : null
     )
     )
@@ -852,16 +853,49 @@ function CovenantDeepDive() {
 }
 
 /* ─── ThreadViewPage ─────────────────────────────────────────────────── */
-function ThreadViewPage({ sessions, themes }) {
+/* "Made New in Christ" \u2014 the five great OT longings the return from exile did
+   not complete, each fulfilled in Jesus. Shown as a sub-view under Tension & NT
+   Fulfilment. Reuses the covfulfil styling; session pills open the session. */
+function MadeNewInChrist({ onOpenSession }) {
+  const ITEMS = window.OT_MADE_NEW || [];
+  const openSession = onOpenSession || function () {};
+  return (/*#__PURE__*/
+    React.createElement("div", { className: "covfulfil madenew-view" }, /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__eyebrow" }, "\u2726  Not finished at the Return \u2014 fulfilled in Christ"), /*#__PURE__*/
+    React.createElement("h3", { className: "covfulfil__head" }, "Made New in Christ"), /*#__PURE__*/
+    React.createElement("p", { className: "covfulfil__sub" }, "At the end of the Old Testament the people are home from exile, but the return and Nehemiah\u2019s rebuilding did not bring these five great longings to completion. Each one is finally made new in Jesus."),
+    ITEMS.map((it) => /*#__PURE__*/
+    React.createElement("div", { key: it.n, className: "covfulfil__row" }, /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__label" }, it.n, " \xB7 New ", it.title), /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__text" },
+    it.longing, " ", /*#__PURE__*/React.createElement("b", null, "In Christ: "), it.christ, " (", it.christRef, ")",
+    it.sessions && it.sessions.length ? /*#__PURE__*/
+    React.createElement("span", { style: { display: 'block', marginTop: '0.4rem' } },
+    it.sessions.map((sid) => /*#__PURE__*/
+    React.createElement("button", { key: sid, className: "covcard__session", style: { cursor: 'pointer', marginRight: '0.4rem' }, onClick: () => openSession(sid), title: "Open Session " + String(sid).padStart(2, '0') }, "Session ", String(sid).padStart(2, '0'), " \u2192")
+    )
+    ) : null
+    ), /*#__PURE__*/
+    React.createElement("span", { className: "covfulfil__ref" }, it.refs)
+    )
+    )
+    ));
+
+}
+
+function ThreadViewPage({ sessions, themes, onOpenSession }) {
   const [activeThread, setActiveThread] = useStateA(function () { try { var t = window.__OT_THREAD; if (t) { delete window.__OT_THREAD; return t; } } catch (e) {} return 'kingdom'; });
   const ThreadStory = window.ThreadStory;
   const TensionTriad = window.TensionTriad;
+  const openSession = onOpenSession || function () {};
+  /* Top-level threads. Promises and Tension each carry a sub-thread, shown as a
+     directly-clickable sub-header beneath the parent button AND, when the parent
+     is active, as a collapsed "Sub-threads" expander at the top. */
   const TABS = [
-  { id: 'kingdom', label: "God's Kingdom" },
+  { id: 'kingdom',   label: "God's Kingdom" },
   { id: 'salvation', label: "God's Salvation" },
-  { id: 'promises', label: "God's Promises" },
-  { id: 'covenants', label: "The Covenants" },
-  { id: 'tension', label: "Tension & NT Fulfilment" }];
+  { id: 'promises',  label: "God's Promises", sub: { id: 'covenants', label: 'The Covenants', color: 'promises' } },
+  { id: 'tension',   label: "Tension & NT Fulfilment", sub: { id: 'madenew', label: 'Made New in Christ', color: 'nt' } }];
 
   const themeObj = themes.find((t) => t.id === activeThread);
   /* The Pentateuch-in-Review wrap-up is excluded from the thread overview. */
@@ -873,24 +907,45 @@ function ThreadViewPage({ sessions, themes }) {
     return () => clearTimeout(t);
   }, [activeThread, sessions]);
 
+  const topColor = (id) => id !== 'tension' ? { '--tab-color': `var(--c-${id})` } : {};
+
+  /* Collapsed "Sub-threads" expander shown at the top of a parent thread. */
+  const subNote = (label, children) => /*#__PURE__*/
+    React.createElement("details", { className: "subthread-note", style: { margin: '0 0 1.2rem', border: '1px solid rgba(128,128,128,0.3)', borderRadius: '10px', padding: '0.55rem 0.95rem', background: 'rgba(128,128,128,0.08)' } }, /*#__PURE__*/
+    React.createElement("summary", { style: { cursor: 'pointer', fontWeight: 600, fontSize: '0.92em' } }, "Sub-threads: ", /*#__PURE__*/React.createElement("b", null, label), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 400, opacity: 0.7 } }, "  \u2014 click to expand / hide")), /*#__PURE__*/
+    React.createElement("div", { style: { marginTop: '0.9rem' } }, children)
+    );
+
   return (/*#__PURE__*/
     React.createElement("div", { className: "thread-view-page" },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "threadview", label: "Need help? Tour the Thread View" }) : null, /*#__PURE__*/
     React.createElement("div", { className: "thread-toggle-bar" },
     TABS.map((tab) => /*#__PURE__*/
-    React.createElement("button", { key: tab.id,
+    React.createElement("div", { key: tab.id, className: "thread-toggle-group", style: { display: 'flex', flexDirection: 'column', gap: '0.3rem', alignItems: 'stretch' } }, /*#__PURE__*/
+    React.createElement("button", { "data-thread": tab.id,
       className: "thread-toggle-btn" + (activeThread === tab.id ? " is-active" : ""),
-      style: tab.id === 'covenants' ? { '--tab-color': `var(--c-promises)` } : tab.id !== 'tension' ? { '--tab-color': `var(--c-${tab.id})` } : {},
+      style: topColor(tab.id),
       onClick: () => setActiveThread(tab.id) },
     tab.label
+    ),
+    tab.sub ? /*#__PURE__*/
+    React.createElement("button", { "data-thread": tab.sub.id,
+      className: "thread-toggle-btn thread-toggle-btn--sub" + (activeThread === tab.sub.id ? " is-active" : ""),
+      style: { '--tab-color': `var(--c-${tab.sub.color})`, fontSize: '0.8em', padding: '0.4rem 0.6rem' },
+      onClick: () => setActiveThread(tab.sub.id) },
+    "\u21b3 ", tab.sub.label
+    ) : null
     )
     )
     ), /*#__PURE__*/
     React.createElement("div", { className: "thread-view-page__content" },
     activeThread === 'covenants' ? /*#__PURE__*/
-    React.createElement(CovenantDeepDive, null) :
+    React.createElement(CovenantDeepDive, { onOpenSession: openSession }) :
+    activeThread === 'madenew' ? /*#__PURE__*/
+    React.createElement(MadeNewInChrist, { onOpenSession: openSession }) :
     activeThread === 'tension' ? /*#__PURE__*/
-    React.createElement("div", { className: "tension-view" }, /*#__PURE__*/
+    React.createElement("div", { className: "tension-view" },
+    subNote('Made New in Christ', /*#__PURE__*/React.createElement(MadeNewInChrist, { onOpenSession: openSession })), /*#__PURE__*/
     React.createElement("p", { className: "tension-view__lede" }, /*#__PURE__*/
     React.createElement("b", null, "God's intention & character"), " vs ", /*#__PURE__*/React.createElement("b", null, "Mankind's sinfulness & limitations"), " \u2014 and how Christ resolves each tension. Click any session below to explore."
     ),
@@ -909,8 +964,13 @@ function ThreadViewPage({ sessions, themes }) {
 
     })
     ) :
+    activeThread === 'promises' && themeObj && ThreadStory ? /*#__PURE__*/
+    React.createElement(React.Fragment, null,
+    subNote('The Covenants', /*#__PURE__*/React.createElement(CovenantDeepDive, { onOpenSession: openSession })), /*#__PURE__*/
+    React.createElement(ThreadStory, { theme: themeObj, sessions: viewSessions, onSelectSession: openSession })
+    ) :
     themeObj && ThreadStory ? /*#__PURE__*/
-    React.createElement(ThreadStory, { theme: themeObj, sessions: viewSessions, onSelectSession: () => {} }) :
+    React.createElement(ThreadStory, { theme: themeObj, sessions: viewSessions, onSelectSession: openSession }) :
     null
     )
     ));
@@ -1113,7 +1173,7 @@ function MatrixViewPage({ sessions, themes }) {
 }
 
 /* ─── AppRecap ───────────────────────────────────────────────────────── */
-function BigPictureAndThreadPage({ sessions, themes, onNavigate }) {
+function BigPictureAndThreadPage({ sessions, themes, onNavigate, onOpenSession }) {
   return (/*#__PURE__*/
     React.createElement("div", { className: "bigpic-and-thread-page" }, /*#__PURE__*/
     React.createElement("div", { id: "big-picture-section" }, /*#__PURE__*/
@@ -1127,7 +1187,7 @@ function BigPictureAndThreadPage({ sessions, themes, onNavigate }) {
     ), /*#__PURE__*/
     window.ThreadDivider ? /*#__PURE__*/React.createElement(window.ThreadDivider, null) : null, /*#__PURE__*/
     React.createElement("div", { id: "thread-view-section", className: "combined-section--thread" }, /*#__PURE__*/
-    React.createElement(ThreadViewPage, { sessions: sessions, themes: themes }), /*#__PURE__*/
+    React.createElement(ThreadViewPage, { sessions: sessions, themes: themes, onOpenSession: onOpenSession }), /*#__PURE__*/
     React.createElement("div", { className: "combined-recap-cta" }, /*#__PURE__*/
     React.createElement("p", { className: "combined-recap-cta__text" }, "Missed any of the sessions? Or want to visit them in detail?"), /*#__PURE__*/
     React.createElement("button", { className: "intro-nav-btn", onClick: () => onNavigate('recap') }, "Click here to go to Recap Mode \u2192"
@@ -1329,7 +1389,7 @@ function AppRecap() {
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(IntroductionPage, { sessions: sessions, themes: themes, onNavigate: navigateTo })), chrome);
   }
   if (currentView === 'bigpicture') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(BigPictureAndThreadPage, { sessions: allSessions, themes: themes, onNavigate: navigateTo })), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(BigPictureAndThreadPage, { sessions: allSessions, themes: themes, onNavigate: navigateTo, onOpenSession: (sid) => { setRecapSession(sid); navigateTo('recap'); } })), chrome);
   }
   if (currentView === 'matrix') {
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(MatrixViewPage, { sessions: allSessions, themes: themes })), chrome);

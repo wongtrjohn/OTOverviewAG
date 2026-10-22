@@ -373,7 +373,7 @@ function ThreadStory({ theme, sessions, onSelectSession }) {
     )
     ),
 
-    theme.id === 'promises' && (window.OT_COVENANTS || []).length ? /*#__PURE__*/
+    false /* Covenants now live in their own sub-header under God's Promises (see ThreadViewPage) */ ? /*#__PURE__*/
     React.createElement("aside", { className: "subtheme subtheme--cov", "aria-label": "Sub-thread: The Covenants" }, /*#__PURE__*/
     React.createElement("header", { className: "subtheme__head" }, /*#__PURE__*/
     React.createElement("span", { className: "subtheme__eyebrow" }, /*#__PURE__*/
