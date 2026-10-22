@@ -129,7 +129,7 @@ const OT_TOURS = {
 
   { glyph: "❖", view: "threadview", scrollId: "thread-view-section", target: ".thread-toggle-bar",
     title: "4 · Thread View — follow one thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Pick a single thread"), " \u2014 Kingdom, Salvation, Promises, or Tension & NT Fulfilment \u2014 and trace just that one from Genesis to Deuteronomy.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("b", null, "Pick a single thread"), " \u2014 Kingdom, Salvation, Promises, or Tension & NT Fulfilment \u2014 and trace just that one across the Old Testament.") },
 
   { glyph: "▦", view: "matrix", target: ".bigpic-selector",
     title: "5 · Matrix View — everything in a grid",
@@ -211,13 +211,13 @@ const OT_TOURS = {
   threadview: [
   { glyph: "❖", view: "threadview", scrollId: "thread-view-section", target: ".thread-toggle-bar",
     title: "Thread View — pick one thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Choose ", /*#__PURE__*/React.createElement("b", null, "Kingdom, Salvation, Promises"), ", or ", /*#__PURE__*/React.createElement("b", null, "Tension & NT Fulfilment"), ", then trace just that one thread from Genesis to Deuteronomy.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Choose ", /*#__PURE__*/React.createElement("b", null, "Kingdom, Salvation, Promises"), ", or ", /*#__PURE__*/React.createElement("b", null, "Tension & NT Fulfilment"), ", then trace just that one thread across the Old Testament.") },
   { glyph: "↻", view: "threadview", scrollId: "thread-view-section", clickSelector: ".thread-toggle-bar .thread-toggle-btn:nth-child(3)", target: ".thread-view-page",
     title: "Watch it develop, session by session",
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened the ", /*#__PURE__*/React.createElement("b", null, "Promises"), " thread. Each card is one session's take on it, in order \u2014 a clean way to watch a single idea develop over time.") },
   { glyph: "↳", view: "threadview", scrollId: "thread-view-section", target: ".subtheme--cov",
     title: "Some threads have a sub-thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Pentateuch"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Old Testament"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.") },
 
   { glyph: "?", view: "threadview", scrollId: "thread-view-section", target: ".help-tour__btn",
     title: "Need help? It's always right here",

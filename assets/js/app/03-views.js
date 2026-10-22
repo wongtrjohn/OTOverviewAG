@@ -380,7 +380,7 @@ function ThreadStory({ theme, sessions, onSelectSession }) {
     React.createElement("span", { className: "subtheme__hook", "aria-hidden": "true" }, "\u21B3"), "A SUB-THREAD WITHIN ",
     theme.tag
     ), /*#__PURE__*/
-    React.createElement("h3", { className: "subtheme__title" }, "The Covenants across the Pentateuch"), /*#__PURE__*/
+    React.createElement("h3", { className: "subtheme__title" }, "The Covenants across the Old Testament"), /*#__PURE__*/
     React.createElement("p", { className: "subtheme__blurb" }, "God's promises take concrete shape in covenants \u2014 He ", /*#__PURE__*/React.createElement("b", null, "makes"), " them, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.")
     ), /*#__PURE__*/
     React.createElement("div", { className: "covsub" },

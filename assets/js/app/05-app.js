@@ -143,7 +143,7 @@ function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, o
     React.createElement("p", { className: "home-screen__eyebrow" }, /*#__PURE__*/
     React.createElement("span", { className: "dot" }), "OT OVERVIEW", /*#__PURE__*/
     React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "RECAP EDITION", /*#__PURE__*/
-    React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "PENTATEUCH"
+    React.createElement("span", { className: "dot", style: { opacity: 0.25 } }), "GENESIS → RETURN"
     ), /*#__PURE__*/
     React.createElement("h1", { className: "home-screen__title" }, "OT Overview — God's Kingdom, Salvation and Promises ", /*#__PURE__*/React.createElement("em", null, "fulfilled in Jesus")
     ), /*#__PURE__*/
@@ -385,10 +385,10 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("div", null, /*#__PURE__*/
     React.createElement("p", { className: "hero__eyebrow" }, /*#__PURE__*/
     React.createElement("span", { className: "dot" }), "OT OVERVIEW ", /*#__PURE__*/
-    React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " SIMPLIFIED FOR RECAP ", /*#__PURE__*/React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " 12 SESSIONS THROUGH THE PENTATEUCH"
+    React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " SIMPLIFIED FOR RECAP ", /*#__PURE__*/React.createElement("span", { className: "dot", style: { opacity: 0.2 } }), " 22 SESSIONS THROUGH THE OLD TESTAMENT"
     ), /*#__PURE__*/
     React.createElement("h1", null, "OT Overview \u2014 God's Kingdom, Salvation and Promises ", /*#__PURE__*/React.createElement("em", null, "fulfilled in Jesus")), /*#__PURE__*/
-    React.createElement("p", { className: "hero__sub" }, "Across twelve sessions from Genesis to Deuteronomy, three great threads \u2014 ", /*#__PURE__*/
+    React.createElement("p", { className: "hero__sub" }, "Across the Old Testament, from Genesis to the return from exile, three great threads \u2014 ", /*#__PURE__*/
     React.createElement("b", null, "God's Kingdom"), ", ", /*#__PURE__*/React.createElement("b", null, "God's Salvation"), ", and ", /*#__PURE__*/React.createElement("b", null, "God's Promises"), " \u2014 weave a single story that finds its fulfilment in ", /*#__PURE__*/React.createElement("b", null, "Jesus"), "."
     )
     ), /*#__PURE__*/
@@ -458,7 +458,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     overviewSession.mainPoint, /*#__PURE__*/
     React.createElement("span", { className: "overview-intro__qmark overview-intro__qmark--end", "aria-hidden": "true" }, "\u201D")
     ), /*#__PURE__*/
-    React.createElement("p", { className: "overview-intro__lede" }, "Three threads woven through every page of the Pentateuch \u2014 what Sessions 2\u201312 are about."
+    React.createElement("p", { className: "overview-intro__lede" }, "Three threads woven through the Old Testament \u2014 what these studies are about."
 
     ), /*#__PURE__*/
     React.createElement("div", { className: "overview-intro__threads" },
@@ -497,7 +497,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     ), /*#__PURE__*/
     React.createElement("footer", { className: "overview-intro__foot" }, /*#__PURE__*/
     React.createElement("span", { className: "overview-intro__arrow", "aria-hidden": "true" }, "\u2193"), /*#__PURE__*/
-    React.createElement("span", null, "Sessions 02\u201311 trace these threads from ", /*#__PURE__*/React.createElement("b", null, "Genesis"), " to ", /*#__PURE__*/React.createElement("b", null, "Deuteronomy"), ". Remember to ask of every passage \u2014 ", /*#__PURE__*/React.createElement("em", null, "what does this tell me about Jesus?"))
+    React.createElement("span", null, "These studies trace these threads from ", /*#__PURE__*/React.createElement("b", null, "Genesis"), " to the ", /*#__PURE__*/React.createElement("b", null, "return from exile"), ". Remember to ask of every passage \u2014 ", /*#__PURE__*/React.createElement("em", null, "what does this tell me about Jesus?"))
     )
     ) :
     null, /*#__PURE__*/
@@ -524,7 +524,7 @@ function IntroductionPage({ sessions, themes, onNavigate }) {
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
     React.createElement("h2", { className: "intro-nav-block__heading" }, "\u2756 Thread View"), /*#__PURE__*/
     React.createElement(ViewIllus, { name: "thread" }), /*#__PURE__*/
-    React.createElement("p", { className: "intro-nav-block__desc" }, "Follow one thread \u2014 like Salvation \u2014 across every session from Genesis to Deuteronomy."), /*#__PURE__*/
+    React.createElement("p", { className: "intro-nav-block__desc" }, "Follow one thread \u2014 like Salvation \u2014 across every session from Genesis to the return from exile."), /*#__PURE__*/
     React.createElement("button", { className: "intro-nav-btn", onClick: () => { try { window.__OT_THREAD = 'salvation'; } catch (e) {} onNavigate('threadview', 'thread-view-section'); } }, "Go to Thread View \u2192")
     ), /*#__PURE__*/
     React.createElement("div", { className: "intro-nav-block" }, /*#__PURE__*/
@@ -1141,7 +1141,7 @@ function BigPictureAndThreadPage({ sessions, themes, onNavigate }) {
 
 function AppRecap() {
   const allSessions = window.OT_SESSIONS;                       // full set incl. Part 2 (sessions 13-22) — used by Home + Recap Mode
-  const sessions = allSessions.filter((s) => s.id <= 12);       // Part 1 (Pentateuch) — the big-picture / matrix / intro pages render exactly as before
+  const sessions = allSessions;  // every view now covers the whole OT; Session 12's review embed scopes its own copy to 1-12
   const themes = window.OT_THEMES;
   /* v28: read any deep link BEFORE first render — in v27 the hash-write
      effect ran first on mount and wiped the incoming hash. */
