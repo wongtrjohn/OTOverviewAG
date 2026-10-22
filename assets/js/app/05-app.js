@@ -148,12 +148,12 @@ function HomeScreen({ sessions, themes, onNavigate, onContinue, onOpenJournal, o
     React.createElement("h1", { className: "home-screen__title" }, "OT Overview — God's Kingdom, Salvation and Promises ", /*#__PURE__*/React.createElement("em", null, "fulfilled in Jesus")
     ), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__sub" }, "Three threads \u2014 ", /*#__PURE__*/
-    React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across twelve sessions from Genesis to Deuteronomy."
+    React.createElement("strong", null, "Kingdom"), ", ", /*#__PURE__*/React.createElement("strong", null, "Salvation"), ", and ", /*#__PURE__*/React.createElement("strong", null, "Promises"), " \u2014 woven across the whole Old Testament, from Genesis to the return from exile."
 
     ), /*#__PURE__*/
     React.createElement("p", { className: "home-screen__updated" }, /*#__PURE__*/
-    React.createElement("span", { className: "home-screen__updated-dot", "aria-hidden": "true" }), "Last updated study: ", /*#__PURE__*/
-    React.createElement("strong", null, "Pentateuch Review")
+    React.createElement("span", { className: "home-screen__updated-dot", "aria-hidden": "true" }), "Now including the ", /*#__PURE__*/
+    React.createElement("strong", null, "Second Half of the OT Overview"), " — Sessions 13–22 (Judges & Kings → Prophets → the Return). Latest study: How the OT Ends."
     )
     ), /*#__PURE__*/
     React.createElement("button", { className: "home-welcome-btn", onClick: () => onOpenWelcome && onOpenWelcome() }, /*#__PURE__*/
@@ -1140,7 +1140,8 @@ function BigPictureAndThreadPage({ sessions, themes, onNavigate }) {
 }
 
 function AppRecap() {
-  const sessions = window.OT_SESSIONS;
+  const allSessions = window.OT_SESSIONS;                       // full set incl. Part 2 (sessions 13-22) — used by Home + Recap Mode
+  const sessions = allSessions.filter((s) => s.id <= 12);       // Part 1 (Pentateuch) — the big-picture / matrix / intro pages render exactly as before
   const themes = window.OT_THEMES;
   /* v28: read any deep link BEFORE first render — in v27 the hash-write
      effect ran first on mount and wiped the incoming hash. */
@@ -1308,12 +1309,12 @@ function AppRecap() {
 
 
   if (currentView === 'home') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: sessions, themes: themes, onNavigate: navigateTo, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);}, onOpenWelcome: () => setWelcomeOpen(true), coachmark: coachmark }),
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(HomeScreen, { sessions: allSessions, themes: themes, onNavigate: navigateTo, onContinue: (sid) => {setRecapSession(sid);navigateTo('recap');}, onOpenJournal: () => {setRecapSession(null);navigateTo('recap');setRecapJournal(true);}, onOpenWelcome: () => setWelcomeOpen(true), coachmark: coachmark }),
     welcomeOpen ? /*#__PURE__*/React.createElement(HomeWelcome, { onChoose: chooseIntent, onDismiss: declineWelcome }) : null,
     chrome);
   }
   if (currentView === 'recap') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, RecapMode ? /*#__PURE__*/React.createElement(RecapMode, { sessions: sessions, themes: themes, onExit: goHome, initialSession: recapSession, onSessionChange: setRecapSession, onGotoIntro: () => navigateTo('intro'), initialMode: recapMode, onModeChange: setRecapMode, initialJournalOpen: recapJournal }) : /*#__PURE__*/React.createElement("p", null, "Loading\u2026"), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, RecapMode ? /*#__PURE__*/React.createElement(RecapMode, { sessions: allSessions, themes: themes, onExit: goHome, initialSession: recapSession, onSessionChange: setRecapSession, onGotoIntro: () => navigateTo('intro'), initialMode: recapMode, onModeChange: setRecapMode, initialJournalOpen: recapJournal }) : /*#__PURE__*/React.createElement("p", null, "Loading\u2026"), chrome);
   }
 
   const LABELS = { intro: 'Introduction', bigpicture: 'Big Picture & Thread View', matrix: 'Matrix View' };

@@ -962,6 +962,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
   const sessionOne = (sessions || []).find((s) => s.id === 1);
   const readReflect = (sessions || []).filter((s) => s.id >= 2 && s.id <= 11);
   const reviewReflect = (sessions || []).filter((s) => s.id === 12);
+  const secondHalf = (sessions || []).filter((s) => s.id >= 13 && s.id <= 22);
 
   function Row({ s }) {
     const prog = getSessionProgress(s.id, s, mode);
@@ -1067,6 +1068,22 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     ), /*#__PURE__*/
     React.createElement("ol", { className: "rc-picker__list" },
     reviewReflect.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s }))
+    )
+    ) :
+    null, /*#__PURE__*/
+
+
+    secondHalf.length ? /*#__PURE__*/
+    React.createElement("div", { className: "rc-picker__group rc-picker__group--part2" }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-picker__grouphead" }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-picker__groupglyph", "aria-hidden": "true" }, "👑"), /*#__PURE__*/
+    React.createElement("div", null, /*#__PURE__*/
+    React.createElement("span", { className: "rc-picker__grouptitle" }, "The Second Half — Part 2"), /*#__PURE__*/
+    React.createElement("span", { className: "rc-picker__groupsub" }, "Sessions 13–22 \xB7 beyond the Pentateuch: Judges & Kings → Prophets → the Return")
+    )
+    ), /*#__PURE__*/
+    React.createElement("ol", { className: "rc-picker__list" },
+    secondHalf.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s }))
     )
     ) :
     null
@@ -1769,7 +1786,7 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     React.createElement("h2", { className: "rc-bigpic__h" }, "The Big Picture — the whole Pentateuch in one view"), /*#__PURE__*/
     React.createElement("p", { className: "rc-bigpic__nav" }, "Freely navigate this big picture view by mousing over the dots, then reflect on the 3 questions below."),
     window.BigPictureView ? /*#__PURE__*/
-    React.createElement(window.BigPictureView, { sessions: sessions, themes: themes, embedded: true }) : /*#__PURE__*/
+    React.createElement(window.BigPictureView, { sessions: (sessions || []).filter((s) => s.id <= 12), themes: themes, embedded: true }) : /*#__PURE__*/
     React.createElement("p", { className: "rc-medsum__empty" }, "Big Picture view unavailable.")
     ), /*#__PURE__*/
 

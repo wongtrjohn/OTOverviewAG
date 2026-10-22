@@ -443,7 +443,17 @@ window.OT_SESSIONS = [
     "character": "",
     "sin": "",
     "prayFor": ""
-  }
+  },
+  { "id": 13, "book": "Judges",   "chapter": "1-2",          "topic": "The Need for a King",      "sessionType": "study" },
+  { "id": 14, "book": "2 Samuel", "chapter": "7",            "topic": "Davidic Covenant",         "sessionType": "study" },
+  { "id": 15, "book": "1 Kings",  "chapter": "8",            "topic": "The Temple",               "sessionType": "study" },
+  { "id": 16, "book": "Ezekiel",  "chapter": "8-11",         "topic": "The Glory Departs",        "sessionType": "study" },
+  { "id": 17, "book": "Psalms",   "chapter": "89",           "topic": "Clinging to the Promise",  "sessionType": "study" },
+  { "id": 18, "book": "Isaiah",   "chapter": "9; 11; 25; 40","topic": "God's King Who Saves",     "sessionType": "study" },
+  { "id": 19, "book": "Isaiah",   "chapter": "52-54",        "topic": "The Suffering Servant",    "sessionType": "study" },
+  { "id": 20, "book": "Jeremiah", "chapter": "31",           "topic": "The New Covenant",         "sessionType": "study" },
+  { "id": 21, "book": "Ezekiel",  "chapter": "43; 47",       "topic": "The New Temple",           "sessionType": "study" },
+  { "id": 22, "book": "Nehemiah", "chapter": "8-10; 13",     "topic": "How the OT Ends",          "sessionType": "study" }
 ];
 
 window.OT_THEMES = [
@@ -543,6 +553,17 @@ window.OT_IMAGES = {
   10: __R.imgLev16            || 'Recap-Dashboard/images/lev16.jpg',
   11: __R.imgDeut28           || 'Recap-Dashboard/images/deut28.jpg',
   12: __R.imgPentateuchReview || 'Recap-Dashboard/images/ot-overview.jpg', // reuses the OT-overview painting for the review session
+  // Part 2 (sessions 13-22) — reuse the OT-overview painting as a shared backdrop until dedicated art exists.
+  13: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  14: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  15: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  16: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  17: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  18: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  19: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  20: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  21: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  22: __R.imgOtOverview || 'assets/img/ot-overview.webp',
 };
 
 // === v4: authoritative S1/S2 data from Data Entry workbook ===
