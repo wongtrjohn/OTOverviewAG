@@ -589,7 +589,7 @@ function BigPictureView({ sessions, themes, embedded }) {
   return (/*#__PURE__*/
     React.createElement("div", { className: "bigpic-page" + (embedded ? " bigpic-page--embedded" : "") },
     !embedded && window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "bigpicture" }) : null, /*#__PURE__*/
-    !embedded ? /*#__PURE__*/React.createElement(PageHero, { img: "assets/img/ot-overview.webp", eyebrow: "OT OVERVIEW · BIG PICTURE", title: "The Big Picture", sub: "Every session and theme, woven together across the Pentateuch." }) : null, /*#__PURE__*/
+    !embedded ? /*#__PURE__*/React.createElement(PageHero, { img: "assets/img/ot-overview.webp", eyebrow: "OT OVERVIEW · BIG PICTURE", title: "The Big Picture", sub: "Every session and theme, woven together across the Old Testament." }) : null, /*#__PURE__*/
     !embedded ? /*#__PURE__*/
     React.createElement("div", { className: "bigpic-selector" }, /*#__PURE__*/
     React.createElement("label", { className: "bigpic-selector__label", htmlFor: "bigpic-upto" }, "Display the big picture overview until session:"
@@ -1329,10 +1329,10 @@ function AppRecap() {
     return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(IntroductionPage, { sessions: sessions, themes: themes, onNavigate: navigateTo })), chrome);
   }
   if (currentView === 'bigpicture') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(BigPictureAndThreadPage, { sessions: sessions, themes: themes, onNavigate: navigateTo })), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(BigPictureAndThreadPage, { sessions: allSessions, themes: themes, onNavigate: navigateTo })), chrome);
   }
   if (currentView === 'matrix') {
-    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(MatrixViewPage, { sessions: sessions, themes: themes })), chrome);
+    return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", { className: "shell" }, backBar, /*#__PURE__*/React.createElement(MatrixViewPage, { sessions: allSessions, themes: themes })), chrome);
   }
   return null;
 }
