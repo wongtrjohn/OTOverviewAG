@@ -611,7 +611,7 @@ window.OT_ARCS = [
   { id: 'kingdom',   label: 'Toward His Kingdom',    startSession: 11, endSession: 12, hint: 'Law fulfilled \u2192 the Land' },
 ];
 
-// Covenant groupings — the spine of the Pentateuch's promises.
+// Covenant groupings — the spine of God's promises across the Old Testament.
 window.OT_COVENANTS = [
   {
     id: 'promises',
