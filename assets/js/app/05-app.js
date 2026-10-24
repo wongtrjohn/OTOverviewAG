@@ -701,19 +701,28 @@ function BigPictureView({ sessions, themes, embedded }) {
 }
 window.BigPictureView = BigPictureView;
 
-/* ─── CovenantDeepDive — the "Covenants" tab in the Thread View ────────────
-   Walks through all four OT covenants (Noahic → Abrahamic → Mosaic →
-   Davidic), showing for each what it CARRIES forward from the covenants before
-   and what it ADDS, then ends on the New Covenant (Jer 31:31–40) that
-   gathers every thread. A compact "at a glance" table traces recurring elements
-   — the bond, the offspring/King, the sign, the surety, the reach — across
-   all five. Reads curated data from window.OT_COVENANT_DEEPDIVE / _THREADS. */
-function CovenantDeepDive({ onOpenSession }) {
-  const COVS = window.OT_COVENANT_DEEPDIVE || [];
-  const THREADS = window.OT_COVENANT_THREADS || [];
-  const PROGRESS = window.OT_COVENANT_PROGRESS || [];
-  const FULFIL = window.OT_COVENANT_FULFILMENT || [];
+/* ─── ThreadDeepDive — a sub-thread's deep-dive view in the Thread View ─────
+   Shared by "The Covenants" and "Saved through One Man". Shows a card per stage
+   (what it CARRIES forward vs. what is NEW), a progress ladder of what each
+   stage adds, an "at a glance" table tracing recurring elements across every
+   stage, and — kept separate — how it is all fulfilled in Christ. `cfg` holds
+   the data arrays (cards / progress / threads / fulfil) plus the section text.
+   A card's main box is `lead` and its two boxes beneath are `pair`; covenant
+   cards fall back to their promise / sign / surety fields. */
+function ThreadDeepDive({ cfg, onOpenSession }) {
+  const COVS = cfg.cards || [];
+  const THREADS = cfg.threads || [];
+  const PROGRESS = cfg.progress || [];
+  const FULFIL = cfg.fulfil || [];
   const openSession = onOpenSession || function () {};
+
+  /* Main box + the two boxes beneath it. `text` may be a string or an array of
+     children (spread into the <p> so no list keys are needed). */
+  const cardLead = (c) => c.lead || (c.promise ? { label: "The promise", text: c.promise } : null);
+  const cardPair = (c) => c.pair || [
+  c.sign ? { label: "The sign", text: [/*#__PURE__*/React.createElement("b", null, c.sign.label), " · ", c.sign.ref] } : null,
+  c.surety ? { label: "How it is guaranteed — the surety", text: c.surety, emphasis: true } : null].
+  filter(Boolean);
 
   const renderCard = (c) => /*#__PURE__*/
     React.createElement("article", {
@@ -734,24 +743,22 @@ function CovenantDeepDive({ onOpenSession }) {
     ), /*#__PURE__*/
 
     React.createElement("p", { className: "covcard__with" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__withlabel" }, "With"), " ", c.with
+    React.createElement("span", { className: "covcard__withlabel" }, c.withLabel || "With"), " ", c.with
     ),
-    c.summary ? /*#__PURE__*/React.createElement("p", { className: "covcard__summary" }, c.summary) : null, /*#__PURE__*/
+    c.summary ? /*#__PURE__*/React.createElement("p", { className: "covcard__summary" }, c.summary) : null,
 
+    cardLead(c) ? /*#__PURE__*/
     React.createElement("div", { className: "covcard__promise" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__fieldlabel" }, "The promise"), /*#__PURE__*/
-    React.createElement("p", null, c.promise)
-    ), /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel" }, cardLead(c).label), /*#__PURE__*/
+    React.createElement("p", null, cardLead(c).text)
+    ) : null, /*#__PURE__*/
 
     React.createElement("div", { className: "covcard__row2" },
-    c.sign ? /*#__PURE__*/
-    React.createElement("div", { className: "covcard__sign" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__fieldlabel" }, "The sign"), /*#__PURE__*/
-    React.createElement("p", null, /*#__PURE__*/React.createElement("b", null, c.sign.label), " · ", c.sign.ref)
-    ) : null, /*#__PURE__*/
-    React.createElement("div", { className: "covcard__surety" }, /*#__PURE__*/
-    React.createElement("span", { className: "covcard__fieldlabel covcard__fieldlabel--surety" }, "How it is guaranteed — the surety"), /*#__PURE__*/
-    React.createElement("p", null, c.surety)
+    cardPair(c).map((f, i) => /*#__PURE__*/
+    React.createElement("div", { key: i, className: f.emphasis ? "covcard__surety" : "covcard__sign" }, /*#__PURE__*/
+    React.createElement("span", { className: "covcard__fieldlabel" + (f.emphasis ? " covcard__fieldlabel--surety" : "") }, f.label), /*#__PURE__*/
+    React.createElement.apply(React, ["p", null].concat(f.text))
+    )
     )
     ),
 
@@ -773,14 +780,13 @@ function CovenantDeepDive({ onOpenSession }) {
 
   return (/*#__PURE__*/
     React.createElement("div", { className: "covdeep" }, /*#__PURE__*/
-    React.createElement("p", { className: "covdeep__lede" }, "A ", /*#__PURE__*/React.createElement("b", null, "covenant"), " is a binding relationship God makes with His people. Read in order, the covenants build like layers — each one ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — up to the ", /*#__PURE__*/React.createElement("b", null, "New Covenant"), " promised in Jeremiah 31. How each thread is finally fulfilled in Christ follows at the end."
-    ), /*#__PURE__*/
+    React.createElement("p", { className: "covdeep__lede" }, cfg.lede), /*#__PURE__*/
 
     React.createElement("div", { className: "covdeep__flow", "aria-hidden": "true" },
     COVS.map((c, i) => /*#__PURE__*/
     React.createElement(React.Fragment, { key: c.id },
     i > 0 ? /*#__PURE__*/React.createElement("span", { className: "covdeep__flowarrow" }, "→") : null, /*#__PURE__*/
-    React.createElement("span", { className: "covdeep__flowpill" + (c.isNew ? " is-new" : ""), style: { '--cov-accent': `var(--c-${c.accent})` } }, c.name.replace(' Covenant', '').replace('The ', ''))
+    React.createElement("span", { className: "covdeep__flowpill" + (c.isNew ? " is-new" : ""), style: { '--cov-accent': `var(--c-${c.accent})` } }, c.short || c.name.replace(' Covenant', '').replace('The ', ''))
     )
     )
     ), /*#__PURE__*/
@@ -789,8 +795,8 @@ function CovenantDeepDive({ onOpenSession }) {
 
     PROGRESS.length ? /*#__PURE__*/
     React.createElement("div", { className: "covprog" }, /*#__PURE__*/
-    React.createElement("h3", { className: "covprog__head" }, "The progress of the covenants"), /*#__PURE__*/
-    React.createElement("p", { className: "covprog__sub" }, "Nothing is lost along the way — each covenant keeps what came before and stacks something new on top. Here is what each one ", /*#__PURE__*/React.createElement("b", null, "adds"), ", step by step."),
+    React.createElement("h3", { className: "covprog__head" }, cfg.progressHead), /*#__PURE__*/
+    React.createElement("p", { className: "covprog__sub" }, cfg.progressSub),
     PROGRESS.map((p, pi) => /*#__PURE__*/
     React.createElement("div", { key: p.id, className: "covprog__rung" + (p.isNew ? " covprog__rung--new" : ""), style: { '--cov-accent': `var(--c-${p.accent})`, '--cov-soft': `var(--c-${p.accent}-soft)` } }, /*#__PURE__*/
     React.createElement("div", { className: "covprog__marker", "aria-hidden": "true" }, /*#__PURE__*/
@@ -818,11 +824,11 @@ function CovenantDeepDive({ onOpenSession }) {
     THREADS.length ? /*#__PURE__*/
     React.createElement("div", { className: "covglance" }, /*#__PURE__*/
     React.createElement("h3", { className: "covglance__head" }, "At a glance — the same threads, developing"), /*#__PURE__*/
-    React.createElement("p", { className: "covglance__sub" }, "Follow any one row left to right to watch a single theme grow from Noah to the New Covenant."),
+    React.createElement("p", { className: "covglance__sub" }, cfg.glanceSub),
     THREADS.map((row) => /*#__PURE__*/
     React.createElement("div", { key: row.id, className: "covglance__row" }, /*#__PURE__*/
     React.createElement("div", { className: "covglance__rowlabel" }, row.label), /*#__PURE__*/
-    React.createElement("div", { className: "covglance__steps" },
+    React.createElement("div", { className: "covglance__steps", style: { '--steps': row.steps.length } },
     row.steps.map((s, i) => /*#__PURE__*/
     React.createElement("div", { key: i, className: "covglance__step", style: { '--cov-accent': `var(--c-${s.cov})`, '--cov-soft': `var(--c-${s.cov}-soft)` } }, /*#__PURE__*/
     React.createElement("span", { className: "covglance__stepname" }, s.name), /*#__PURE__*/
@@ -839,7 +845,7 @@ function CovenantDeepDive({ onOpenSession }) {
     React.createElement("div", { className: "covfulfil" }, /*#__PURE__*/
     React.createElement("span", { className: "covfulfil__eyebrow" }, "✝  Separate — the goal of it all"), /*#__PURE__*/
     React.createElement("h3", { className: "covfulfil__head" }, "Fulfilled in Christ"), /*#__PURE__*/
-    React.createElement("p", { className: "covfulfil__sub" }, "The Old Testament covenants all lean forward. Jesus is where every promise, sign and surety finally lands — He is the guarantor of the New Covenant, sealed in His own blood."),
+    React.createElement("p", { className: "covfulfil__sub" }, cfg.fulfilSub),
     FULFIL.map((f, i) => /*#__PURE__*/
     React.createElement("div", { key: i, className: "covfulfil__row" }, /*#__PURE__*/
     React.createElement("span", { className: "covfulfil__label" }, f.label), /*#__PURE__*/
@@ -850,6 +856,33 @@ function CovenantDeepDive({ onOpenSession }) {
     ) : null
     ));
 
+}
+
+/* "The Covenants" — sub-header under God's Promises. Noahic → Abrahamic →
+   Mosaic → Davidic, ending on the New Covenant of Jeremiah 31. */
+function CovenantDeepDive({ onOpenSession }) {
+  return /*#__PURE__*/React.createElement(ThreadDeepDive, { onOpenSession: onOpenSession, cfg: {
+      cards: window.OT_COVENANT_DEEPDIVE, progress: window.OT_COVENANT_PROGRESS,
+      threads: window.OT_COVENANT_THREADS, fulfil: window.OT_COVENANT_FULFILMENT,
+      lede: /*#__PURE__*/React.createElement(React.Fragment, null, "A ", /*#__PURE__*/React.createElement("b", null, "covenant"), " is a binding relationship God makes with His people. Read in order, the covenants build like layers — each one ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — up to the ", /*#__PURE__*/React.createElement("b", null, "New Covenant"), " promised in Jeremiah 31. How each thread is finally fulfilled in Christ follows at the end."),
+      progressHead: "The progress of the covenants",
+      progressSub: /*#__PURE__*/React.createElement(React.Fragment, null, "Nothing is lost along the way — each covenant keeps what came before and stacks something new on top. Here is what each one ", /*#__PURE__*/React.createElement("b", null, "adds"), ", step by step."),
+      glanceSub: "Follow any one row left to right to watch a single theme grow from Noah to the New Covenant.",
+      fulfilSub: "The Old Testament covenants all lean forward. Jesus is where every promise, sign and surety finally lands — He is the guarantor of the New Covenant, sealed in His own blood." } });
+}
+
+/* "Saved through One Man" — sub-header under God's Salvation. The Woman's
+   Offspring → Noah → Abraham → Moses → the High Priest, peaking in Isaiah's
+   Suffering Servant; Christ's fulfilment kept separate at the end. */
+function OneManDeepDive({ onOpenSession }) {
+  return /*#__PURE__*/React.createElement(ThreadDeepDive, { onOpenSession: onOpenSession, cfg: {
+      cards: window.OT_ONEMAN_DEEPDIVE, progress: window.OT_ONEMAN_PROGRESS,
+      threads: window.OT_ONEMAN_THREADS, fulfil: window.OT_ONEMAN_FULFILMENT,
+      lede: /*#__PURE__*/React.createElement(React.Fragment, null, "Again and again, God saves ", /*#__PURE__*/React.createElement("b", null, "the many through one man"), ". Each figure ", /*#__PURE__*/React.createElement("b", null, "carries forward"), " what came before and ", /*#__PURE__*/React.createElement("b", null, "adds"), " something new — yet each one also ", /*#__PURE__*/React.createElement("b", null, "falls short"), ", showing that another is needed. The thread peaks in Isaiah’s ", /*#__PURE__*/React.createElement("b", null, "Suffering Servant"), "; how it is fulfilled in Christ follows at the end."),
+      progressHead: "The progress of the one Man",
+      progressSub: /*#__PURE__*/React.createElement(React.Fragment, null, "Each new figure keeps what came before and fills in more of the picture of the One who will save. Here is what each one ", /*#__PURE__*/React.createElement("b", null, "adds"), ", step by step."),
+      glanceSub: "Follow any one row left to right to watch a single theme grow from the first promise to the Suffering Servant.",
+      fulfilSub: "Every one of these men was partial, and the Servant was never named. Jesus is the one Man they all pointed toward — righteous, obedient, mediator, priest and sacrifice in one." } });
 }
 
 /* ─── ThreadViewPage ─────────────────────────────────────────────────── */
@@ -888,12 +921,12 @@ function ThreadViewPage({ sessions, themes, onOpenSession }) {
   const ThreadStory = window.ThreadStory;
   const TensionTriad = window.TensionTriad;
   const openSession = onOpenSession || function () {};
-  /* Top-level threads. Promises and Tension each carry a sub-thread, shown as a
-     directly-clickable sub-header beneath the parent button AND, when the parent
-     is active, as a collapsed "Sub-threads" expander at the top. */
+  /* Top-level threads. Salvation, Promises and Tension each carry a sub-thread,
+     shown as a directly-clickable sub-header beneath the parent button AND, when
+     the parent is active, as a collapsed "Sub-threads" expander at the top. */
   const TABS = [
   { id: 'kingdom',   label: "God's Kingdom" },
-  { id: 'salvation', label: "God's Salvation" },
+  { id: 'salvation', label: "God's Salvation", sub: { id: 'oneman', label: 'Saved through One Man', color: 'salvation' } },
   { id: 'promises',  label: "God's Promises", sub: { id: 'covenants', label: 'The Covenants', color: 'promises' } },
   { id: 'tension',   label: "Tension & NT Fulfilment", sub: { id: 'madenew', label: 'Made New in Christ', color: 'nt' } }];
 
@@ -941,6 +974,8 @@ function ThreadViewPage({ sessions, themes, onOpenSession }) {
     React.createElement("div", { className: "thread-view-page__content" },
     activeThread === 'covenants' ? /*#__PURE__*/
     React.createElement(CovenantDeepDive, { onOpenSession: openSession }) :
+    activeThread === 'oneman' ? /*#__PURE__*/
+    React.createElement(OneManDeepDive, { onOpenSession: openSession }) :
     activeThread === 'madenew' ? /*#__PURE__*/
     React.createElement(MadeNewInChrist, { onOpenSession: openSession }) :
     activeThread === 'tension' ? /*#__PURE__*/
@@ -963,6 +998,11 @@ function ThreadViewPage({ sessions, themes, onOpenSession }) {
         ));
 
     })
+    ) :
+    activeThread === 'salvation' && themeObj && ThreadStory ? /*#__PURE__*/
+    React.createElement(React.Fragment, null,
+    subNote('Saved through One Man', /*#__PURE__*/React.createElement(OneManDeepDive, { onOpenSession: openSession })), /*#__PURE__*/
+    React.createElement(ThreadStory, { theme: themeObj, sessions: viewSessions, onSelectSession: openSession })
     ) :
     activeThread === 'promises' && themeObj && ThreadStory ? /*#__PURE__*/
     React.createElement(React.Fragment, null,

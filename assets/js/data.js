@@ -933,10 +933,285 @@ window.OT_COVENANT_PROGRESS = [
   }
 ];
 
+/* ── "Saved through One Man" deep dive ──────────────────────────────────
+   The Salvation sub-thread, given the same treatment as the Covenants: its own
+   Thread View sub-header with a card per figure (what carries forward / what is
+   new), a progress ladder, an at-a-glance table and — kept SEPARATE — how it is
+   fulfilled in Christ. It opens on the first promise (Gen 3:15, Session 03) and
+   peaks in Isaiah's Suffering Servant (Session 19). Every point carries a
+   verse reference. Card fields: `lead` fills the main box, `pair` the two
+   boxes beneath it (`emphasis` marks the highlighted one). */
+window.OT_ONEMAN_DEEPDIVE = [
+  {
+    id: 'offspring', order: 1, name: 'The Woman’s Offspring', short: 'Offspring', accent: 'reality',
+    withLabel: 'Role', with: 'The promised One — a son of Eve, not yet named',
+    passage: 'Genesis 3:15', session: 3,
+    summary: 'In the very hour of the Fall, God promises that rescue will come through one person — a descendant of the woman.',
+    lead: { label: 'How God will save through Him', text: 'He will crush the serpent’s head, though the serpent will strike His heel (Gen 3:15) — victory over evil, won through suffering.' },
+    pair: [
+      { label: 'Who is saved', text: 'Adam and Eve’s fallen race — the children of Eve, “the mother of all living” (Gen 3:20).' },
+      { label: 'Still waiting — why another is needed', emphasis: true, text: 'Only a promise. Eve hopes in her first son (Gen 4:1), but Cain becomes a murderer (Gen 4:8) — the Offspring has not yet come.' }
+    ],
+    adds: [
+      'Salvation will come through one person (Gen 3:15).',
+      'Victory over evil — the serpent’s head crushed (Gen 3:15).',
+      'Victory through suffering — His heel will be struck (Gen 3:15).',
+      'A covering God Himself provides, through an animal’s death (Gen 3:21).'
+    ]
+  },
+  {
+    id: 'noah', order: 2, name: 'Noah', accent: 'kingdom',
+    withLabel: 'Role', with: 'The righteous remnant',
+    passage: 'Genesis 6–9', session: 4,
+    summary: 'Through one favoured and righteous man, God preserves and restores a creation ruined by the deeply-rooted sinfulness of man.',
+    lead: { label: 'How God saves through him', text: 'Noah “found favour in the eyes of the LORD” and “did all that God commanded him” (Gen 6:8, 22). Through his obedience the ark carries life safely through God’s judgment.' },
+    pair: [
+      { label: 'Who is saved', text: 'His household and every kind of living creature — “only Noah was left, and those who were with him in the ark” (Gen 7:23).' },
+      { label: 'His limit — why another is needed', emphasis: true, text: 'Saved, yet not changed: man’s heart is still “evil from his youth” (Gen 8:21), and Noah himself is soon drunk and shamed (Gen 9:20–21).' }
+    ],
+    carries: [
+      'Comes from the woman’s line — his father hopes he will bring “relief” from the cursed ground (Gen 5:29).'
+    ],
+    adds: [
+      'One righteous man’s obedience saves the many with him (Gen 7:1).',
+      'Saved through judgment, not from it — carried through the flood waters (Gen 7:23).',
+      'An offering after the rescue that God accepts as a “pleasing aroma” (Gen 8:20–21).'
+    ]
+  },
+  {
+    id: 'abraham', order: 3, name: 'Abraham', accent: 'promises',
+    withLabel: 'Role', with: 'The covenant father',
+    passage: 'Genesis 12; 15; 17; 22', session: 5,
+    summary: 'God promises to reverse the curse of the Fall through one man who believed Him — and through his family, to bless the world.',
+    lead: { label: 'How God saves through him', text: 'Abraham “believed the LORD, and he counted it to him as righteousness” (Gen 15:6). God binds Himself to bless the nations through him and his offspring (Gen 12:3; 22:18).' },
+    pair: [
+      { label: 'Who is saved', text: '“All the families of the earth” (Gen 12:3) — the blessing reaches far beyond one family.' },
+      { label: 'His limit — why another is needed', emphasis: true, text: 'Twice he lies about Sarah to save himself (Gen 12:11–13; 20:2), and he tries to force the promise through Hagar (Gen 16:2).' }
+    ],
+    carries: [
+      'A man who walks with God, as Noah did (Gen 6:9; 17:1).',
+      'The promised “offspring” of Gen 3:15 now narrows to Abraham’s line (Gen 22:17–18).'
+    ],
+    adds: [
+      'Righteousness counted through faith (Gen 15:6).',
+      'Blessing for every nation, not just one family (Gen 12:3).',
+      'He pleads with God on behalf of others (Gen 18:23–32).',
+      'A substitute provided — God gives a ram in Isaac’s place (Gen 22:8, 13).'
+    ]
+  },
+  {
+    id: 'moses', order: 4, name: 'Moses', accent: 'salvation',
+    withLabel: 'Role', with: 'The favoured mediator',
+    passage: 'Exodus 32–34', session: 9, sessionNote: 'Also leads Israel in Sessions 06–08.',
+    summary: 'When Israel breaks the covenant with the golden calf, one favoured mediator stands between a holy God and His people.',
+    lead: { label: 'How God saves through him', text: 'Moses pleads with God to turn from His anger, and “the LORD relented” (Ex 32:11–14). He even offers his own life: “blot me out of your book” (Ex 32:32).' },
+    pair: [
+      { label: 'Who is saved', text: 'The whole covenant-breaking nation is spared total judgment, and the covenant is renewed (Ex 32:14; 34:10).' },
+      { label: 'His limit — why another is needed', emphasis: true, text: 'He cannot atone for them: “Whoever has sinned against me, I will blot out of my book” (Ex 32:33). Partial judgment still falls (Ex 32:28, 35).' }
+    ],
+    carries: [
+      'Favoured by God like Noah — “you have found favour in my sight” (Ex 33:17; cf. Gen 6:8).',
+      'Pleads for sinners as Abraham did for Sodom (Gen 18:23; Ex 32:11).'
+    ],
+    adds: [
+      'A mediator standing between holy God and sinful people (Ex 20:19).',
+      'He seeks to “make atonement” for the people’s sin (Ex 32:30).',
+      'He offers his own life in their place (Ex 32:32).',
+      'A whole nation spared through one man (Ex 32:14).'
+    ]
+  },
+  {
+    id: 'priest', order: 5, name: 'The High Priest', short: 'High Priest', accent: 'intention',
+    withLabel: 'Role', with: 'The imperfect priest',
+    passage: 'Leviticus 16', session: 10,
+    summary: 'God designs a way for a deeply sinful people to live with Him — through one high priest, sacrifice, and a scapegoat.',
+    lead: { label: 'How God saves through him', text: 'Once a year he enters the Most Holy Place with blood to “make atonement” (Lev 16:15–16), and lays all the people’s sins on the scapegoat, which carries them away (Lev 16:21–22).' },
+    pair: [
+      { label: 'Who is saved', text: '“All the assembly of Israel” — “you shall be clean before the LORD from all your sins” (Lev 16:17, 30).' },
+      { label: 'His limit — why another is needed', emphasis: true, text: 'He must first offer a bull for his own sin (Lev 16:6, 11), and it must be done again “once in the year” — every year (Lev 16:34).' }
+    ],
+    carries: [
+      'A mediator between God and the people, like Moses (Lev 16:17).',
+      'Atonement through a substitute, like the ram for Isaac (Gen 22:13; Lev 16:15).'
+    ],
+    adds: [
+      'Atonement by blood for all the people’s sins (Lev 16:15–16).',
+      'Entry into God’s very presence, behind the veil (Lev 16:2, 12).',
+      'A scapegoat that carries their sins far away (Lev 16:21–22).',
+      'A lasting office for every generation (Lev 16:32–34).'
+    ]
+  },
+  {
+    id: 'servant', order: 6, name: 'The Suffering Servant', short: 'Servant', accent: 'nt', isNew: true,
+    withLabel: 'Role', with: 'The sin-bearing substitute',
+    passage: 'Isaiah 52:13–53:12', session: 19,
+    summary: 'Isaiah sees the one Man every earlier figure pointed toward — the Servant who saves the many by dying in their place.',
+    lead: { label: 'How God saves through Him', text: '“He was pierced for our transgressions… the LORD has laid on him the iniquity of us all” (Isa 53:5–6). He pours out His soul to death and makes “many to be accounted righteous” (Isa 53:11–12).' },
+    pair: [
+      { label: 'Who is saved', text: '“The many” — He “bore the sin of many” (Isa 53:12), and even the nations are startled by Him (Isa 52:15).' },
+      { label: 'No limit this time — but who is He?', emphasis: true, text: 'For the first time the one man is without sin: “he had done no violence, and there was no deceit in his mouth” (Isa 53:9). Yet Isaiah never names Him — the Old Testament closes still waiting.' }
+    ],
+    carries: [
+      'The Offspring struck yet victorious (Gen 3:15) — He is “crushed,” yet “shall see his offspring” (Isa 53:10).',
+      'The mediator who pleads, like Moses — He “makes intercession for the transgressors” (Isa 53:12).',
+      'The sin-bearer of the Day of Atonement — “he shall bear their iniquities” (Isa 53:11; cf. Lev 16:22).'
+    ],
+    adds: [
+      'A sinless one — “no deceit in his mouth” (Isa 53:9).',
+      'Priest and sacrifice in one — His soul “an offering for guilt” (Isa 53:10).',
+      'Many made righteous through one (Isa 53:11).',
+      'Death is not the end — He will “prolong his days” (Isa 53:10).'
+    ]
+  }
+];
+
+/* What each figure ADDS to the picture of the One who saves — the ladder. */
+window.OT_ONEMAN_PROGRESS = [
+  {
+    id: 'offspring', name: 'The Woman’s Offspring', accent: 'reality', base: true,
+    note: 'The first promise — spoken in the middle of the curse itself.',
+    adds: [
+      { text: 'Salvation through one person — a son of the woman', ref: 'Gen 3:15' },
+      { text: 'Victory over evil, won through suffering', ref: 'Gen 3:15' },
+      { text: 'A covering God provides, through death', ref: 'Gen 3:21' }
+    ]
+  },
+  {
+    id: 'noah', name: 'Noah', accent: 'kingdom',
+    note: 'The promise takes a face — one righteous man.',
+    adds: [
+      { text: 'One righteous man who finds favour', ref: 'Gen 6:8–9' },
+      { text: 'His obedience saves those with him', ref: 'Gen 7:1' },
+      { text: 'Rescue through judgment', ref: 'Gen 7:23' },
+      { text: 'An offering God accepts', ref: 'Gen 8:20–21' }
+    ]
+  },
+  {
+    id: 'abraham', name: 'Abraham', accent: 'promises',
+    note: 'The one man’s blessing is for the whole world.',
+    adds: [
+      { text: 'Righteousness counted by faith', ref: 'Gen 15:6' },
+      { text: 'Blessing for all nations', ref: 'Gen 12:3' },
+      { text: 'Intercession for sinners', ref: 'Gen 18:23–32' },
+      { text: 'A substitute provided by God', ref: 'Gen 22:13' }
+    ]
+  },
+  {
+    id: 'moses', name: 'Moses', accent: 'salvation',
+    note: 'The one man stands in the gap for a sinful nation.',
+    adds: [
+      { text: 'A mediator between holy God and sinful people', ref: 'Ex 20:19' },
+      { text: 'His plea turns away God’s wrath', ref: 'Ex 32:14' },
+      { text: 'He offers his own life', ref: 'Ex 32:32' },
+      { text: 'The covenant renewed through him', ref: 'Ex 34:10' }
+    ]
+  },
+  {
+    id: 'priest', name: 'The High Priest', accent: 'intention',
+    note: 'The one man deals with sin itself — through blood.',
+    adds: [
+      { text: 'Atonement by blood', ref: 'Lev 16:15–16' },
+      { text: 'Access into God’s presence', ref: 'Lev 16:2' },
+      { text: 'Sins carried far away', ref: 'Lev 16:21–22' },
+      { text: '“Clean from all your sins”', ref: 'Lev 16:30' }
+    ]
+  },
+  {
+    id: 'servant', name: 'The Suffering Servant', accent: 'nt', isNew: true,
+    note: 'Everything the earlier figures could only point to.',
+    adds: [
+      { text: 'A sinless one', ref: 'Isa 53:9' },
+      { text: 'He is the offering Himself', ref: 'Isa 53:10' },
+      { text: 'He bears the sin of many', ref: 'Isa 53:12' },
+      { text: 'Many made righteous through one', ref: 'Isa 53:11' },
+      { text: 'Life beyond death', ref: 'Isa 53:10' },
+      { text: 'Salvation reaching the nations', ref: 'Isa 52:15' }
+    ]
+  }
+];
+
+/* At-a-glance: recurring elements traced across all six figures. */
+window.OT_ONEMAN_THREADS = [
+  {
+    id: 'man',
+    label: 'The man — whom God works through',
+    steps: [
+      { cov: 'reality',   name: 'Offspring',   text: 'A son of the woman.',                   ref: 'Gen 3:15' },
+      { cov: 'kingdom',   name: 'Noah',        text: '“Righteous… blameless.”',               ref: 'Gen 6:9' },
+      { cov: 'promises',  name: 'Abraham',     text: 'He believed — counted righteous.',      ref: 'Gen 15:6' },
+      { cov: 'salvation', name: 'Moses',       text: '“You have found favour in my sight.”',  ref: 'Ex 33:17' },
+      { cov: 'intention', name: 'High Priest', text: 'Washed and clothed in holy linen.',     ref: 'Lev 16:4' },
+      { cov: 'nt',        name: 'Servant',     text: '“The righteous one, my servant.”',      ref: 'Isa 53:11' }
+    ]
+  },
+  {
+    id: 'act',
+    label: 'What he does',
+    steps: [
+      { cov: 'reality',   name: 'Offspring',   text: 'Crushes the serpent’s head.',           ref: 'Gen 3:15' },
+      { cov: 'kingdom',   name: 'Noah',        text: 'Builds the ark, as God commanded.',     ref: 'Gen 6:22' },
+      { cov: 'promises',  name: 'Abraham',     text: 'Pleads for Sodom.',                     ref: 'Gen 18:23' },
+      { cov: 'salvation', name: 'Moses',       text: 'Implores God to turn from wrath.',      ref: 'Ex 32:11' },
+      { cov: 'intention', name: 'High Priest', text: 'Makes atonement with blood.',           ref: 'Lev 16:15–16' },
+      { cov: 'nt',        name: 'Servant',     text: 'Pours out His soul to death.',          ref: 'Isa 53:12' }
+    ]
+  },
+  {
+    id: 'many',
+    label: 'The many who are saved',
+    steps: [
+      { cov: 'reality',   name: 'Offspring',   text: 'Eve’s children — all humanity.',        ref: 'Gen 3:20' },
+      { cov: 'kingdom',   name: 'Noah',        text: 'Those with him in the ark.',            ref: 'Gen 7:23' },
+      { cov: 'promises',  name: 'Abraham',     text: 'All the families of the earth.',        ref: 'Gen 12:3' },
+      { cov: 'salvation', name: 'Moses',       text: 'The whole covenant-breaking nation.',   ref: 'Ex 32:14' },
+      { cov: 'intention', name: 'High Priest', text: 'All the assembly of Israel.',           ref: 'Lev 16:17' },
+      { cov: 'nt',        name: 'Servant',     text: '“The many” — even the nations.',        ref: 'Isa 53:11–12' }
+    ]
+  },
+  {
+    id: 'cost',
+    label: 'The cost — how sin is dealt with',
+    steps: [
+      { cov: 'reality',   name: 'Offspring',   text: 'His heel is struck.',                   ref: 'Gen 3:15' },
+      { cov: 'kingdom',   name: 'Noah',        text: 'Burnt offerings after the flood.',      ref: 'Gen 8:20' },
+      { cov: 'promises',  name: 'Abraham',     text: 'A ram offered in Isaac’s place.',       ref: 'Gen 22:13' },
+      { cov: 'salvation', name: 'Moses',       text: '“Blot me out of your book.”',           ref: 'Ex 32:32' },
+      { cov: 'intention', name: 'High Priest', text: 'Blood, and a goat that bears their sins.', ref: 'Lev 16:21–22' },
+      { cov: 'nt',        name: 'Servant',     text: 'He Himself is pierced and crushed.',    ref: 'Isa 53:5' }
+    ]
+  },
+  {
+    id: 'limit',
+    label: 'The limit — why another is needed',
+    steps: [
+      { cov: 'reality',   name: 'Offspring',   text: 'Eve’s first son becomes a murderer.',   ref: 'Gen 4:8' },
+      { cov: 'kingdom',   name: 'Noah',        text: 'Drunk and shamed after the flood.',     ref: 'Gen 9:21' },
+      { cov: 'promises',  name: 'Abraham',     text: 'Lies to save himself.',                 ref: 'Gen 12:13' },
+      { cov: 'salvation', name: 'Moses',       text: 'Cannot atone for others’ sin.',         ref: 'Ex 32:33' },
+      { cov: 'intention', name: 'High Priest', text: 'Atones for himself first, every year.', ref: 'Lev 16:6, 34' },
+      { cov: 'nt',        name: 'Servant',     text: 'None — “no deceit in his mouth.”',      ref: 'Isa 53:9' }
+    ]
+  }
+];
+
+/* "Fulfilled in Christ" — kept SEPARATE from the OT figures above. */
+window.OT_ONEMAN_FULFILMENT = [
+  { label: 'The one Man',                 text: '“By the one man’s obedience the many will be made righteous.”', ref: 'Rom 5:19' },
+  { label: 'The Offspring who wins',      text: 'Through His death He destroys the one who has the power of death, the devil.', ref: 'Heb 2:14' },
+  { label: 'Rescue through judgment',     text: 'Christ suffered once for sins, the righteous for the unrighteous, to bring us to God — the true ark.', ref: '1 Pet 3:18–20' },
+  { label: 'Abraham’s offspring',         text: 'The promises were spoken to Abraham “and to your offspring… who is Christ.”', ref: 'Gal 3:16' },
+  { label: 'The one Mediator',            text: '“There is one mediator between God and men, the man Christ Jesus, who gave himself as a ransom for all.”', ref: '1 Tim 2:5–6' },
+  { label: 'The great High Priest',       text: 'He has no need to offer first for His own sins — He offered Himself once for all.', ref: 'Heb 7:26–27' },
+  { label: 'The Suffering Servant',       text: '“He himself bore our sins in his body on the tree… by his wounds you have been healed.”', ref: '1 Pet 2:24' }
+];
+
 // Sub-themes — narrower threads that live inside a parent theme
 window.OT_SUBTHEMES = [
   {
     id: 'one-man',
+    /* Now has its own Thread View sub-header (see OT_ONEMAN_DEEPDIVE), so the
+       ThreadStory no longer renders this box inside the Salvation thread. */
+    subHeader: true,
     parent: 'salvation',
     title: 'Saved through One Man',
     blurb: 'A pattern God repeats across the Pentateuch — one righteous mediator standing in the breach for the many. Every figure is partial; each one points forward to Christ, the perfect mediator.',

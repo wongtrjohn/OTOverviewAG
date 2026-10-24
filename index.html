@@ -1446,7 +1446,7 @@
   display: grid; grid-template-columns: 1fr; gap: 8px;
 }
 @media (min-width: 560px) { .covglance__steps { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 900px) { .covglance__steps { grid-template-columns: repeat(5, 1fr); } }
+@media (min-width: 900px) { .covglance__steps { grid-template-columns: repeat(var(--steps, 5), minmax(0, 1fr)); } }
 .covglance__step {
   background: var(--bg-card, #fbf7ec);
   border: 1px solid var(--rule, #d5c8a8);

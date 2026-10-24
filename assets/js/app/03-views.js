@@ -316,7 +316,9 @@ function covSignIcon(label) {
 
 function ThreadStory({ theme, sessions, onSelectSession }) {
   if (!theme) return null;
-  const subthemes = (window.OT_SUBTHEMES || []).filter((st) => st.parent === theme.id);
+  /* Sub-threads promoted to their own Thread View sub-header (subHeader: true)
+     are not repeated inside the parent thread. */
+  const subthemes = (window.OT_SUBTHEMES || []).filter((st) => st.parent === theme.id && !st.subHeader);
   return (/*#__PURE__*/
     React.createElement("section", { className: "thread", style: { '--theme-color': `var(--c-${theme.id})`, '--theme-soft': `var(--c-${theme.id}-soft)` } }, /*#__PURE__*/
     React.createElement("span", { className: "thread__watermark", "aria-hidden": "true" }, theme.glyph), /*#__PURE__*/

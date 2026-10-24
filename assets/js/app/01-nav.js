@@ -217,7 +217,7 @@ const OT_TOURS = {
     body: /*#__PURE__*/React.createElement(React.Fragment, null, "I've opened the ", /*#__PURE__*/React.createElement("b", null, "Promises"), " thread. Each card is one session's take on it, in order \u2014 a clean way to watch a single idea develop over time.") },
   { glyph: "↳", view: "threadview", scrollId: "thread-view-section", target: "[data-thread='covenants']",
     title: "Sub-headers under a thread",
-    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Old Testament"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ.") },
+    body: /*#__PURE__*/React.createElement(React.Fragment, null, "Within a thread you'll often find a ", /*#__PURE__*/React.createElement("b", null, "sub-thread"), ". Here it's ", /*#__PURE__*/React.createElement("b", null, "The Covenants across the Old Testament"), " \u2014 God ", /*#__PURE__*/React.createElement("b", null, "makes"), " His promises, ", /*#__PURE__*/React.createElement("b", null, "seals"), " them by His own hand, and gives ", /*#__PURE__*/React.createElement("b", null, "signs"), " that point forward to Christ. Salvation has one too — ", /*#__PURE__*/React.createElement("b", null, "Saved through One Man"), ".") },
 
   { glyph: "?", view: "threadview", scrollId: "thread-view-section", target: ".help-tour__btn",
     title: "Need help? It's always right here",
