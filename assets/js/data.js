@@ -552,18 +552,18 @@ window.OT_IMAGES = {
   9:  __R.imgEx32_34          || 'Recap-Dashboard/images/ex32-34.jpg',
   10: __R.imgLev16            || 'Recap-Dashboard/images/lev16.jpg',
   11: __R.imgDeut28           || 'Recap-Dashboard/images/deut28.jpg',
-  12: __R.imgPentateuchReview || 'Recap-Dashboard/images/ot-overview.jpg', // reuses the OT-overview painting for the review session
-  // Part 2 (sessions 13-22) — reuse the OT-overview painting as a shared backdrop until dedicated art exists.
-  13: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  14: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  15: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  16: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  17: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  18: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  19: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  20: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  21: __R.imgOtOverview || 'assets/img/ot-overview.webp',
-  22: __R.imgOtOverview || 'assets/img/ot-overview.webp',
+  12: __R.imgPentateuchReview || 'assets/img/pentateuch-review.webp',
+  // Part 2 (sessions 13-22)
+  13: __R.imgJudg1_2   || 'assets/img/judg1-2.webp',
+  14: __R.img2Sam7     || 'assets/img/2sam7.webp',
+  15: __R.img1Kgs8     || 'assets/img/1kgs8.webp',
+  16: __R.imgEzek8_11  || 'assets/img/ezek8-11.webp',
+  17: __R.imgPs89      || 'assets/img/ps89.webp',
+  18: __R.imgIsa9_40   || 'assets/img/isa9-40.webp',
+  19: __R.imgIsa52_54  || 'assets/img/isa52-54.webp',
+  20: __R.imgJer31     || 'assets/img/jer31.webp',
+  21: __R.imgEzek43_47 || 'assets/img/ezek43-47.webp',
+  22: __R.imgNeh8_13   || 'assets/img/neh8-13.webp',
 };
 
 // === v4: authoritative S1/S2 data from Data Entry workbook ===

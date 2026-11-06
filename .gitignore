@@ -3,3 +3,6 @@
 
 # Office lock & temp files (e.g. the open Data Entry workbook)
 ~$*
+
+# Full-size image originals (converted copies live in assets/img as .webp)
+image-originals/
