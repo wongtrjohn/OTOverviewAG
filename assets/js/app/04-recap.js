@@ -1026,6 +1026,19 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
       ));
   }
 
+  /* Per-section hide/show (Read & Reflect, Review, Part 2). Remembered per browser. */
+  const [hiddenGroups, setHiddenGroups] = useLocalStorage('OT_PICKER_HIDDEN', {});
+  const isHidden = (id) => !!(hiddenGroups && hiddenGroups[id]);
+  const groupToggle = (id, count) => /*#__PURE__*/
+  React.createElement("button", {
+    type: "button",
+    className: "rc-picker__grouptoggle" + (isHidden(id) ? " is-hidden" : ""),
+    "aria-expanded": !isHidden(id),
+    onClick: () => setHiddenGroups(Object.assign({}, hiddenGroups, { [id]: !isHidden(id) })) },
+  isHidden(id) ? `Show ${count} session${count === 1 ? '' : 's'}` : "Hide", /*#__PURE__*/
+  React.createElement("span", { className: "rc-picker__grouptoggle-chev", "aria-hidden": "true" }, isHidden(id) ? "▾" : "▴"));
+  const groupBody = (id, list) => isHidden(id) ? null : renderSessions(list);
+
   const renderSessions = (list) => cards ? /*#__PURE__*/
   React.createElement("ol", { className: "rc-cards" }, list.map((s) => /*#__PURE__*/React.createElement(Card, { key: s.id, s: s }))) : /*#__PURE__*/
   React.createElement("ol", { className: "rc-picker__list" }, list.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s })));
@@ -1090,9 +1103,9 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("div", null, /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__grouptitle" }, "Read & Reflect"), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__groupsub" }, "Sessions 02\u201311 \xB7 Genesis \u2192 Deuteronomy")
-    )
+    ), groupToggle("part1", readReflect.length)
     ), /*#__PURE__*/
-    renderSessions(readReflect)
+    groupBody("part1", readReflect)
     ),
 
 
@@ -1103,9 +1116,9 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("div", null, /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__grouptitle" }, "Review & Reflect"), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__groupsub" }, "Session 12 \xB7 the whole Pentateuch in one view")
-    )
+    ), groupToggle("review", reviewReflect.length)
     ), /*#__PURE__*/
-    renderSessions(reviewReflect)
+    groupBody("review", reviewReflect)
     ) :
     null, /*#__PURE__*/
 
@@ -1117,9 +1130,9 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("div", null, /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__grouptitle" }, "The Second Half — Part 2"), /*#__PURE__*/
     React.createElement("span", { className: "rc-picker__groupsub" }, "Sessions 13–22 \xB7 beyond the Pentateuch: Judges & Kings → Prophets → the Return")
-    )
+    ), groupToggle("part2", secondHalf.length)
     ), /*#__PURE__*/
-    renderSessions(secondHalf)
+    groupBody("part2", secondHalf)
     ) :
     null
     ));

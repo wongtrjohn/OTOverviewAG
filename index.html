@@ -6754,6 +6754,18 @@ body.is-recap-mode .shell{ display: none; }
 .rc-viewtoggle__glyph{ font-size: 14px; line-height: 1; }
 .rc-viewtoggle__btn:focus-visible{ outline: 2px solid var(--c-kingdom); outline-offset: 2px; }
 
+/* — Section hide / show button (right side of each group heading) — */
+.rc-picker__grouptoggle{
+  flex: none; margin-left: auto; display: inline-flex; align-items: center; gap: 6px;
+  padding: 6px 12px; border: 1px solid var(--rule); border-radius: 999px; cursor: pointer;
+  background: var(--bg-card); color: var(--ink-soft);
+  font: 600 12.5px/1 var(--sans); white-space: nowrap; transition: background .15s, color .15s;
+}
+.rc-picker__grouptoggle:hover{ background: var(--bg-warm); color: var(--ink); }
+.rc-picker__grouptoggle.is-hidden{ background: var(--ink); color: #f5efe1; border-color: var(--ink); }
+.rc-picker__grouptoggle:focus-visible{ outline: 2px solid var(--c-kingdom); outline-offset: 2px; }
+.rc-picker__grouptoggle-chev{ font-size: 11px; }
+
 /* card view uses the full width of the screen; the header stays at reading width */
 .rc-mode__body:has(> .rc-picker--cards){ max-width: 1400px; }
 /* keep cards clear of the floating left menu (shown above 1040px) */
