@@ -996,8 +996,42 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
 
   }
 
+  /* Card view (design A): painting on top, passage in a bold band, then number + title.
+     Kept compact so many sessions are visible at a glance. */
+  const useLocalStorage = window.useLocalStorage;
+  const [view, setView] = useLocalStorage('OT_PICKER_VIEW', 'list');
+  const cards = view === 'cards';
+
+  function Card({ s }) {
+    const prog = getSessionProgress(s.id, s, mode);
+    const visited = meditate && window.sessionHasAnyInput && window.sessionHasAnyInput(s.id, mode);
+    const passage = [s.book, s.chapter].filter(Boolean).join(' ');
+    return (/*#__PURE__*/
+      React.createElement("li", null, /*#__PURE__*/
+      React.createElement("button", { className: "rc-card", onClick: () => onPick(s.id), title: s.topic + ' \u2014 ' + passage },
+      s.image ? /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__img", style: { backgroundImage: `url("${s.image}")` }, "aria-hidden": "true" }) : /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__img rc-card__img--empty", "aria-hidden": "true" }, s.book?.[0] || '\u00b7'), /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__passage" }, passage), /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__foot" }, /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__num" }, String(s.id).padStart(2, '0')), /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__topic" }, s.topic),
+      visited ? /*#__PURE__*/React.createElement("span", { className: "rc-card__visited", title: "Visited", "aria-label": "Visited" }) : null
+      ),
+      !meditate && prog.pct > 0 ? /*#__PURE__*/
+      React.createElement("span", { className: "rc-card__bar", title: prog.pct + '% complete', "aria-label": prog.pct + '% complete' }, /*#__PURE__*/
+      React.createElement("span", { style: { width: prog.pct + '%' }, className: prog.pct >= 100 ? 'is-done' : '' })) :
+      null
+      )
+      ));
+  }
+
+  const renderSessions = (list) => cards ? /*#__PURE__*/
+  React.createElement("ol", { className: "rc-cards" }, list.map((s) => /*#__PURE__*/React.createElement(Card, { key: s.id, s: s }))) : /*#__PURE__*/
+  React.createElement("ol", { className: "rc-picker__list" }, list.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s })));
+
   return (/*#__PURE__*/
-    React.createElement("section", { className: "rc-picker" },
+    React.createElement("section", { className: "rc-picker" + (cards ? " rc-picker--cards" : "") },
     window.HelpTourButton ? /*#__PURE__*/React.createElement(window.HelpTourButton, { tour: "recap", label: "Tour" }) : null, /*#__PURE__*/
     React.createElement("header", { className: "rc-picker__head" }, /*#__PURE__*/
     React.createElement("div", { className: "rc-picker__masthead hero-band", style: { '--hero-img': 'url("assets/img/gen1.webp")' } }, /*#__PURE__*/
@@ -1028,7 +1062,14 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("span", { className: "rc-btn--journal__icon", "aria-hidden": "true" }, "\u270D"), "My Journal \u2014 Click here to manage what I have written"
 
     ) :
-    null
+    null, /*#__PURE__*/
+
+    React.createElement("div", { className: "rc-viewtoggle", role: "group", "aria-label": "How to show the sessions" }, /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "rc-viewtoggle__btn" + (!cards ? " is-active" : ""), "aria-pressed": !cards, onClick: () => setView('list') }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-viewtoggle__glyph", "aria-hidden": "true" }, "\u2630"), "List view"), /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "rc-viewtoggle__btn" + (cards ? " is-active" : ""), "aria-pressed": cards, onClick: () => setView('cards') }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-viewtoggle__glyph", "aria-hidden": "true" }, "\u25A6"), "Card view")
+    )
     ),
 
 
@@ -1051,9 +1092,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("span", { className: "rc-picker__groupsub" }, "Sessions 02\u201311 \xB7 Genesis \u2192 Deuteronomy")
     )
     ), /*#__PURE__*/
-    React.createElement("ol", { className: "rc-picker__list" },
-    readReflect.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s }))
-    )
+    renderSessions(readReflect)
     ),
 
 
@@ -1066,9 +1105,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("span", { className: "rc-picker__groupsub" }, "Session 12 \xB7 the whole Pentateuch in one view")
     )
     ), /*#__PURE__*/
-    React.createElement("ol", { className: "rc-picker__list" },
-    reviewReflect.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s }))
-    )
+    renderSessions(reviewReflect)
     ) :
     null, /*#__PURE__*/
 
@@ -1082,9 +1119,7 @@ function CR_Picker({ sessions, themes, mode, onPick, onOpenJournal }) {
     React.createElement("span", { className: "rc-picker__groupsub" }, "Sessions 13–22 \xB7 beyond the Pentateuch: Judges & Kings → Prophets → the Return")
     )
     ), /*#__PURE__*/
-    React.createElement("ol", { className: "rc-picker__list" },
-    secondHalf.map((s) => /*#__PURE__*/React.createElement(Row, { key: s.id, s: s }))
-    )
+    renderSessions(secondHalf)
     ) :
     null
     ));

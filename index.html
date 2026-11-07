@@ -6737,6 +6737,69 @@ body.is-recap-mode .shell{ display: none; }
 }
 .rc-picker__row:hover .rc-picker__cta{ color: var(--ink); opacity: 1; }
 
+/* ─── List / Card view toggle + compact card grid (design A) ─── */
+.rc-viewtoggle{
+  display: flex; justify-content: center; gap: 4px;
+  width: max-content; margin: 14px auto 0; padding: 4px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--bg-card-2);
+}
+.rc-viewtoggle__btn{
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 7px 16px; border: 0; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--ink-soft);
+  font: 600 13px/1 var(--sans); transition: background .15s, color .15s;
+}
+.rc-viewtoggle__btn:hover{ color: var(--ink); background: var(--bg-warm); }
+.rc-viewtoggle__btn.is-active{ background: var(--ink); color: #f5efe1; }
+.rc-viewtoggle__glyph{ font-size: 14px; line-height: 1; }
+.rc-viewtoggle__btn:focus-visible{ outline: 2px solid var(--c-kingdom); outline-offset: 2px; }
+
+/* card view uses the full width of the screen; the header stays at reading width */
+.rc-mode__body:has(> .rc-picker--cards){ max-width: 1400px; }
+/* keep cards clear of the floating left menu (shown above 1040px) */
+@media (min-width: 1041px){
+  .rc-mode__body:has(> .rc-picker--cards){ padding-left: 92px; padding-right: 92px; }
+}
+.rc-picker--cards .rc-picker__head,
+.rc-picker--cards .rc-picker__introrow{ max-width: 812px; margin-left: auto; margin-right: auto; }
+
+.rc-cards{
+  list-style: none; margin: 0; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(178px, 1fr)); gap: 12px;
+}
+.rc-card{
+  position: relative; display: flex; flex-direction: column;
+  width: 100%; height: 100%; padding: 0; overflow: hidden;
+  border: 1px solid var(--rule); border-radius: 12px; background: var(--bg-card);
+  cursor: pointer; text-align: left; font-family: inherit; color: inherit;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+.rc-card:hover{ transform: translateY(-2px); border-color: rgba(40,30,10,0.32); box-shadow: 0 8px 20px rgba(40,30,10,0.12); }
+.rc-card:focus-visible{ outline: 2px solid var(--c-kingdom); outline-offset: 2px; }
+.rc-card__img{ display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
+.rc-card__img--empty{
+  display: flex; align-items: center; justify-content: center;
+  background: var(--bg-card-2); color: var(--ink-soft); font: 600 28px/1 var(--serif);
+}
+.rc-card__passage{
+  display: block; padding: 7px 10px;
+  background: #4f3611; color: #fbf2dc;
+  font: 700 13.5px/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase;
+}
+.rc-card__foot{ display: flex; align-items: baseline; gap: 7px; flex: 1; padding: 8px 10px 10px; }
+.rc-card__num{ flex: none; font: 600 11.5px/1 var(--mono); color: var(--ink-3); }
+.rc-card__topic{ font: 600 15.5px/1.2 var(--serif); color: var(--ink); }
+.rc-card__visited{ flex: none; align-self: center; margin-left: auto; width: 8px; height: 8px; border-radius: 50%; background: #4a7c3f; }
+.rc-card__bar{ position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: #e0d0b0; }
+.rc-card__bar > span{ display: block; height: 100%; background: #b5894a; }
+.rc-card__bar > span.is-done{ background: #4a7c3f; }
+@media (max-width: 560px){
+  .rc-cards{ grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+  .rc-card__passage{ font-size: 12px; padding: 6px 8px; }
+  .rc-card__foot{ padding: 6px 8px 8px; gap: 5px; }
+  .rc-card__topic{ font-size: 14px; }
+}
+
 /* ─── Session recap layout ─── */
 .rc-session{ display: flex; flex-direction: column; gap: 28px; }
 
