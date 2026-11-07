@@ -1608,6 +1608,89 @@
 .mncard__chip:hover{ background: var(--bg-warm); border-color: var(--rule-2); }
 .mncard__chip:focus-visible{ outline: 2px solid var(--c-nt); outline-offset: 2px; }
 .mncard__chipimg{ width: 26px; height: 20px; border-radius: 999px; background-size: cover; background-position: center; }
+/* ── The Big Story (Thread View, first tab) ── */
+.bigstory{
+  padding: 26px 26px 30px; border: 1px solid var(--rule); border-radius: 14px;
+  background: var(--bg-card, #fbf7ec); box-shadow: var(--shadow-deep);
+}
+.bigstory__eyebrow{
+  display: block; font: 700 11.5px/1 var(--sans); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--ink-3, #6e6452); margin-bottom: 10px;
+}
+.bigstory__sentence{ margin: 0 0 10px; font: 700 34px/1.2 var(--serif); color: var(--ink); text-wrap: balance; }
+.bigstory__phrase{
+  padding: 0; border: 0; background: none; cursor: pointer; font: inherit; color: var(--ph);
+  text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 6px; text-decoration-thickness: 2px;
+  transition: text-decoration-color .15s;
+}
+.bigstory__phrase:hover, .bigstory__phrase:focus-visible{ text-decoration-color: var(--ph); outline: none; }
+.bigstory__lede{ margin: 0; max-width: 62ch; font: 14.5px/1.55 var(--sans); color: var(--ink-2); }
+.bigstory__step{ margin-top: 30px; padding-top: 26px; border-top: 1px solid var(--rule); scroll-margin-top: 90px; }
+.bigstory__stephead{ display: flex; gap: 14px; align-items: flex-start; margin-bottom: 14px; }
+.bigstory__num{
+  flex: none; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; margin-top: 4px;
+  border-radius: 50%; background: var(--ph); color: #fff; font: 700 15px/1 var(--sans);
+}
+.bigstory__steptitle{ margin: 0; font: 700 32px/1.1 var(--serif); color: var(--ph); }
+.bigstory__desc{ margin: 4px 0 0; font: italic 500 20px/1.3 var(--serif); color: var(--ink); }
+.bigstory__imgs{ display: grid; gap: 12px; margin-bottom: 14px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+.bigstory__imgs--1{ grid-template-columns: minmax(0, 1fr); margin-bottom: 0; }
+.bigstory__body--single{ display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: center; margin-bottom: 14px; }
+.bigstory__body--single .bigstory__quotes{ grid-template-columns: minmax(0, 1fr); }
+@media (max-width: 760px){ .bigstory__body--single{ grid-template-columns: minmax(0, 1fr); } }
+.bigstory__img{
+  display: flex; flex-direction: column; padding: 0; overflow: hidden; cursor: pointer; text-align: left;
+  border: 1px solid var(--rule); border-radius: 12px; background: #fff; font-family: inherit; color: inherit;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.bigstory__img:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(40,30,10,0.12); }
+.bigstory__img:focus-visible{ outline: 2px solid var(--ph); outline-offset: 2px; }
+.bigstory__imgpic{ display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
+.bigstory__imgcap{ padding: 8px 10px 10px; font: 13px/1.35 var(--sans); color: var(--ink-2); }
+.bigstory__imgcap b{ color: var(--ph); }
+.bigstory__quotes{ display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin-bottom: 10px; }
+.bigstory__quote{
+  margin: 0; padding: 12px 14px; border-radius: 10px; background: var(--ph-soft);
+  font: italic 500 17px/1.45 var(--serif); color: var(--ink);
+}
+.bigstory__quote cite{ display: block; margin-top: 6px; font: 700 12.5px/1 var(--sans); font-style: normal; color: var(--ph); }
+.bigstory__note{ margin: 0 0 12px; max-width: 70ch; font: 14px/1.55 var(--sans); color: var(--ink-2); }
+.bigstory__links{ display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+.bigstory__threadlink{
+  display: inline-flex; align-items: center; padding: 6px 13px; border-radius: 999px; cursor: pointer;
+  border: 1.5px solid var(--ph, var(--ink)); background: transparent; color: var(--ph, var(--ink));
+  font: 700 12.5px/1 var(--sans); transition: background .15s, color .15s;
+}
+.bigstory__threadlink:hover{ background: var(--ph, var(--ink)); color: #fff; }
+.madenew-storylink{ --ph: var(--c-nt); margin: 0 0 16px; }
+.bigstory__all{ margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--rule); text-align: center; scroll-margin-top: 90px; }
+.bigstory__sentence--sum{ font-size: 28px; margin-bottom: 18px; }
+.bigstory__sum{ list-style: none; margin: 0 0 18px; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.bigstory__sumbtn{
+  display: flex; flex-direction: column; align-items: center; gap: 10px; width: 100%; height: 100%;
+  padding: 14px 10px 16px; border: 1px solid var(--rule); border-radius: 12px; background: #fff; cursor: pointer;
+  font-family: inherit; color: inherit; transition: transform .15s ease, box-shadow .15s ease;
+}
+.bigstory__sumbtn:hover{ transform: translateY(-2px); box-shadow: 0 8px 20px rgba(40,30,10,0.12); }
+.bigstory__sumpill{ padding: 6px 14px; border-radius: 999px; background: var(--ph); color: #fff; font: 700 16px/1.1 var(--serif); }
+.bigstory__sumimg{ width: 96px; height: 96px; border-radius: 50%; background-size: cover; background-position: center; border: 3px solid #fff; box-shadow: 0 2px 8px rgba(40,30,10,0.2); }
+.bigstory__sumdesc{ font: italic 500 16px/1.3 var(--serif); color: var(--ink); }
+.bigstory__sumref{ font: 700 11.5px/1.3 var(--sans); color: var(--ph); }
+.bigstory__fulfil{
+  border: 0; background: none; cursor: pointer; font: italic 600 19px/1.4 var(--serif); color: var(--c-promises);
+}
+.bigstory__fulfil:hover{ text-decoration: underline; }
+@media (max-width: 640px){
+  .bigstory{ padding: 18px 14px 22px; }
+  .bigstory__sentence{ font-size: 26px; }
+  .bigstory__sentence--sum{ font-size: 22px; }
+  .bigstory__steptitle{ font-size: 26px; }
+  .bigstory__desc{ font-size: 17px; }
+  .bigstory__imgs{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .bigstory__imgs--1{ grid-template-columns: minmax(0, 1fr); }
+  .bigstory__sum{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 /* list view keeps the original row look for its session pills */
 .madenew-view:not(.madenew-view--cards) .mncard__chip{ margin-right: 0.4rem; }
 

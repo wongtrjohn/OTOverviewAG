@@ -814,6 +814,55 @@ window.OT_MADE_NEW = [
     christRef: 'Luke 1:32-33' },
 ];
 
+/* "The Big Story" — the series' main point, "God saving His people back into His
+   Kingdom through His Promises", developed one phrase at a time across the
+   sessions. Shown as the first tab of the Thread View. `color` is a theme
+   accent (var(--c-<color>)); `thread` is the Thread View tab each step links to;
+   `images` use the session paintings (window.OT_IMAGES). */
+window.OT_BIG_STORY = [
+  { id: 'god', phrase: 'God', color: 'intention', thread: 'tension', threadLabel: 'Tension & NT Fulfilment',
+    desc: 'abounding in steadfast love — yet by no means clearing the guilty',
+    images: [{ session: 9, caption: 'After the golden calf · Exodus 32–34' }],
+    quotes: [{ text: 'The LORD, the LORD, a God merciful and gracious, slow to anger, and abounding in steadfast love and faithfulness… but who will by no means clear the guilty.', ref: 'Exodus 34:6-7' }],
+    sessions: [9],
+    note: 'God reveals His name right after Israel breaks the covenant. He does not destroy them, yet He will not pretend sin does not matter. How can both be true at once?' },
+  { id: 'saving', phrase: 'saving', color: 'salvation', thread: 'salvation', threadLabel: "God's Salvation",
+    desc: 'with a mighty hand — under the blood of the lamb',
+    images: [{ session: 6, caption: 'The Passover · Exodus 11–13' }],
+    quotes: [{ text: 'When I see the blood, I will pass over you.', ref: 'Exodus 12:13' },
+             { text: 'By a strong hand the LORD brought you out from this place.', ref: 'Exodus 13:3' }],
+    sessions: [6],
+    note: 'God rescues with power (the mighty hand) and through a substitute (the lamb dies instead).' },
+  { id: 'people', phrase: 'His people', color: 'reality', thread: 'tension', threadLabel: 'Tension & NT Fulfilment',
+    desc: 'sinful — failing again and again',
+    images: [{ session: 3, caption: 'In the garden · Genesis 3' },
+             { session: 9, caption: 'At the mountain · Exodus 32' },
+             { session: 13, caption: 'In the land · Judges 2' },
+             { session: 16, caption: 'In the temple · Ezekiel 8' }],
+    quotes: [{ text: 'Whenever the judge died, they turned back and were more corrupt than their fathers.', ref: 'Judges 2:19' }],
+    sessions: [3, 9, 13, 16],
+    note: 'Every fresh start ends the same way. The problem is the human heart — they need more than a new start.' },
+  { id: 'kingdom', phrase: 'back into His Kingdom', color: 'kingdom', thread: 'kingdom', threadLabel: "God's Kingdom",
+    desc: 'perfect — like a new creation, Eden restored',
+    images: [{ session: 2, caption: 'Eden · Genesis 1–2' },
+             { session: 18, caption: 'The peaceable kingdom · Isaiah 9; 11' },
+             { session: 21, caption: 'The river of life · Ezekiel 43; 47' }],
+    quotes: [{ text: 'The wolf shall dwell with the lamb… the earth shall be full of the knowledge of the LORD as the waters cover the sea.', ref: 'Isaiah 11:6, 9' },
+             { text: 'Everything will live where the river goes… their leaves for healing.', ref: 'Ezekiel 47:9, 12' }],
+    sessions: [2, 18, 21],
+    note: 'Not just the land of Canaan — a perfect kingdom, Eden restored, with God dwelling among His people.' },
+  { id: 'promises', phrase: 'through His Promises', color: 'promises', thread: 'promises', threadLabel: "God's Promises",
+    desc: 'the promised King — God Himself, and the Suffering Servant',
+    images: [{ session: 14, caption: 'A son of David · 2 Samuel 7' },
+             { session: 18, caption: 'God Himself · Isaiah 9' },
+             { session: 19, caption: 'The Suffering Servant · Isaiah 53' }],
+    quotes: [{ text: 'I will establish the throne of his kingdom forever.', ref: '2 Samuel 7:13' },
+             { text: '…and his name shall be called Wonderful Counselor, Mighty God.', ref: 'Isaiah 9:6' },
+             { text: 'He was pierced for our transgressions… with his wounds we are healed.', ref: 'Isaiah 53:5' }],
+    sessions: [14, 18, 19],
+    note: 'The King is God Himself, and He saves by suffering — bearing the guilt Himself. This is how God can be both loving and just.' },
+];
+
 /* Recurring elements traced across all five covenants — the "at a glance"
    comparison beneath the cards. Each step's `cov` maps to a covenant accent. */
 window.OT_COVENANT_THREADS = [
