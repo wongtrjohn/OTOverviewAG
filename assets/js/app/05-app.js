@@ -892,11 +892,50 @@ function OneManDeepDive({ onOpenSession }) {
 function MadeNewInChrist({ onOpenSession }) {
   const ITEMS = window.OT_MADE_NEW || [];
   const openSession = onOpenSession || function () {};
+  /* Card view (default) or the original list rows; remembered per browser. */
+  const [view, setView] = window.useLocalStorage('OT_MADENEW_VIEW', 'cards');
+  const cards = view !== 'list';
+  const IMGS = window.OT_IMAGES || {};
+  const pad = (sid) => String(sid).padStart(2, '0');
+
+  const sessionChips = (it, cls) => it.sessions && it.sessions.length ? /*#__PURE__*/
+  React.createElement("span", { className: cls },
+  it.sessions.map((sid) => /*#__PURE__*/
+  React.createElement("button", { key: sid, type: "button", className: "mncard__chip", onClick: () => openSession(sid), title: "Open Session " + pad(sid) },
+  IMGS[sid] ? /*#__PURE__*/React.createElement("span", { className: "mncard__chipimg", style: { backgroundImage: `url("${IMGS[sid]}")` }, "aria-hidden": "true" }) : null,
+  "Session ", pad(sid), " \u2192"))) : null;
+
+  function Card({ it }) {
+    const imgSid = it.cardImgSession || (it.sessions && it.sessions[0]);
+    const img = imgSid ? IMGS[imgSid] : null;
+    const refs = String(it.refs || '').split(';').map((r) => r.trim()).filter(Boolean);
+    return (/*#__PURE__*/
+      React.createElement("li", { className: "mncard" },
+      img ? /*#__PURE__*/React.createElement("span", { className: "mncard__img", style: { backgroundImage: `url("${img}")` }, "aria-hidden": "true" }) : null, /*#__PURE__*/
+      React.createElement("span", { className: "mncard__passage" }, refs.map((r) => /*#__PURE__*/React.createElement("span", { key: r }, r))), /*#__PURE__*/
+      React.createElement("div", { className: "mncard__body" }, /*#__PURE__*/
+      React.createElement("h4", { className: "mncard__title" }, /*#__PURE__*/
+      React.createElement("span", { className: "mncard__num" }, it.n), "New ", it.title), /*#__PURE__*/
+      React.createElement("p", { className: "mncard__longing" }, it.longing), /*#__PURE__*/
+      React.createElement("p", { className: "mncard__christ" }, /*#__PURE__*/
+      React.createElement("b", null, "In Christ: "), it.christ, " ", /*#__PURE__*/
+      React.createElement("span", { className: "mncard__christref" }, "(", it.christRef, ")")),
+      sessionChips(it, "mncard__sessions"))
+      ));
+  }
+
   return (/*#__PURE__*/
-    React.createElement("div", { className: "covfulfil madenew-view" }, /*#__PURE__*/
+    React.createElement("div", { className: "covfulfil madenew-view" + (cards ? " madenew-view--cards" : "") }, /*#__PURE__*/
     React.createElement("span", { className: "covfulfil__eyebrow" }, "\u2726  Not finished at the Return \u2014 fulfilled in Christ"), /*#__PURE__*/
     React.createElement("h3", { className: "covfulfil__head" }, "Made New in Christ"), /*#__PURE__*/
-    React.createElement("p", { className: "covfulfil__sub" }, "At the end of the Old Testament the people are home from exile, but the return and Nehemiah\u2019s rebuilding did not bring these five great longings to completion. Each one is finally made new in Jesus."),
+    React.createElement("p", { className: "covfulfil__sub" }, "At the end of the Old Testament the people are home from exile, but the return and Nehemiah\u2019s rebuilding did not bring these five great longings to completion. Each one is finally made new in Jesus."), /*#__PURE__*/
+    React.createElement("div", { className: "rc-viewtoggle madenew-viewtoggle", role: "group", "aria-label": "How to show the five longings" }, /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "rc-viewtoggle__btn" + (!cards ? " is-active" : ""), "aria-pressed": !cards, onClick: () => setView('list') }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-viewtoggle__glyph", "aria-hidden": "true" }, "\u2630"), "List view"), /*#__PURE__*/
+    React.createElement("button", { type: "button", className: "rc-viewtoggle__btn" + (cards ? " is-active" : ""), "aria-pressed": cards, onClick: () => setView('cards') }, /*#__PURE__*/
+    React.createElement("span", { className: "rc-viewtoggle__glyph", "aria-hidden": "true" }, "\u25a6"), "Card view")),
+    cards ? /*#__PURE__*/
+    React.createElement("ol", { className: "mncards" }, ITEMS.map((it) => /*#__PURE__*/React.createElement(Card, { key: it.n, it: it }))) :
     ITEMS.map((it) => /*#__PURE__*/
     React.createElement("div", { key: it.n, className: "covfulfil__row" }, /*#__PURE__*/
     React.createElement("span", { className: "covfulfil__label" }, it.n, " \xB7 New ", it.title), /*#__PURE__*/

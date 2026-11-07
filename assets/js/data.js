@@ -783,7 +783,8 @@ window.OT_COVENANT_FULFILMENT = [
 /* "Made New in Christ" — the five great OT longings that the return from exile
    and Nehemiah's rebuilding did NOT complete (see the Nehemiah study), each
    finally made new in Jesus. `refs` are the OT study passages (auto-linked);
-   `sessions` link to the sessions that cover them. Shown as a sub-view under
+   `sessions` link to the sessions that cover them; the card view shows the
+   painting of `cardImgSession` (default: the first linked session). Shown as a sub-view under
    the Tension & NT Fulfilment tab in the Thread View. */
 window.OT_MADE_NEW = [
   { n: 1, title: 'Exodus',
@@ -793,7 +794,7 @@ window.OT_MADE_NEW = [
     christRef: 'Luke 9:31' },
   { n: 2, title: 'Temple',
     longing: "God's glory had departed the defiled temple (Ezekiel 8-11); the hope was for His presence to return and dwell forever (Ezekiel 43, 47).",
-    refs: 'Ezekiel 8-11; Ezekiel 43:1-12; Ezekiel 47:1-12', sessions: [16, 21],
+    refs: 'Ezekiel 8-11; Ezekiel 43:1-12; Ezekiel 47:1-12', sessions: [16, 21], cardImgSession: 21,
     christ: "Jesus is the true temple — God dwelling with us — and by His Spirit His people become God's dwelling place.",
     christRef: 'John 2:19-21; Ephesians 2:21-22' },
   { n: 3, title: 'Spirit & Heart',

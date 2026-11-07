@@ -1564,6 +1564,53 @@
   color: var(--c-nt, #3e6a33); white-space: nowrap;
 }
 
+/* ── Made New in Christ · card view (matches the Recap session cards) ── */
+.madenew-view .madenew-viewtoggle{ margin: 0 auto 18px; }
+.mncards{
+  list-style: none; margin: 0 0 12px; padding: 0;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 12px;
+}
+.mncard{
+  display: flex; flex-direction: column; overflow: hidden;
+  border: 1px solid color-mix(in oklab, var(--c-nt) 35%, var(--rule)); border-radius: 12px;
+  background: var(--bg-card, #fbf7ec);
+}
+.mncard__img{ display: block; aspect-ratio: 16 / 10; background-size: cover; background-position: center; }
+.mncard__passage{
+  display: flex; flex-direction: column; gap: 2px; padding: 8px 12px;
+  background: #1f4a33; color: #f1f7ef;
+  font: 700 12.5px/1.3 var(--mono); letter-spacing: .03em;
+}
+.mncard__body{ display: flex; flex-direction: column; gap: 8px; flex: 1; padding: 12px 12px 14px; }
+.mncard__title{
+  display: flex; align-items: baseline; gap: 8px; margin: 0;
+  font: 700 19px/1.15 var(--serif); color: var(--ink, #1d1812);
+}
+.mncard__num{
+  flex: none; display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px; border-radius: 50%; transform: translateY(-2px);
+  background: var(--c-nt, #3e6a33); color: #fff; font: 700 12px/1 var(--sans);
+}
+.mncard__longing{ margin: 0; font-size: 13px; line-height: 1.5; color: var(--ink-2, #3d342a); }
+.mncard__christ{
+  margin: 0; padding: 8px 10px; border-radius: 8px;
+  background: var(--c-nt-soft); font-size: 13px; line-height: 1.5; color: var(--ink, #1d1812);
+}
+.mncard__christ b{ color: var(--c-nt, #3e6a33); }
+.mncard__christref{ color: var(--ink-3, #6e6452); font-size: 12.5px; }
+.mncard__sessions{ display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 2px; }
+.mncard__chip{
+  display: inline-flex; align-items: center; gap: 6px; padding: 3px 10px 3px 3px;
+  border: 1px solid var(--rule); border-radius: 999px; background: var(--bg-card-2);
+  font: 600 12px/1 var(--sans); color: var(--ink-2, #3d342a); cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.mncard__chip:hover{ background: var(--bg-warm); border-color: var(--rule-2); }
+.mncard__chip:focus-visible{ outline: 2px solid var(--c-nt); outline-offset: 2px; }
+.mncard__chipimg{ width: 26px; height: 20px; border-radius: 999px; background-size: cover; background-position: center; }
+/* list view keeps the original row look for its session pills */
+.madenew-view:not(.madenew-view--cards) .mncard__chip{ margin-right: 0.4rem; }
+
 
 /* ── Sub-theme reveal in Introduction ─────────────────────────────── */
 .overview-subtheme-reveal {
