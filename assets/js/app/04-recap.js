@@ -1834,28 +1834,50 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
   { n: "2", title: "Now — the in-between", note: "At Pentecost the Spirit is poured out on all flesh, fulfilling Joel. He now indwells every believer permanently — sealing us, writing God’s law on our hearts, and bearing His fruit.", refs: ["Acts 2:16-17; 2:33", "John 14:16-17", "Ephesians 1:13-14", "Galatians 5:22-23"] },
   { n: "3", title: "At Christ’s second coming", note: "The Spirit is the guarantee (down-payment) of our full inheritance and the firstfruits of resurrection — the Spirit and the Bride cry “Come!” until our bodies are redeemed and we dwell with God forever.", refs: ["Ephesians 1:14", "Romans 8:23", "Revelation 22:17"] }];
 
-  function fulfilTheme(otList, stages) {
+  const templeSpot = { label: "The hinge — God comes to dwell", quote: "“And the Word became flesh and dwelt among us … and we have seen his glory, glory as of the only Son from the Father, full of grace and truth.”", ref: "John 1:14 · “dwelt” = tabernacled" };
+  const spiritSpot = { label: "The promise — a new heart, the Spirit within", quote: "“And I will give you a new heart, and a new spirit I will put within you … And I will put my Spirit within you, and cause you to walk in my statutes.”", ref: "Ezekiel 36:26-27" };
+
+  function ftIcon(theme) {
+    const d = theme === 'spirit' ?
+    "M13.5 .67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5 .67zM11.71 19c-1.78 0-3.22-1.4-3.22-3.14 0-1.62 1.05-2.76 2.81-3.12 1.77-.36 3.6-1.21 4.62-2.58.39 1.29.59 2.65.59 4.04 0 2.65-2.15 4.8-4.8 4.8z" :
+    "M4 10v7h3v-7H4zm6 0v7h3v-7h-3zM2 22h19v-3H2v3zm14-12v7h3v-7h-3zm-4.5-9L2 6v2h19V6l-9.5-5z";
+    return (/*#__PURE__*/
+      React.createElement("svg", { className: "ft-icon__svg", viewBox: "0 0 24 24", "aria-hidden": "true", fill: "currentColor" }, /*#__PURE__*/
+      React.createElement("path", { d: d })));
+
+  }
+
+  function fulfilTheme(otList, stages, theme, spot) {
     return (/*#__PURE__*/
       React.createElement(React.Fragment, null, /*#__PURE__*/
-      React.createElement("span", { className: "rc-ntbox__summary-label" }, "In the Old Testament — where the theme is raised:"), /*#__PURE__*/
-      React.createElement("ul", { className: "rc-ntbox__list" },
+      React.createElement("p", { className: "ft-eyebrow" }, "Where Scripture raises it — across the Old Testament"), /*#__PURE__*/
+      React.createElement("div", { className: "ft-grid" },
       otList.map((o, i) => /*#__PURE__*/
-      React.createElement("li", { key: i, className: "rc-ntbox__item" }, /*#__PURE__*/
-      React.createElement("span", { className: "rc-ntbox__item-t" }, o.t), /*#__PURE__*/
-      React.createElement("span", { className: "rc-ntbox__item-ref" }, refEl(o.ref)), /*#__PURE__*/
-      React.createElement("p", { className: "rc-ntbox__item-note" }, o.note)
-      ))
+      React.createElement("div", { key: i, className: "ft-card" }, /*#__PURE__*/
+      React.createElement("div", { className: "ft-card__head" }, /*#__PURE__*/
+      React.createElement("span", { className: "ft-icon" }, ftIcon(theme)), /*#__PURE__*/
+      React.createElement("span", { className: "ft-card__ref" }, refEl(o.ref))
       ), /*#__PURE__*/
-      React.createElement("span", { className: "rc-ntbox__summary-label rc-ntbox__summary-label--stages" }, "Fulfilled in Christ — in three movements:"), /*#__PURE__*/
-      React.createElement("div", { className: "rc-stages" },
+      React.createElement("h4", { className: "ft-card__title" }, o.t), /*#__PURE__*/
+      React.createElement("p", { className: "ft-card__note" }, o.note)
+      ))
+      ),
+      spot ? /*#__PURE__*/
+      React.createElement("div", { className: "ft-spot" }, /*#__PURE__*/
+      React.createElement("span", { className: "ft-spot__label" }, spot.label), /*#__PURE__*/
+      React.createElement("blockquote", { className: "ft-spot__quote" }, spot.quote), /*#__PURE__*/
+      React.createElement("cite", { className: "ft-spot__cite" }, spot.ref)
+      ) : null, /*#__PURE__*/
+      React.createElement("p", { className: "ft-eyebrow ft-eyebrow--stages" }, "Fulfilled in Christ — in three movements"), /*#__PURE__*/
+      React.createElement("div", { className: "ft-stages" },
       stages.map((s, i) => /*#__PURE__*/
-      React.createElement("div", { key: i, className: "rc-stage" }, /*#__PURE__*/
-      React.createElement("span", { className: "rc-stage__num", "aria-hidden": "true" }, s.n), /*#__PURE__*/
-      React.createElement("div", { className: "rc-stage__body" }, /*#__PURE__*/
-      React.createElement("span", { className: "rc-stage__title" }, s.title), /*#__PURE__*/
-      React.createElement("p", { className: "rc-stage__text" }, s.note), /*#__PURE__*/
-      React.createElement("p", { className: "rc-stage__refs" },
-      s.refs.map((r, j) => /*#__PURE__*/React.createElement(React.Fragment, { key: j }, j > 0 ? " · " : "", refEl(r)))
+      React.createElement("div", { key: i, className: "ft-stage" }, /*#__PURE__*/
+      React.createElement("span", { className: "ft-stage__num", "aria-hidden": "true" }, s.n), /*#__PURE__*/
+      React.createElement("div", { className: "ft-stage__body" }, /*#__PURE__*/
+      React.createElement("span", { className: "ft-stage__title" }, s.title), /*#__PURE__*/
+      React.createElement("p", { className: "ft-stage__text" }, s.note), /*#__PURE__*/
+      React.createElement("p", { className: "ft-stage__refs" },
+      s.refs.map((r, j) => /*#__PURE__*/React.createElement("span", { key: j, className: "ft-ref" }, refEl(r)))
       )
       )
       ))
@@ -1952,11 +1974,11 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     ), /*#__PURE__*/
 
     React.createElement(CR_SectionTile, { tone: "tension", step: "05", label: "New Testament Fulfilment — The Temple", sublabel: "God dwelling with His people: Eden → Tabernacle → Temple → Christ → us → the New Creation", defaultOpen: true }, /*#__PURE__*/
-    React.createElement("div", { className: "rc-ntbox rc-ntbox--temple" }, fulfilTheme(templeOT, templeStages))
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--temple" }, fulfilTheme(templeOT, templeStages, 'temple', templeSpot))
     ), /*#__PURE__*/
 
     React.createElement(CR_SectionTile, { tone: "tension", step: "06", label: "New Testament Fulfilment — The Spirit", sublabel: "God’s presence and power: from hovering over the waters to poured out on all flesh", defaultOpen: true }, /*#__PURE__*/
-    React.createElement("div", { className: "rc-ntbox rc-ntbox--spirit" }, fulfilTheme(spiritOT, spiritStages))
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--spirit" }, fulfilTheme(spiritOT, spiritStages, 'spirit', spiritSpot))
     ), /*#__PURE__*/
 
     React.createElement(CR_SectionTile, { tone: "apply", step: "07", label: "Reflection — New Testament", sublabel: "How has Christ met you across this journey?", defaultOpen: true }, /*#__PURE__*/
