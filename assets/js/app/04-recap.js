@@ -1809,6 +1809,61 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
   { t: "Law fulfilled", ref: "Matthew 5:17", note: "Christ came not to abolish the Law and the Prophets but to fulfil them — perfectly keeping the law and embodying everything it pointed forward to." },
   { t: "God’s kingdom order established through a fulfilled law", ref: "Romans 8:3-4", note: "What the law, weakened by our sinful flesh, could never do, God did by sending His own Son. Now the law's righteous requirement is fulfilled in us who walk by the Spirit — His good kingdom order being restored." }];
 
+  /* The Temple / God-dwelling-with-His-people thread, and the Spirit thread:
+     each traced through the OT, then fulfilled in three movements —
+     Christ's first coming, the in-between (now), and Christ's second coming. */
+  const templeOT = [
+  { t: "Eden — God walks with man", ref: "Genesis 3:8", note: "The garden is the first sanctuary: God dwells and walks with humanity — until sin drives them out." },
+  { t: "The Tabernacle", ref: "Exodus 25:8; 40:34-35", note: "“Let them make me a sanctuary, that I may dwell in their midst.” God’s glory fills the tent and travels with His people." },
+  { t: "Solomon’s Temple", ref: "1 Kings 8:10-11; 8:27", note: "The glory fills the temple — yet Solomon knows “heaven and the highest heaven cannot contain you.” The building was always a shadow." },
+  { t: "The glory departs", ref: "Ezekiel 10:18-19; 11:22-23", note: "Because of Israel’s sin, God’s glory leaves the temple — the dwelling of God with man is broken." },
+  { t: "A promised greater dwelling", ref: "Ezekiel 37:26-27; 47:1-12", note: "God promises, “My dwelling place shall be with them,” and a new temple with a river of life flowing out of it." }];
+  const templeStages = [
+  { n: "1", title: "At Christ’s first coming", note: "The Word “became flesh and dwelt (literally, tabernacled) among us.” In Christ the whole fullness of God dwells bodily; He is the true temple — “Destroy this temple, and in three days I will raise it up,” speaking of His body.", refs: ["John 1:14", "Colossians 2:9", "John 2:19-21"] },
+  { n: "2", title: "Now — the in-between", note: "By the Spirit, the church has become God’s temple — together and each believer’s body. God no longer dwells in a building made with hands, but in His people.", refs: ["1 Corinthians 3:16", "Ephesians 2:21-22", "1 Peter 2:5", "1 Corinthians 6:19"] },
+  { n: "3", title: "At Christ’s second coming", note: "The dwelling is consummated: “Behold, the dwelling place of God is with man.” The New Jerusalem needs no temple, “for its temple is the Lord God the Almighty and the Lamb” — Eden restored, the river of life flowing.", refs: ["Revelation 21:3", "Revelation 21:22", "Revelation 22:1-2"] }];
+
+  const spiritOT = [
+  { t: "The Spirit over creation", ref: "Genesis 1:2", note: "The Spirit of God hovers over the waters — God’s life-giving presence from the very beginning." },
+  { t: "The Spirit equips for service", ref: "Exodus 31:3; Numbers 11:25", note: "The Spirit fills Bezalel to build the tabernacle and rests on the seventy elders — coming upon particular people for particular tasks." },
+  { t: "The Spirit on judges & kings", ref: "Judges 6:34; 1 Samuel 16:13", note: "The Spirit rushes upon Gideon and anoints David — empowering God’s chosen to save and to rule." },
+  { t: "The Spirit could depart", ref: "1 Samuel 16:14; Psalm 51:11", note: "The Spirit departs from Saul; David pleads, “Take not your Holy Spirit from me.” The Spirit was not yet given to all, nor to stay." },
+  { t: "A promised outpouring", ref: "Ezekiel 36:26-27; Joel 2:28-29", note: "God promises a new heart and His Spirit within — poured out on all flesh, causing His people to walk in His ways." }];
+  const spiritStages = [
+  { n: "1", title: "At Christ’s first coming", note: "Jesus is conceived by the Spirit, anointed by the Spirit at His baptism, and ministers in His power. He promises “another Helper” — but the Spirit is given only after Jesus is glorified.", refs: ["Luke 1:35", "Luke 3:21-22", "Luke 4:18", "John 7:39"] },
+  { n: "2", title: "Now — the in-between", note: "At Pentecost the Spirit is poured out on all flesh, fulfilling Joel. He now indwells every believer permanently — sealing us, writing God’s law on our hearts, and bearing His fruit.", refs: ["Acts 2:16-17; 2:33", "John 14:16-17", "Ephesians 1:13-14", "Galatians 5:22-23"] },
+  { n: "3", title: "At Christ’s second coming", note: "The Spirit is the guarantee (down-payment) of our full inheritance and the firstfruits of resurrection — the Spirit and the Bride cry “Come!” until our bodies are redeemed and we dwell with God forever.", refs: ["Ephesians 1:14", "Romans 8:23", "Revelation 22:17"] }];
+
+  function fulfilTheme(otList, stages) {
+    return (/*#__PURE__*/
+      React.createElement(React.Fragment, null, /*#__PURE__*/
+      React.createElement("span", { className: "rc-ntbox__summary-label" }, "In the Old Testament — where the theme is raised:"), /*#__PURE__*/
+      React.createElement("ul", { className: "rc-ntbox__list" },
+      otList.map((o, i) => /*#__PURE__*/
+      React.createElement("li", { key: i, className: "rc-ntbox__item" }, /*#__PURE__*/
+      React.createElement("span", { className: "rc-ntbox__item-t" }, o.t), /*#__PURE__*/
+      React.createElement("span", { className: "rc-ntbox__item-ref" }, refEl(o.ref)), /*#__PURE__*/
+      React.createElement("p", { className: "rc-ntbox__item-note" }, o.note)
+      ))
+      ), /*#__PURE__*/
+      React.createElement("span", { className: "rc-ntbox__summary-label rc-ntbox__summary-label--stages" }, "Fulfilled in Christ — in three movements:"), /*#__PURE__*/
+      React.createElement("div", { className: "rc-stages" },
+      stages.map((s, i) => /*#__PURE__*/
+      React.createElement("div", { key: i, className: "rc-stage" }, /*#__PURE__*/
+      React.createElement("span", { className: "rc-stage__num", "aria-hidden": "true" }, s.n), /*#__PURE__*/
+      React.createElement("div", { className: "rc-stage__body" }, /*#__PURE__*/
+      React.createElement("span", { className: "rc-stage__title" }, s.title), /*#__PURE__*/
+      React.createElement("p", { className: "rc-stage__text" }, s.note), /*#__PURE__*/
+      React.createElement("p", { className: "rc-stage__refs" },
+      s.refs.map((r, j) => /*#__PURE__*/React.createElement(React.Fragment, { key: j }, j > 0 ? " · " : "", refEl(r)))
+      )
+      )
+      ))
+      )
+      ));
+
+  }
+
   return (/*#__PURE__*/
     React.createElement("article", { className: "rc-session rc-review2" }, /*#__PURE__*/
     React.createElement("header", { className: "rc-session__bar" }, /*#__PURE__*/
@@ -1896,13 +1951,21 @@ function CR_ReviewReflect({ session, sessions, themes, mode, onBack }) {
     )
     ), /*#__PURE__*/
 
-    React.createElement(CR_SectionTile, { tone: "apply", step: "05", label: "Reflection — New Testament", sublabel: "How has Christ met you across this journey?", defaultOpen: true }, /*#__PURE__*/
+    React.createElement(CR_SectionTile, { tone: "tension", step: "05", label: "New Testament Fulfilment — The Temple", sublabel: "God dwelling with His people: Eden → Tabernacle → Temple → Christ → us → the New Creation", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--temple" }, fulfilTheme(templeOT, templeStages))
+    ), /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "tension", step: "06", label: "New Testament Fulfilment — The Spirit", sublabel: "God’s presence and power: from hovering over the waters to poured out on all flesh", defaultOpen: true }, /*#__PURE__*/
+    React.createElement("div", { className: "rc-ntbox rc-ntbox--spirit" }, fulfilTheme(spiritOT, spiritStages))
+    ), /*#__PURE__*/
+
+    React.createElement(CR_SectionTile, { tone: "apply", step: "07", label: "Reflection — New Testament", sublabel: "How has Christ met you across this journey?", defaultOpen: true }, /*#__PURE__*/
     React.createElement("p", { className: "rc-medq__prompt" }, "Share one aspect of the journey so far in the OT that has impacted your heart — what about our God have you seen anew or refreshed?"), /*#__PURE__*/
     React.createElement("textarea", { className: "rc-medq__field", rows: 4, placeholder: "Write your reflection here — it’s saved in your browser.", value: sd.ntrev || '', onChange: (e) => patch({ ntrev: e.target.value }) }),
     (sd.ntrev || '').trim() ? /*#__PURE__*/React.createElement("span", { className: "rc-acts__step-saved" }, "✓ saved to your browser") : null
     ), /*#__PURE__*/
 
-    React.createElement(CR_SectionTile, { tone: "pray", step: "06", label: "Pause & Pray", sublabel: "Set aside time to pray it back to God", defaultOpen: true }, /*#__PURE__*/
+    React.createElement(CR_SectionTile, { tone: "pray", step: "08", label: "Pause & Pray", sublabel: "Set aside time to pray it back to God", defaultOpen: true }, /*#__PURE__*/
     React.createElement(CR_MeditatePray, { session: session, sd: sd, patch: patch }), /*#__PURE__*/
     React.createElement(CR_PrayerTime, { session: session })
     )
